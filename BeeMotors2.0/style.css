@@ -75,3 +75,59 @@ footer { padding:14px; text-align:center; color:var(--muted); background:transpa
   .cards { grid-template-columns: 1fr; }
   header { flex-direction: column; gap:8px; align-items:flex-start; }
 }
+
+/* estilos do simulador */
+/* Estilos gerais da página */
+body {
+  background-color: #f0f2f5; /* Cor de fundo suave */
+  font-family: 'Segoe UI', sans-serif; /* Fonte padrão */
+}
+
+/* Estilo do container principal */
+.container {
+  background-color: #fff; /* Fundo branco */
+  padding: 30px; /* Espaçamento interno */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo do formulário de login */
+.form-signin {
+  max-width: 330px; /* Largura máxima */
+  padding: 15px; /* Espaçamento interno */
+  margin: auto; /* Centraliza horizontalmente */
+  margin-top: 100px; /* Espaçamento superior */
+}
+
+/* Estilo para links em mensagens de erro */
+.mensagem-erro a {
+    color: #0d6efd !important; /* Azul do Bootstrap */
+    font-weight: bold; /* Texto em negrito */
+}
+.mensagem-erro a:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}
+/* Adicionar ao style.css */
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+#btnSalvarEdicao {
+  background-color: #0d6efd;
+  border: none;
+  padding: 8px 16px;
+}
+
+#btnSalvarEdicao:hover {
+  background-color: #0b5ed7;
+}

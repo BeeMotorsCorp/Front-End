@@ -432,3 +432,5 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Todos os componentes inicializados!');
 });
+
+teste

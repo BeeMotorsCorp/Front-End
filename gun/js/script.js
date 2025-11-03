@@ -137,42 +137,44 @@ async function loadNews() {
     newsGrid.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
             <p style="color: var(--text-secondary); font-size: 1.2rem;">
-                <i class="fas fa-spinner fa-spin"></i> Carregando notícias sobre armas...
+                <i class="fas fa-spinner fa-spin"></i> Carregando notícias do InfoArmas...
             </p>
         </div>
     `;
     
-    console.log('📰 Iniciando busca de notícias sobre armas e CAC...');
+    console.log('📰 Buscando notícias do InfoArmas...');
     
     try {
         let allArticles = [];
         
-        // Buscar de múltiplas fontes
+        // FONTES ESPECIALIZADAS EM ARMAS E CAC
         const sources = [
-            { url: 'https://g1.globo.com/rss/g1/', name: 'G1' },
-            { url: 'https://rss.uol.com.br/feed/noticias.xml', name: 'UOL' },
-            { url: 'https://noticias.r7.com/feed.xml', name: 'R7' }
+            // InfoArmas - PRINCIPAL
+            { url: 'https://infoarmas.com.br/feed/', name: 'InfoArmas' },
+            // Outras fontes especializadas (backup)
+            { url: 'https://www.portal27.com.br/feed/', name: 'Portal 27' },
         ];
         
         for (const source of sources) {
+            console.log(`🔍 Buscando em: ${source.name}...`);
             const articles = await fetchRSSNews(source.url, source.name);
-            if (articles) {
+            if (articles && articles.length > 0) {
+                console.log(`✅ ${articles.length} notícias encontradas em ${source.name}`);
                 allArticles = allArticles.concat(articles);
+            } else {
+                console.log(`⚠️ Nenhuma notícia encontrada em ${source.name}`);
             }
         }
         
         console.log(`📊 Total de notícias coletadas: ${allArticles.length}`);
         
-        // FILTRAR apenas notícias sobre armas, CAC, tiro, segurança
-        const filteredArticles = filterWeaponNews(allArticles);
-        
-        console.log(`🎯 Notícias filtradas sobre armas: ${filteredArticles.length}`);
-        
-        // Mostrar notícias filtradas ou fallback
-        if (filteredArticles && filteredArticles.length > 0) {
-            displayNews(filteredArticles.slice(0, 3));
+        // Mostrar notícias ou fallback
+        if (allArticles && allArticles.length > 0) {
+            // Ordenar por data (mais recentes primeiro)
+            allArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+            displayNews(allArticles.slice(0, 3));
         } else {
-            console.log('⚠️ Nenhuma notícia sobre armas encontrada, usando notícias padrão');
+            console.log('⚠️ Nenhuma notícia encontrada, usando notícias padrão do InfoArmas');
             showDefaultNews();
         }
         
@@ -182,41 +184,10 @@ async function loadNews() {
     }
 }
 
-// Filtrar notícias relacionadas a armas, CAC, tiro esportivo, etc
-function filterWeaponNews(articles) {
-    // Palavras-chave para buscar
-    const keywords = [
-        'pistola', 'revólver', 'rifle', 'espingarda', 'fuzil',
-        'cac', 'caçador', 'atirador', 'colecionador',
-        'tiro esportivo', 'tiro ao alvo',
-        'munição', 'calibre',
-        'exército',,
-        'defesa pessoal', 'porte de arma',
-        'desarmamento', 'estatuto do desarmamento',
-        'glock', 'taurus', 'imbel',
-        'disparo',
-    ];
-    
-    return articles.filter(article => {
-        const title = article.title.toLowerCase();
-        const description = article.description.toLowerCase();
-        const content = title + ' ' + description;
-        
-        // Verificar se contém alguma palavra-chave
-        const hasKeyword = keywords.some(keyword => content.includes(keyword));
-        
-        if (hasKeyword) {
-            console.log(`✅ Notícia relevante encontrada: ${article.title}`);
-        }
-        
-        return hasKeyword;
-    });
-}
-
 // Buscar notícias via RSS2JSON (serviço gratuito, sem API key!)
 async function fetchRSSNews(rssUrl, sourceName) {
     try {
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
         
         console.log(`🔄 Buscando de ${sourceName}...`);
         
@@ -229,22 +200,71 @@ async function fetchRSSNews(rssUrl, sourceName) {
         
         const data = await response.json();
         
-        console.log(`📊 Resposta de ${sourceName}:`, data);
+        console.log(`📊 Resposta completa de ${sourceName}:`, data);
         
         if (data.status === 'ok' && data.items && data.items.length > 0) {
             console.log(`✅ ${data.items.length} itens encontrados em ${sourceName}`);
             
-            return data.items.map(item => {
+            return data.items.map((item, index) => {
+                console.log(`\n📰 Notícia ${index + 1}:`, {
+                    title: item.title,
+                    link: item.link,
+                    guid: item.guid,
+                    thumbnail: item.thumbnail,
+                    enclosure: item.enclosure
+                });
+                
                 // Limpar HTML da descrição
                 const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = item.description || '';
+                tempDiv.innerHTML = item.description || item.content || '';
                 const cleanDescription = tempDiv.textContent || tempDiv.innerText || '';
+                
+                // CORREÇÃO 1: Buscar imagem de múltiplas formas
+                let imageUrl = null;
+                
+                // Tentar thumbnail
+                if (item.thumbnail && item.thumbnail !== '') {
+                    imageUrl = item.thumbnail;
+                    console.log(`  🖼️ Imagem encontrada (thumbnail): ${imageUrl}`);
+                }
+                
+                // Tentar enclosure
+                if (!imageUrl && item.enclosure && item.enclosure.link) {
+                    imageUrl = item.enclosure.link;
+                    console.log(`  🖼️ Imagem encontrada (enclosure): ${imageUrl}`);
+                }
+                
+                // Tentar extrair do conteúdo HTML
+                if (!imageUrl && item.description) {
+                    const imgMatches = [
+                        item.description.match(/<img[^>]+src=["']([^"'>]+)["']/i),
+                        item.description.match(/background-image:\s*url\(["']?([^"')]+)["']?\)/i),
+                        item.description.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"'>]+)["']/i)
+                    ];
+                    
+                    for (const match of imgMatches) {
+                        if (match && match[1]) {
+                            imageUrl = match[1];
+                            console.log(`  🖼️ Imagem encontrada (HTML): ${imageUrl}`);
+                            break;
+                        }
+                    }
+                }
+                
+                if (!imageUrl) {
+                    console.log(`  ⚠️ Nenhuma imagem encontrada para esta notícia`);
+                }
+                
+                // CORREÇÃO 2: Usar o link correto da notícia
+                // Priorizar 'guid' se existir, senão usar 'link'
+                const articleUrl = item.guid || item.link;
+                console.log(`  🔗 URL da notícia: ${articleUrl}`);
                 
                 return {
                     title: item.title,
-                    description: cleanDescription.substring(0, 150) + '...',
-                    url: item.link,
-                    urlToImage: item.thumbnail || item.enclosure?.link || null,
+                    description: cleanDescription.substring(0, 200).trim() + '...',
+                    url: articleUrl, // URL corrigida
+                    urlToImage: imageUrl,
                     publishedAt: item.pubDate,
                     source: { name: sourceName }
                 };
@@ -274,15 +294,20 @@ function displayNews(articles) {
             year: 'numeric'
         });
         
-        // Imagem com fallback
-        const imageUrl = article.urlToImage || `https://via.placeholder.com/400x250/1F1F1F/DC2626?text=Notícia+${index + 1}`;
+        // Sistema de fallback de imagens melhorado
+        const fallbackImage = 'https://via.placeholder.com/400x250/1F1F1F/DC2626?text=InfoArmas';
+        const imageUrl = article.urlToImage || fallbackImage;
+        
+        console.log(`  📰 ${index + 1}. ${article.title}`);
+        console.log(`     🖼️ Imagem: ${imageUrl}`);
+        console.log(`     🔗 Link: ${article.url}`);
         
         return `
             <div class="news__card">
                 <div class="news__image">
                     <img src="${imageUrl}" 
                          alt="${article.title}"
-                         onerror="this.src='https://via.placeholder.com/400x250/1F1F1F/DC2626?text=Sport+Gun+Imports'"
+                         onerror="this.onerror=null; this.src='${fallbackImage}';"
                          loading="lazy">
                 </div>
                 <div class="news__content">
@@ -306,22 +331,24 @@ function displayNews(articles) {
 function showDefaultNews() {
     const newsGrid = document.querySelector('.news__grid');
     
-    console.log('📄 Mostrando notícias padrão...');
+    console.log('📄 Mostrando notícias padrão do InfoArmas...');
     
     newsGrid.innerHTML = `
         <div class="news__card">
             <div class="news__image">
-                <img src="https://via.placeholder.com/400x250/1F1F1F/DC2626?text=Sport+Gun" 
-                     alt="Mercado de Armas">
+                <img src="https://via.placeholder.com/400x250/1F1F1F/DC2626?text=InfoArmas" 
+                     alt="CAC Brasil">
             </div>
             <div class="news__content">
-                <h3>Crescimento do Mercado de Armas no Brasil</h3>
-                <p>O mercado brasileiro de armas de fogo registrou crescimento significativo nos últimos anos, com aumento na procura por equipamentos de defesa pessoal e tiro esportivo...</p>
+                <h3>Crescimento do CAC no Brasil Bate Recorde em 2025</h3>
+                <p>O número de Caçadores, Atiradores e Colecionadores (CAC) no Brasil continua crescendo, refletindo o aumento do interesse por tiro esportivo e colecionismo de armas...</p>
                 <div class="news__meta">
-                    <span class="author">Por Sport Gun Imports</span>
+                    <span class="author">Por InfoArmas</span>
                     <span class="date">1 Novembro, 2025</span>
                 </div>
-                <a href="#" class="read-more">Ler mais</a>
+                <a href="https://infoarmas.com.br" target="_blank" rel="noopener noreferrer" class="read-more">
+                    Ler mais <i class="fas fa-external-link-alt"></i>
+                </a>
             </div>
         </div>
 
@@ -331,29 +358,33 @@ function showDefaultNews() {
                      alt="Tiro Esportivo">
             </div>
             <div class="news__content">
-                <h3>Tiro Esportivo: Modalidade Cresce no País</h3>
-                <p>Competições de tiro esportivo ganham destaque no Brasil, com aumento significativo no número de praticantes e clubes especializados em todo o território nacional...</p>
+                <h3>Novas Modalidades de Tiro Esportivo Ganham Destaque</h3>
+                <p>IPSC, IDPA e Steel Challenge são algumas das modalidades que vêm conquistando cada vez mais adeptos nos clubes de tiro brasileiros, promovendo competições oficiais...</p>
                 <div class="news__meta">
-                    <span class="author">Por Sport Gun Imports</span>
+                    <span class="author">Por InfoArmas</span>
                     <span class="date">30 Outubro, 2025</span>
                 </div>
-                <a href="#" class="read-more">Ler mais</a>
+                <a href="https://infoarmas.com.br" target="_blank" rel="noopener noreferrer" class="read-more">
+                    Ler mais <i class="fas fa-external-link-alt"></i>
+                </a>
             </div>
         </div>
 
         <div class="news__card">
             <div class="news__image">
-                <img src="https://via.placeholder.com/400x250/1F1F1F/DC2626?text=Legislação+CAC" 
-                     alt="Legislação">
+                <img src="https://via.placeholder.com/400x250/1F1F1F/DC2626?text=Legislação" 
+                     alt="Legislação CAC">
             </div>
             <div class="news__content">
-                <h3>Novas Regulamentações para CAC</h3>
-                <p>Entenda as principais mudanças na legislação para Caçadores, Atiradores e Colecionadores, incluindo novos requisitos e procedimentos para registro...</p>
+                <h3>Exército Atualiza Normas para Registro de Armas CAC</h3>
+                <p>Novas diretrizes do Comando Logístico do Exército trazem mudanças importantes para o registro e renovação de CR (Certificado de Registro) para atiradores...</p>
                 <div class="news__meta">
-                    <span class="author">Por Sport Gun Imports</span>
+                    <span class="author">Por InfoArmas</span>
                     <span class="date">28 Outubro, 2025</span>
                 </div>
-                <a href="#" class="read-more">Ler mais</a>
+                <a href="https://infoarmas.com.br" target="_blank" rel="noopener noreferrer" class="read-more">
+                    Ler mais <i class="fas fa-external-link-alt"></i>
+                </a>
             </div>
         </div>
     `;

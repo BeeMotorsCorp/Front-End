@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Cadastro de Produtos | Sport Gun</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/painel.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="admin-logo">
+                    <div>
+                        <h1><i class="fas fa-shield-alt"></i> Painel Administrativo</h1>
+                        <p class="subtitle">Sistema de Gerenciamento de Produtos</p>
+                    </div>
+                </div>
+                <a href="index.html" class="btn-voltar">
+                    <i class="fas fa-arrow-left"></i> Voltar para Loja
+                </a>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div id="alert" class="alert"></div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-box"></i>
+                <div>
+                    <h3 id="totalProdutos">0</h3>
+                    <p>Total de Produtos</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <h3 id="produtosDisponiveis">0</h3>
+                    <p>Disponíveis</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <h3 id="estoquesBaixos">0</h3>
+                    <p>Estoque Baixo</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
+                <div>
+                    <h3 id="valorTotal">R$ 0</h3>
+                    <p>Valor em Estoque</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="admin-grid">
+            <!-- Formulário de Cadastro -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-plus-circle"></i> Cadastrar Produto
+                </h2>
+                
+                <form id="productForm">
+                    <!-- Nome -->
+                    <div class="form-group">
+                        <label for="nome">
+                            <i class="fas fa-tag"></i> Nome do Produto *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nome" 
+                            name="nome" 
+                            required 
+                            placeholder="Ex: Glock 19 Gen 5">
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-group">
+                        <label for="descricao">
+                            <i class="fas fa-align-left"></i> Descrição
+                        </label>
+                        <textarea 
+                            id="descricao" 
+                            name="descricao" 
+                            placeholder="Descrição detalhada do produto..."
+                            rows="4"></textarea>
+                    </div>
+
+                    <!-- Preço e Estoque -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="preco">
+                                <i class="fas fa-dollar-sign"></i> Preço (R$) *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="preco" 
+                                name="preco" 
+                                required 
+                                step="0.01" 
+                                min="0" 
+                                placeholder="0.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estoque">
+                                <i class="fas fa-boxes"></i> Estoque *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="estoque" 
+                                name="estoque" 
+                                required 
+                                min="0" 
+                                placeholder="0">
+                        </div>
+                    </div>
+
+                    <!-- Calibre e Capacidade -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="calibre">
+                                <i class="fas fa-bullseye"></i> Calibre
+                            </label>
+                            <select id="calibre" name="calibre">
+                                <option value="">Selecione...</option>
+                                <option value="9mm">9mm</option>
+                                <option value=".40 S&W">.40 S&W</option>
+                                <option value=".45 ACP">.45 ACP</option>
+                                <option value=".380 ACP">.380 ACP</option>
+                                <option value=".38 Special">.38 Special</option>
+                                <option value=".357 Magnum">.357 Magnum</option>
+                                <option value="5.56mm">5.56mm</option>
+                                <option value="7.62mm">7.62mm</option>
+                                <option value=".22 LR">.22 LR</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="capacidade">
+                                <i class="fas fa-layer-group"></i> Capacidade
+                            </label>
+                            <input 
+                                type="text" 
+                                id="capacidade" 
+                                name="capacidade" 
+                                placeholder="Ex: 15+1">
+                        </div>
+                    </div>
+
+                    <!-- Peso e Marca -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="peso">
+                                <i class="fas fa-weight"></i> Peso (g)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="peso" 
+                                name="peso" 
+                                min="0" 
+                                placeholder="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="marca">
+                                <i class="fas fa-copyright"></i> Marca
+                            </label>
+                            <input 
+                                type="text" 
+                                id="marca" 
+                                name="marca" 
+                                placeholder="Ex: Glock">
+                        </div>
+                    </div>
+
+                    <!-- Categoria -->
+                    <div class="form-group">
+                        <label for="categoria">
+                            <i class="fas fa-list"></i> Categoria
+                        </label>
+                        <select id="categoria" name="categoria">
+                            <option value="">Selecione...</option>
+                            <option value="pistola">Pistola</option>
+                            <option value="revolver">Revólver</option>
+                            <option value="rifle">Rifle</option>
+                            <option value="carabina">Carabina</option>
+                            <option value="submetralhadora">Submetralhadora</option>
+                        </select>
+                    </div>
+
+                    <!-- Badge -->
+                    <div class="form-group">
+                        <label for="badge">
+                            <i class="fas fa-certificate"></i> Badge (Etiqueta)
+                        </label>
+                        <select id="badge" name="badge">
+                            <option value="">Nenhum</option>
+                            <option value="novo">Novo</option>
+                            <option value="popular">Popular</option>
+                            <option value="destaque">Destaque</option>
+                            <option value="promocao">Promoção</option>
+                        </select>
+                    </div>
+
+                    <!-- Upload de Imagem -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-image"></i> Imagem do Produto
+                        </label>
+                        <div class="image-upload" id="imageUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Clique para fazer upload da imagem</p>
+                            <small>PNG, JPG ou WEBP (max. 5MB)</small>
+                        </div>
+                        <input type="file" id="imagemInput" accept="image/*" style="display: none;">
+                        <img id="imagePreviewUpload" class="image-preview" style="display: none;">
+                    </div>
+
+                    <!-- Disponível -->
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="disponivel" name="disponivel" checked>
+                            <label for="disponivel">
+                                <i class="fas fa-check"></i> Produto Disponível para Venda
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i> Cadastrar Produto
+                        </button>
+                        <button type="button" class="btn-reset" onclick="resetForm()">
+                            <i class="fas fa-undo"></i> Limpar Formulário
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Preview do Produto -->
+            <div class="preview-section">
+                <h2 class="section-title">
+                    <i class="fas fa-eye"></i> Preview do Produto
+                </h2>
+                
+                <div class="product-preview">
+                    <div class="preview-image" id="previewImageContainer">
+                        <i class="fas fa-image"></i>
+                        <img id="previewImage" style="display: none;">
+                        <span class="preview-badge" id="previewBadge" style="display: none;"></span>
+                    </div>
+                    <div class="preview-content">
+                        <h4 class="preview-title" id="previewNome">Nome do Produto</h4>
+                        <div class="preview-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5 (0 Reviews)</span>
+                        </div>
+                        <div class="preview-details" id="previewDetails">
+                            <span><i class="fas fa-bullseye"></i> --</span>
+                            <span><i class="fas fa-layer-group"></i> --</span>
+                            <span><i class="fas fa-weight"></i> --</span>
+                        </div>
+                        <p class="preview-description" id="previewDescricao">
+                            Descrição do produto aparecerá aqui...
+                        </p>
+                        <div class="preview-footer">
+                            <p class="preview-price" id="previewPreco">R$ 0,00</p>
+                            <p class="preview-stock" id="previewEstoque">Estoque: --</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dicas -->
+                <div class="dicas-card">
+                    <h3><i class="fas fa-lightbulb"></i> Dicas</h3>
+                    <ul>
+                        <li>Use imagens de alta qualidade (mínimo 800x600px)</li>
+                        <li>Preencha todos os campos para melhor SEO</li>
+                        <li>Mantenha descrições claras e objetivas</li>
+                        <li>Atualize o estoque regularmente</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Produtos Cadastrados -->
+        <div class="produtos-lista">
+            <div class="lista-header">
+                <h2 class="section-title">
+                    <i class="fas fa-list"></i> Produtos Cadastrados
+                </h2>
+                <div class="lista-actions">
+                    <input 
+                        type="text" 
+                        id="searchProdutos" 
+                        placeholder="Buscar produtos..."
+                        class="search-input">
+                    <button class="btn-refresh" onclick="loadProdutos()">
+                        <i class="fas fa-sync-alt"></i> Atualizar
+                    </button>
+                </div>
+            </div>
+            <div id="produtosLista" class="produtos-grid"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <script src="js/painel.js"></script>
+</body>
+</html>

@@ -190,6 +190,7 @@ async function fetchRSSNews(rssUrl, sourceName) {
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
         
         console.log(`🔄 Buscando de ${sourceName}...`);
+        console.log(`🔗 URL da API: ${apiUrl}`);
         
         const response = await fetch(apiUrl);
         
@@ -206,71 +207,100 @@ async function fetchRSSNews(rssUrl, sourceName) {
             console.log(`✅ ${data.items.length} itens encontrados em ${sourceName}`);
             
             return data.items.map((item, index) => {
-                console.log(`\n📰 Notícia ${index + 1}:`, {
-                    title: item.title,
-                    link: item.link,
-                    guid: item.guid,
-                    thumbnail: item.thumbnail,
-                    enclosure: item.enclosure
-                });
+                console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+                console.log(`📰 NOTÍCIA ${index + 1}:`);
+                console.log(`📌 Título: ${item.title}`);
+                console.log(`🔗 Link: ${item.link}`);
+                console.log(`🆔 GUID: ${item.guid}`);
+                console.log(`🖼️ Thumbnail: ${item.thumbnail}`);
+                console.log(`📎 Enclosure:`, item.enclosure);
                 
                 // Limpar HTML da descrição
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = item.description || item.content || '';
                 const cleanDescription = tempDiv.textContent || tempDiv.innerText || '';
                 
-                // CORREÇÃO 1: Buscar imagem de múltiplas formas
+                // BUSCA AGRESSIVA DE IMAGENS
                 let imageUrl = null;
                 
-                // Tentar thumbnail
-                if (item.thumbnail && item.thumbnail !== '') {
+                // Método 1: Thumbnail direto
+                if (item.thumbnail && item.thumbnail.trim() !== '') {
                     imageUrl = item.thumbnail;
-                    console.log(`  🖼️ Imagem encontrada (thumbnail): ${imageUrl}`);
+                    console.log(`✅ Imagem (thumbnail): ${imageUrl}`);
                 }
                 
-                // Tentar enclosure
+                // Método 2: Enclosure
                 if (!imageUrl && item.enclosure && item.enclosure.link) {
                     imageUrl = item.enclosure.link;
-                    console.log(`  🖼️ Imagem encontrada (enclosure): ${imageUrl}`);
+                    console.log(`✅ Imagem (enclosure): ${imageUrl}`);
                 }
                 
-                // Tentar extrair do conteúdo HTML
+                // Método 3: Procurar no conteúdo HTML (múltiplas tentativas)
                 if (!imageUrl && item.description) {
-                    const imgMatches = [
-                        item.description.match(/<img[^>]+src=["']([^"'>]+)["']/i),
-                        item.description.match(/background-image:\s*url\(["']?([^"')]+)["']?\)/i),
-                        item.description.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"'>]+)["']/i)
-                    ];
-                    
-                    for (const match of imgMatches) {
-                        if (match && match[1]) {
-                            imageUrl = match[1];
-                            console.log(`  🖼️ Imagem encontrada (HTML): ${imageUrl}`);
-                            break;
+                    // Tag img
+                    const imgRegex = /<img[^>]+src=["']([^"'>]+)["']/gi;
+                    const imgMatches = item.description.match(imgRegex);
+                    if (imgMatches && imgMatches.length > 0) {
+                        const srcMatch = imgMatches[0].match(/src=["']([^"'>]+)["']/i);
+                        if (srcMatch && srcMatch[1]) {
+                            imageUrl = srcMatch[1];
+                            console.log(`✅ Imagem (img tag): ${imageUrl}`);
                         }
                     }
                 }
                 
-                if (!imageUrl) {
-                    console.log(`  ⚠️ Nenhuma imagem encontrada para esta notícia`);
+                // Método 4: Meta tag og:image
+                if (!imageUrl && item.description) {
+                    const ogMatch = item.description.match(/property=["']og:image["'][^>]+content=["']([^"'>]+)["']/i);
+                    if (ogMatch && ogMatch[1]) {
+                        imageUrl = ogMatch[1];
+                        console.log(`✅ Imagem (og:image): ${imageUrl}`);
+                    }
                 }
                 
-                // CORREÇÃO 2: Usar o link correto da notícia
-                // Priorizar 'guid' se existir, senão usar 'link'
-                const articleUrl = item.guid || item.link;
-                console.log(`  🔗 URL da notícia: ${articleUrl}`);
+                // Método 5: Buscar qualquer URL de imagem no conteúdo
+                if (!imageUrl && item.description) {
+                    const urlMatch = item.description.match(/(https?:\/\/[^\s"'<>]+\.(jpg|jpeg|png|gif|webp))/i);
+                    if (urlMatch && urlMatch[1]) {
+                        imageUrl = urlMatch[1];
+                        console.log(`✅ Imagem (URL encontrada): ${imageUrl}`);
+                    }
+                }
+                
+                if (!imageUrl) {
+                    console.log(`⚠️ NENHUMA imagem encontrada! Usando placeholder`);
+                }
+                
+                // CORREÇÃO DO LINK - Priorizar GUID sobre LINK
+                let articleUrl = item.guid || item.link;
+                
+                // Se o guid for igual ao link, usar o link
+                if (item.guid === item.link) {
+                    articleUrl = item.link;
+                }
+                
+                // Garantir que o URL está completo
+                if (articleUrl && !articleUrl.startsWith('http')) {
+                    articleUrl = 'https://infoarmas.com.br' + (articleUrl.startsWith('/') ? '' : '/') + articleUrl;
+                }
+                
+                console.log(`🎯 URL FINAL: ${articleUrl}`);
+                console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
                 
                 return {
                     title: item.title,
                     description: cleanDescription.substring(0, 200).trim() + '...',
-                    url: articleUrl, // URL corrigida
+                    url: articleUrl,
                     urlToImage: imageUrl,
                     publishedAt: item.pubDate,
-                    source: { name: sourceName }
+                    source: { name: sourceName },
+                    rawItem: item // Guardar item original para debug
                 };
             });
         } else {
             console.error(`❌ ${sourceName} não retornou itens válidos`);
+            console.log('Status da resposta:', data.status);
+            console.log('Mensagem:', data.message);
             return null;
         }
         

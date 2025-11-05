@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GunStore - Venda de Armas</title>
+    <title>Sport Gun Imports - Venda de Armas</title>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -140,6 +140,9 @@
             <div class="brand">COLT</div>
             <div class="brand">SIG SAUER</div>
             <div class="brand">BERETTA</div>
+            <div class="brand">TAURUS</div>
+            <div class="brand">CBC</div>
+            <div class="brand">CZ</div>
         </div>
     </section>
 
@@ -457,74 +460,52 @@
     </section>
 
      <!-- News Section -->
-    <section id="noticias" class="news">
-        <div class="section__header">
-            <h2>NOTÍCIAS EM DESTAQUE</h2>
-            <p>Fique por dentro das últimas novidades do mundo das armas</p>
+   <section id="noticias" class="news">
+    <div class="section__header">
+        <h2>NOTÍCIAS EM DESTAQUE</h2>
+        <p>Fique por dentro das últimas novidades do mundo das armas</p>
+    </div>
+
+    <div class="news__grid">
+        <!-- As notícias serão carregadas aqui via JavaScript -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <p style="color: var(--text-secondary); font-size: 1.2rem;">
+                <i class="fas fa-spinner fa-spin"></i> Carregando notícias...
+            </p>
         </div>
+    </div>
 
-        <div class="news__grid">
-            <div class="news__card">
-                <div class="news__image">
-                    <img src="images/news-1.jpg" alt="Nova Glock 47">
-                </div>
-                <div class="news__content">
-                    <h3>Nova Glock 47 MOS Lançada para Mercado Civil</h3>
-                    <p>A Glock anuncia a versão MOS da G47 para o mercado civil, com sistema modular de mira e melhorias no sistema de segurança...</p>
-                    <div class="news__meta">
-                        <span class="author">Por Armalite</span>
-                        <span class="date">12 Agosto, 2024</span>
-                    </div>
-                    <a href="#" class="read-more">Ler mais</a>
-                </div>
-            </div>
-
-            <div class="news__card">
-                <div class="news__image">
-                    <img src="images/news-2.jpg" alt="Sig Sauer P365">
-                </div>
-                <div class="news__content">
-                    <h3>Sig Sauer P365 XMacro: Análise Completa</h3>
-                    <p>Conheça a mais nova versão da P365 com capacidade aumentada e melhor desempenho em testes de precisão e confiabilidade...</p>
-                    <div class="news__meta">
-                        <span class="author">Por Armalite</span>
-                        <span class="date">12 Agosto, 2024</span>
-                    </div>
-                    <a href="#" class="read-more">Ler mais</a>
-                </div>
-            </div>
-
-            <div class="news__card">
-                <div class="news__image">
-                    <img src="images/news-3.jpg" alt="Tecnologia Armas">
-                </div>
-                <div class="news__content">
-                    <h3>Tecnun Chega ao Mercado</h3>
-                    <p>Nova tecnologia de segurança biométrica promete revolucionar o mercado de armas pessoais com sistemas de identificação...</p>
-                    <div class="news__meta">
-                        <span class="author">Por Armalite</span>
-                        <span class="date">12 Agosto, 2024</span>
-                    </div>
-                    <a href="#" class="read-more">Ler mais</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="news__footer">
-            <a href="#" class="see-all">Ver todas as notícias</a>
-        </div>
-    </section>
+    <div class="news__footer">
+        <a href="https://infoarmas.com.br" target="_blank" rel="noopener noreferrer" class="see-all">
+            Ver todas as notícias no InfoArmas
+        </a>
+    </div>
+</section>
 
     <!-- Partners Section -->
-    <section class="partners">
-        <div class="partners__content">
-            <h2>NOTÍCIAS SOBRE ARMAS</h2>
-            <p>Mais de 5000 proprietários de armas estão vendendo e alugando efetivamente na GunStore. Registre-se e torne-se nosso parceiro hoje para aumentar sua renda mensal.</p>
-            <div class="partners__buttons">
-            
-            </div>
+<section class="partners">
+    <div class="partners__content">
+        <h2>ACOMPANHE NOSSOS CANAIS</h2>
+        <p>Fique por dentro das novidades, promoções e lançamentos</p>
+           <div class="social-buttons">
+            <!-- Instagram -->
+            <a href="#"  class="social-btn social-btn--outline">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <!-- Facebook -->
+            <a href="#"  class="social-btn social-btn--outline">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+            </a>
+            <!-- WhatsApp -->
+            <a href="#" class="social-btn social-btn--outline">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="footer">

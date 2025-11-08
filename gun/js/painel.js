@@ -1,5 +1,5 @@
 // ==================== CONFIGURAÇÃO ====================
-const API_URL = 'http://localhost:3000/api/produtos';
+const API_URL = 'http://localhost/Back-End\gun\painel.php';
 
 // ==================== ELEMENTOS DO DOM ====================
 const form = document.getElementById('productForm');

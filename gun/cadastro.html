@@ -73,7 +73,7 @@
             e.preventDefault();
 
             try {
-                const resposta = await fetch("simuladorPHP/cadastrar.php", {
+                const resposta = await fetch("gunPHP/cadastrar.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -89,7 +89,7 @@
 
                 if (resultado.status === "ok") {
                     alert("Cadastro realizado com sucesso!");
-                    window.location.href = "login.html";
+                    window.location.href = "gun/login.html";
                 } else {
                     const mensagemErro = document.createElement("div");
                     mensagemErro.textContent = resultado.mensagem || "Erro no cadastro";

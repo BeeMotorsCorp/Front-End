@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Diagnóstico Automático - Sport Gun</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .test-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #6c757d;
+            transition: all 0.3s ease;
+        }
+        
+        .test-item.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .test-item.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .test-item.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .test-item h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-item p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        
+        .icon {
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            background: #DC2626;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background: #B91C1C;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #DC2626;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        
+        .summary {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .summary h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .badge.success { background: #28a745; color: white; }
+        .badge.error { background: #dc3545; color: white; }
+        .badge.warning { background: #ffc107; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Diagnóstico Automático</h1>
+            <p>Sistema de Verificação de Conexão - Sport Gun Imports</p>
+        </div>
+        
+        <div class="content">
+            <button class="btn" onclick="iniciarDiagnostico()">▶️ Iniciar Diagnóstico Completo</button>
+            
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Executando testes...</p>
+            </div>
+            
+            <div id="resultados"></div>
+            
+            <div id="summary" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let testesPassaram = 0;
+        let testesFalharam = 0;
+        let testesAvisos = 0;
+
+        async function iniciarDiagnostico() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultados').innerHTML = '';
+            document.getElementById('summary').style.display = 'none';
+            testesPassaram = 0;
+            testesFalharam = 0;
+            testesAvisos = 0;
+
+            await sleep(500);
+
+            // Teste 1: Verificar URL
+            await testeURL();
+
+            // Teste 2: Verificar estrutura de pastas
+            await testeEstruturaPastas();
+
+            // Teste 3: Testar conexão PHP
+            await testeConexaoPHP();
+
+            // Teste 4: Testar banco de dados
+            await testeBancoDados();
+
+            // Teste 5: Testar login
+            await testeLogin();
+
+            document.getElementById('loading').style.display = 'none';
+            mostrarResumo();
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function testeURL() {
+            const url = window.location.href;
+            const isLocalhost = url.includes('localhost') || url.includes('127.0.0.1');
+            
+            if (isLocalhost) {
+                addResultado('success', 'URL Correta', `✅ Você está acessando via servidor local: <code>${url}</code>`);
+            } else {
+                addResultado('error', 'URL Incorreta', 
+                    '❌ Você está abrindo o arquivo direto (file://). <br><strong>Solução:</strong> Acesse via http://localhost/sportgun/');
+            }
+        }
+
+        async function testeEstruturaPastas() {
+            const arquivos = [
+                'gunPHP/conexao.php',
+                'gunPHP/login.php',
+                'gunPHP/cadastrar.php',
+                'css/style.css',
+                'js/script.js'
+            ];
+
+            let encontrados = 0;
+            let mensagem = '<ul>';
+
+            for (const arquivo of arquivos) {
+                try {
+                    const response = await fetch(arquivo, { method: 'HEAD' });
+                    if (response.ok) {
+                        mensagem += `<li>✅ ${arquivo}</li>`;
+                        encontrados++;
+                    } else {
+                        mensagem += `<li>❌ ${arquivo} - não encontrado</li>`;
+                    }
+                } catch (error) {
+                    mensagem += `<li>❌ ${arquivo} - erro ao verificar</li>`;
+                }
+            }
+
+            mensagem += '</ul>';
+
+            if (encontrados === arquivos.length) {
+                addResultado('success', 'Estrutura de Arquivos', '✅ Todos os arquivos estão no lugar correto!' + mensagem);
+            } else {
+                addResultado('error', 'Estrutura de Arquivos', 
+                    `❌ ${arquivos.length - encontrados} arquivo(s) não encontrado(s). Verifique a estrutura de pastas.` + mensagem);
+            }
+        }
+
+        async function testeConexaoPHP() {
+            try {
+                const response = await fetch('gunPHP/teste_conexao.php?acao=testar');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.sucesso) {
+                        addResultado('success', 'Conexão PHP', 
+                            `✅ PHP está funcionando!<br>
+                            <strong>Servidor:</strong> ${data.servidor}<br>
+                            <strong>Banco:</strong> ${data.banco}<br>
+                            <strong>Charset:</strong> ${data.charset}<br>
+                            <strong>Versão MySQL:</strong> ${data.versao}`);
+                    } else {
+                        addResultado('error', 'Conexão PHP', `❌ ${data.mensagem}`);
+                    }
+                } else {
+                    addResultado('error', 'Conexão PHP', 
+                        `❌ Erro HTTP ${response.status}. Verifique se o Apache está rodando.`);
+                }
+            } catch (error) {
+                addResultado('error', 'Conexão PHP', 
+                    `❌ Erro: ${error.message}<br><strong>Solução:</strong> Verifique se o Apache está ligado no XAMPP.`);
+            }
+        }
+
+        async function testeBancoDados() {
+            try {
+                const response = await fetch('gunPHP/teste_conexao.php?acao=listar');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.sucesso) {
+                        addResultado('success', 'Banco de Dados', 
+                            `✅ Conectado ao banco!<br><strong>Total de produtos:</strong> ${data.total}`);
+                    } else {
+                        addResultado('error', 'Banco de Dados', 
+                            `❌ ${data.mensagem}<br><strong>Solução:</strong> Execute os comandos SQL do guia.`);
+                    }
+                } else {
+                    addResultado('error', 'Banco de Dados', '❌ Erro ao conectar com o banco.');
+                }
+            } catch (error) {
+                addResultado('error', 'Banco de Dados', `❌ ${error.message}`);
+            }
+        }
+
+        async function testeLogin() {
+            try {
+                const response = await fetch('gunPHP/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: 'teste', senha: 'teste' })
+                });
+
+                if (response.ok) {
+                    addResultado('success', 'Endpoint de Login', 
+                        '✅ O endpoint de login está respondendo corretamente!');
+                } else {
+                    addResultado('warning', 'Endpoint de Login', 
+                        '⚠️ Login responde mas pode ter erros de validação (isso é normal).');
+                }
+            } catch (error) {
+                addResultado('error', 'Endpoint de Login', `❌ ${error.message}`);
+            }
+        }
+
+        function addResultado(tipo, titulo, mensagem) {
+            const div = document.createElement('div');
+            div.className = `test-item ${tipo}`;
+            
+            let icon = '⏺️';
+            if (tipo === 'success') { icon = '✅'; testesPassaram++; }
+            if (tipo === 'error') { icon = '❌'; testesFalharam++; }
+            if (tipo === 'warning') { icon = '⚠️'; testesAvisos++; }
+            
+            div.innerHTML = `
+                <h3><span class="icon">${icon}</span> ${titulo}</h3>
+                <p>${mensagem}</p>
+            `;
+            
+            document.getElementById('resultados').appendChild(div);
+        }
+
+        function mostrarResumo() {
+            const total = testesPassaram + testesFalharam + testesAvisos;
+            const taxa = Math.round((testesPassaram / total) * 100);
+            
+            let status = 'error';
+            let statusText = 'Sistema com problemas';
+            
+            if (taxa === 100) {
+                status = 'success';
+                statusText = 'Sistema funcionando perfeitamente!';
+            } else if (taxa >= 70) {
+                status = 'warning';
+                statusText = 'Sistema funcionando com avisos';
+            }
+            
+            const summary = document.getElementById('summary');
+            summary.style.display = 'block';
+            summary.innerHTML = `
+                <div class="summary">
+                    <h2>📊 Resumo do Diagnóstico</h2>
+                    <div class="summary-item">
+                        <span>Status Geral:</span>
+                        <span class="badge ${status}">${statusText}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Testes Aprovados:</span>
+                        <span class="badge success">${testesPassaram}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Testes com Erro:</span>
+                        <span class="badge error">${testesFalharam}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Avisos:</span>
+                        <span class="badge warning">${testesAvisos}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Taxa de Sucesso:</span>
+                        <span><strong>${taxa}%</strong></span>
+                    </div>
+                </div>
+                
+                ${testesFalharam > 0 ? `
+                    <div class="test-item error" style="margin-top: 20px;">
+                        <h3>🔧 Próximos Passos</h3>
+                        <p><strong>1.</strong> Corrija os erros acima (marcados com ❌)</p>
+                        <p><strong>2.</strong> Consulte o Guia de Correção completo</p>
+                        <p><strong>3.</strong> Execute novamente o diagnóstico</p>
+                        <p><strong>4.</strong> Se precisar de ajuda, me informe qual erro específico apareceu</p>
+                    </div>
+                ` : ''}
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Conexão - Painel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .btn-danger {
+            background: #f44336;
+        }
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Teste de Conexão - API de Produtos</h1>
+
+    <!-- TESTE 1: Listar Produtos -->
+    <div class="card">
+        <h2>1️⃣ Teste: Listar Produtos</h2>
+        <button onclick="testarListar()">Listar Produtos</button>
+        <div id="resultado-listar"></div>
+    </div>
+
+    <!-- TESTE 2: Criar Produto -->
+    <div class="card">
+        <h2>2️⃣ Teste: Criar Produto</h2>
+        <label>Nome do Produto:</label>
+        <input type="text" id="nome-teste" value="Teste Glock 17" placeholder="Nome do produto">
+        
+        <label>Preço:</label>
+        <input type="number" id="preco-teste" value="2500" placeholder="0.00">
+        
+        <label>Estoque:</label>
+        <input type="number" id="estoque-teste" value="10" placeholder="0">
+        
+        <label>Descrição:</label>
+        <textarea id="descricao-teste" placeholder="Descrição do produto">Produto de teste para verificar conexão</textarea>
+        
+        <br><br>
+        <button onclick="testarCriar()">Criar Produto</button>
+        <div id="resultado-criar"></div>
+    </div>
+
+    <!-- TESTE 3: Verificar Arquivo PHP -->
+    <div class="card">
+        <h2>3️⃣ Verificar Arquivo painel.php</h2>
+        <button onclick="verificarArquivo()">Verificar</button>
+        <div id="resultado-arquivo"></div>
+    </div>
+
+    <!-- TESTE 4: Ver Debug Log -->
+    <div class="card">
+        <h2>4️⃣ Debug Console</h2>
+        <p>Abra o Console do Navegador (F12) para ver os detalhes das requisições</p>
+        <button onclick="limparConsole()">Limpar Console</button>
+    </div>
+
+    <script>
+        const API_URL = 'painel.php';
+
+        // TESTE 1: Listar Produtos
+        async function testarListar() {
+            const resultado = document.getElementById('resultado-listar');
+            resultado.innerHTML = '<p>Carregando...</p>';
+
+            try {
+                console.log('🔵 Testando GET:', API_URL);
+                
+                const response = await fetch(API_URL);
+                console.log('📡 Response Status:', response.status);
+                console.log('📡 Response Headers:', response.headers);
+                
+                const data = await response.json();
+                console.log('📦 Dados recebidos:', data);
+
+                if (Array.isArray(data)) {
+                    resultado.innerHTML = `
+                        <p class="success">✅ Sucesso! ${data.length} produtos encontrados</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else if (data.error) {
+                    resultado.innerHTML = `
+                        <p class="error">❌ Erro: ${data.error}</p>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <p class="error">❌ Formato de resposta inesperado</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                console.error('❌ Erro:', error);
+                resultado.innerHTML = `
+                    <p class="error">❌ Erro ao conectar: ${error.message}</p>
+                    <p>Possíveis causas:</p>
+                    <ul>
+                        <li>Arquivo painel.php não existe ou está em outra pasta</li>
+                        <li>Servidor PHP não está rodando</li>
+                        <li>Erro de sintaxe no PHP</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // TESTE 2: Criar Produto
+        async function testarCriar() {
+            const resultado = document.getElementById('resultado-criar');
+            resultado.innerHTML = '<p>Enviando...</p>';
+
+            try {
+                const formData = new FormData();
+                formData.append('nome', document.getElementById('nome-teste').value);
+                formData.append('descricao', document.getElementById('descricao-teste').value);
+                formData.append('preco', document.getElementById('preco-teste').value);
+                formData.append('estoque', document.getElementById('estoque-teste').value);
+                formData.append('calibre', '9mm');
+                formData.append('capacidade', '17+1');
+                formData.append('peso', '625');
+                formData.append('marca', 'Glock');
+                formData.append('categoria', 'pistola');
+                formData.append('badge', 'novo');
+                formData.append('disponivel', 'true');
+
+                console.log('🔵 Testando POST:', API_URL);
+                console.log('📤 FormData:', Object.fromEntries(formData));
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('📡 Response Status:', response.status);
+                
+                const data = await response.json();
+                console.log('📦 Resposta:', data);
+
+                if (data.error) {
+                    resultado.innerHTML = `
+                        <p class="error">❌ Erro: ${data.error}</p>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <p class="success">✅ Produto criado com sucesso!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                console.error('❌ Erro:', error);
+                resultado.innerHTML = `
+                    <p class="error">❌ Erro ao criar: ${error.message}</p>
+                `;
+            }
+        }
+
+        // TESTE 3: Verificar arquivo
+        async function verificarArquivo() {
+            const resultado = document.getElementById('resultado-arquivo');
+            resultado.innerHTML = '<p>Verificando...</p>';
+
+            try {
+                const response = await fetch(API_URL);
+                
+                if (response.ok) {
+                    resultado.innerHTML = `
+                        <p class="success">✅ Arquivo painel.php encontrado e respondendo!</p>
+                        <p>Status: ${response.status}</p>
+                        <p>Content-Type: ${response.headers.get('content-type')}</p>
+                    `;
+                } else {
+                    resultado.innerHTML = `
+                        <p class="error">❌ Arquivo responde mas com erro ${response.status}</p>
+                    `;
+                }
+            } catch (error) {
+                resultado.innerHTML = `
+                    <p class="error">❌ Arquivo não encontrado ou servidor não está rodando</p>
+                    <p>Verifique se:</p>
+                    <ul>
+                        <li>O arquivo painel.php está na mesma pasta deste HTML</li>
+                        <li>O servidor Apache/PHP está rodando (XAMPP, WAMP, etc)</li>
+                        <li>Você está acessando via http://localhost</li>
+                    </ul>
+                `;
+            }
+        }
+
+        function limparConsole() {
+            console.clear();
+            console.log('Console limpo!');
+        }
+
+        // Auto-teste ao carregar
+        window.addEventListener('load', () => {
+            console.log('🚀 Página de teste carregada');
+            console.log('📍 URL da API:', API_URL);
+            console.log('📍 URL atual:', window.location.href);
+        });
+    </script>
+</body>
+</html>

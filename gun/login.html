@@ -1,134 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <!-- Importa Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Estilo para mensagens de erro */
-    .mensagem-erro {
-      color: #dc3545;
-      margin-top: 10px;
-      text-align: center;
-      padding: 10px;
-      border-radius: 5px;
-      background-color: #f8d7da;
-    }
-    /* Estilo para indicador de carregamento */
-    .carregando {
-      display: none;
-      text-align: center;
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-  <!-- Container principal do formulário -->
-  <div class="card p-4 shadow" style="width: 320px;">
-    <h4 class="mb-4 text-center">Login</h4>
-    
-    <!-- Formulário de login -->
-    <form id="loginForm">
-      <!-- Campo Usuário -->
-      <div class="mb-3">
-        <label for="usuario" class="form-label">Usuário</label>
-        <input type="text" class="form-control" id="usuario" required>
-      </div>
-      
-      <!-- Campo Senha -->
-      <div class="mb-3">
-        <label for="senha" class="form-label">Senha</label>
-        <input type="password" class="form-control" id="senha" required>
-      </div>
-      
-      <!-- Botão de login -->
-      <button type="submit" class="btn btn-primary w-100" id="btnLogin">
-        Entrar
-      </button>
-      
-      <!-- Indicador de carregamento -->
-      <div id="loading" class="carregando">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Carregando...</span>
-        </div>
-      </div>
-    </form>
-    
-    <!-- Container para mensagens -->
-    <div id="mensagemContainer"></div>
-    
-    <!-- Link para cadastro -->
-    <p class="mt-3 text-center small">
-      Não tem conta? <a href="cadastro.html">Cadastre-se</a>
-    </p>
-  </div>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <img src="Imagens/Logo.png" alt="Sport Gun Imports">
+                    <span class="auth-logo-text">Sport Gun</span>
+                </div>
+                <h1 class="auth-title">Login</h1>
+                <p class="auth-subtitle">Acesse sua conta</p>
+            </div>
 
-  <script>
-    // Event listener para o formulário de login
-    document.getElementById("loginForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      
-      const btnLogin = document.getElementById("btnLogin");
-      const loading = document.getElementById("loading");
-      const usuario = document.getElementById("usuario").value.trim();
-      const senha = document.getElementById("senha").value;
-      
-      // Mostra indicador de carregamento
-      btnLogin.disabled = true;
-      loading.style.display = "block";
-      clearMessages();
-      
-      try {
-        // Faz requisição para o endpoint de login
-        const response = await fetch("login.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ usuario, senha })
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="usuario">
+                        <i class="fas fa-user"></i> Usuário
+                    </label>
+                    <input type="text" id="usuario" placeholder="Digite seu usuário" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">
+                        <i class="fas fa-lock"></i> Senha
+                    </label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="btn-auth" id="btnLogin">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+
+                <div id="loading" class="carregando" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
+            </form>
+
+            <div id="mensagemContainer"></div>
+
+            <div class="auth-footer">
+                <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+                <p><a href="index.html"><i class="fas fa-arrow-left"></i> Voltar para o site</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            
+            const btnLogin = document.getElementById("btnLogin");
+            const loading = document.getElementById("loading");
+            const usuario = document.getElementById("usuario").value.trim();
+            const senha = document.getElementById("senha").value;
+            
+            btnLogin.disabled = true;
+            loading.style.display = "block";
+            clearMessages();
+            
+            try {
+                const response = await fetch("simuladorPHP/login.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ usuario, senha })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === "ok") {
+                    localStorage.setItem("usuario_id", data.usuario_id);
+                    localStorage.setItem("usuario_nome", data.usuario_nome);
+                    window.location.href = "index.html";
+                } else {
+                    showMessage(data.mensagem || "Erro desconhecido");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                showMessage("Falha na conexão com o servidor");
+            } finally {
+                btnLogin.disabled = false;
+                loading.style.display = "none";
+            }
         });
         
-        // Verifica se a resposta está OK
-        if (!response.ok) {
-          throw new Error(`Erro HTTP: ${response.status}`);
+        
+        function showMessage(mensagem) {
+            const container = document.getElementById("mensagemContainer");
+            container.innerHTML = `
+                <div class="mensagem-erro">
+                    <i class="fas fa-exclamation-circle"></i> ${mensagem}
+                </div>
+            `;
         }
         
-        // Processa a resposta
-        const data = await response.json();
-        
-        if (data.status === "ok") {
-          // Login bem-sucedido - armazena ID e redireciona
-          localStorage.setItem("usuario_id", data.usuario_id);
-          window.location.href = "simulador.html";
-        } else {
-          // Exibe mensagem de erro
-          showMessage(data.mensagem || "Erro desconhecido");
+        function clearMessages() {
+            document.getElementById("mensagemContainer").innerHTML = "";
         }
-      } catch (error) {
-        console.error("Erro:", error);
-        showMessage("Falha na conexão com o servidor. Verifique: " + error.message);
-      } finally {
-        // Restaura estado do botão
-        btnLogin.disabled = false;
-        loading.style.display = "none";
-      }
-    });
-    
-    // Exibe mensagem de erro
-    function showMessage(mensagem) {
-      const container = document.getElementById("mensagemContainer");
-      container.innerHTML = `
-        <div class="mensagem-erro animate__animated animate__fadeIn">
-          ${mensagem}
-        </div>
-      `;
-    }
-    
-    // Limpa mensagens
-    function clearMessages() {
-      document.getElementById("mensagemContainer").innerHTML = "";
-    }
-  </script>
+
+        // Verificar se já está logado
+        if (localStorage.getItem("usuario_id")) {
+            window.location.href = "index.html";
+        }
+    </script>
 </body>
 </html>

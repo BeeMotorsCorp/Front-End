@@ -432,5 +432,134 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Todos os componentes inicializados!');
 });
+// ==================== SISTEMA DE ORDENAÇÃO VIA BACKEND ====================
 
+let ordenacaoAtual = { campo: 'id', ordem: 'desc' };
 
+// Função para carregar produtos ordenados
+async function carregarProdutosOrdenados(campo = null, ordem = null) {
+    showLoading(true);
+    
+    // Atualizar ordenação se novos parâmetros foram passados
+    if (campo) {
+        if (ordenacaoAtual.campo === campo) {
+            ordenacaoAtual.ordem = ordenacaoAtual.ordem === 'asc' ? 'desc' : 'asc';
+        } else {
+            ordenacaoAtual.campo = campo;
+            ordenacaoAtual.ordem = 'asc';
+        }
+    }
+    
+    try {
+        // Fazer requisição para o backend com parâmetros de ordenação
+        const url = new URL(API_URL, window.location.origin);
+        url.searchParams.append('ordenarPor', ordenacaoAtual.campo);
+        url.searchParams.append('ordem', ordenacaoAtual.ordem);
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error('Erro ao carregar produtos');
+        }
+        
+        const produtos = await response.json();
+        exibirProdutosOrdenados(produtos);
+        atualizarInterfaceOrdenacao();
+        
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        showAlert('❌ Erro ao carregar produtos', 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Função para exibir produtos (mantém sua função createProductItem)
+function exibirProdutosOrdenados(produtos) {
+    const lista = document.getElementById('produtosLista');
+    
+    if (produtos.length === 0) {
+        lista.innerHTML = `
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                <p style="font-size: 1.1rem;">Nenhum produto cadastrado ainda.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    lista.innerHTML = produtos.map(p => createProductItem(p)).join('');
+}
+
+// Função para ordenar produtos (chama o backend)
+function ordenarProdutos(campo) {
+    carregarProdutosOrdenados(campo);
+}
+
+// Atualizar interface com indicadores de ordenação
+function atualizarInterfaceOrdenacao() {
+    // Remover indicadores anteriores
+    document.querySelectorAll('.sort-indicator').forEach(ind => ind.remove());
+    
+    // Adicionar novo indicador
+    const header = document.querySelector(`[data-sort="${ordenacaoAtual.campo}"]`);
+    if (header) {
+        const indicator = document.createElement('span');
+        indicator.className = 'sort-indicator';
+        indicator.innerHTML = ordenacaoAtual.ordem === 'asc' ? ' ↑' : ' ↓';
+        indicator.style.marginLeft = '5px';
+        indicator.style.color = 'var(--primary-color)';
+        indicator.style.fontWeight = 'bold';
+        header.appendChild(indicator);
+    }
+}
+
+// ==================== ATUALIZAR FUNÇÕES EXISTENTES ====================
+
+// Substituir a função loadProdutos existente
+async function loadProdutos() {
+    await carregarProdutosOrdenados();
+}
+
+// Atualizar a função setupSearch para trabalhar com ordenação
+function setupSearch() {
+    const searchInput = document.getElementById('searchProdutos');
+    
+    if (searchInput) {
+        // Para busca, vamos fazer no frontend mesmo para ser mais rápido
+        searchInput.addEventListener('input', (e) => {
+            const termo = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.produto-item');
+            
+            items.forEach(item => {
+                const texto = item.textContent.toLowerCase();
+                if (texto.includes(termo)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+}
+
+// ==================== INICIALIZAÇÃO ====================
+
+// Atualizar a inicialização para usar a nova função
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Painel Admin carregado!');
+    
+    setupPreviewListeners();
+    setupImageUpload();
+    setupSearch();
+    loadProdutos(); // Agora usa o sistema com ordenação
+    updateStats();
+    
+    // Atualizar a cada 30 segundos
+    setInterval(() => {
+        loadProdutos();
+        updateStats();
+    }, 30000);
+    
+    console.log('✅ Todos os componentes inicializados!');
+});

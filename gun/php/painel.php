@@ -1,6 +1,6 @@
 <?php
-// painel.php - VERSÃO CORRIGIDA FINAL
-error_reporting(0); // Desabilita notices para não quebrar JSON
+// QUICK SORT NO BACKEND
+error_reporting(0);
 ini_set('display_errors', 0);
 
 header('Content-Type: application/json; charset=utf-8');
@@ -14,8 +14,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// ===== ALGORITMO QUICK SORT EM PHP =====
+function quickSort($array, $campo, $ordem = 'asc') {
+    // Caso base: array com 0 ou 1 elemento já está ordenado
+    if (count($array) <= 1) {
+        return $array;
+    }
+    
+    // Escolhe o pivô (primeiro elemento)
+    $pivo = $array[0];
+    $esquerda = [];
+    $direita = [];
+    
+    // Divide o array em elementos menores e maiores que o pivô
+    for ($i = 1; $i < count($array); $i++) {
+        $comparacao = compararValores($array[$i][$campo], $pivo[$campo], $campo);
+        
+        if ($ordem === 'asc') {
+            if ($comparacao <= 0) {
+                $esquerda[] = $array[$i];
+            } else {
+                $direita[] = $array[$i];
+            }
+        } else {
+            if ($comparacao >= 0) {
+                $esquerda[] = $array[$i];
+            } else {
+                $direita[] = $array[$i];
+            }
+        }
+    }
+    
+    // Recursivamente ordena e combina
+    return array_merge(
+        quickSort($esquerda, $campo, $ordem),
+        array($pivo),
+        quickSort($direita, $campo, $ordem)
+    );
+}
+
+function compararValores($a, $b, $campo) {
+    if ($campo === 'preco' || $campo === 'estoque') {
+        return floatval($a) - floatval($b);
+    } elseif ($campo === 'nome' || $campo === 'marca' || $campo === 'categoria') {
+        return strcasecmp($a, $b);
+    } else {
+        return strcmp($a, $b);
+    }
+}
+
+// ===== CONEXÃO COM BANCO =====
 try {
-    // Conexão com banco
     $conn = new mysqli("", "AdminSportGun", "yQKMl.T51W4vExZ9", "sport_gun");
     
     if ($conn->connect_error) {
@@ -25,41 +74,38 @@ try {
     $conn->set_charset("utf8mb4");
     
     $method = $_SERVER['REQUEST_METHOD'];
-    $id = isset($_GET['id']) ? intval($_GET['id']) : null;
     
-    // ===== GET - LISTAR OU BUSCAR =====
+    // ===== GET - LISTAR PRODUTOS COM ORDENAÇÃO =====
     if ($method === 'GET') {
-        if ($id) {
-            // Buscar produto específico
-            $stmt = $conn->prepare("SELECT * FROM produtos WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            if ($result->num_rows > 0) {
-                echo json_encode($result->fetch_assoc());
-            } else {
-                http_response_code(404);
-                echo json_encode(["error" => "Produto não encontrado"]);
-            }
-        } else {
-            // Listar todos
-            $result = $conn->query("SELECT * FROM produtos ORDER BY id DESC");
-            
-            if (!$result) {
-                throw new Exception("Erro na query: " . $conn->error);
-            }
-            
-            $produtos = [];
-            while ($row = $result->fetch_assoc()) {
-                $produtos[] = $row;
-            }
-            
-            echo json_encode($produtos);
+        // Buscar todos os produtos
+        $result = $conn->query("SELECT * FROM produtos ORDER BY id DESC");
+        
+        if (!$result) {
+            throw new Exception("Erro na query: " . $conn->error);
         }
+        
+        $produtos = [];
+        while ($row = $result->fetch_assoc()) {
+            $produtos[] = $row;
+        }
+        
+        // ===== APLICAR QUICK SORT SE SOLICITADO =====
+        if (isset($_GET['ordenarPor']) && isset($_GET['ordem'])) {
+            $campo = $_GET['ordenarPor'];
+            $ordem = $_GET['ordem'];
+            
+            // Campos válidos para ordenação
+            $camposValidos = ['nome', 'preco', 'estoque', 'marca', 'categoria', 'calibre'];
+            
+            if (in_array($campo, $camposValidos)) {
+                $produtos = quickSort($produtos, $campo, $ordem);
+            }
+        }
+        
+        echo json_encode($produtos);
     }
     
-    // ===== POST - CRIAR =====
+    // ===== POST - CRIAR PRODUTO =====
     else if ($method === 'POST') {
         $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
         $descricao = isset($_POST['descricao']) ? trim($_POST['descricao']) : '';
@@ -81,7 +127,7 @@ try {
             exit;
         }
         
-        // Upload de imagem
+        // Upload de imagem (mantenha seu código existente)
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = 'uploads/';
             
@@ -96,7 +142,7 @@ try {
                 exit;
             }
             
-            if ($_FILES['imagem']['size'] > 5242880) { // 5MB
+            if ($_FILES['imagem']['size'] > 5242880) {
                 http_response_code(400);
                 echo json_encode(["error" => "Arquivo muito grande (max 5MB)"]);
                 exit;
@@ -135,8 +181,10 @@ try {
         }
     }
     
-    // ===== DELETE - DELETAR =====
+    // ===== DELETE - DELETAR PRODUTO =====
     else if ($method === 'DELETE') {
+        $id = isset($_GET['id']) ? intval($_GET['id']) : null;
+        
         if (!$id) {
             http_response_code(400);
             echo json_encode(["error" => "ID não fornecido"]);

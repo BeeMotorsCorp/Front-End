@@ -783,3 +783,69 @@
         flex: 1;
     }
 }
+/* ==================== BOTÕES DE ORDENAÇÃO ==================== */
+
+.ordenacao-botoes {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-ordenacao {
+    padding: 8px 16px;
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.btn-ordenacao:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.btn-ordenacao.ativo {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.sort-indicator {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Ajustes no header da lista */
+.lista-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.lista-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Melhorias nos itens de produto para ordenação */
+.produto-item {
+    transition: all 0.3s ease;
+}
+
+.produto-item.ordenando {
+    transform: scale(0.98);
+    opacity: 0.8;
+}

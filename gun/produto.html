@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .produto-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            margin-top: 80px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .produto-principal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .produto-imagem-grande {
+            background: var(--background-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+            height: 500px;
+        }
+
+        .produto-imagem-grande img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .produto-badge-grande {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .produto-imagens-thumb {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .thumb:hover, .thumb.active {
+            border-color: var(--primary-color);
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .produto-detalhes-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .produto-titulo-grande {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .produto-marca {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .produto-rating-grande {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .stars-grande {
+            display: flex;
+            gap: 4px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .review-count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .produto-preco-grande {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .produto-info-box {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-valor {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .disponibilidade {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .disponivel {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10B981;
+            color: #10B981;
+        }
+
+        .indisponivel {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #EF4444;
+            color: #EF4444;
+        }
+
+        .estoque-baixo {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #F59E0B;
+            color: #F59E0B;
+        }
+
+        .quantidade-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantidade-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .quantidade-control {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantidade-btn {
+            background: transparent;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .quantidade-btn:hover {
+            background: var(--background-light);
+        }
+
+        .quantidade-input {
+            width: 60px;
+            border: none;
+            background: transparent;
+            text-align: center;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .quantidade-input:focus {
+            outline: none;
+        }
+
+        .btn-comprar, .btn-favorito {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-comprar {
+            background: var(--primary-color);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-comprar:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-comprar:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+
+        .btn-favorito {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            width: 50px;
+            padding: 0;
+        }
+
+        .btn-favorito:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-favorito.favorito {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .descricao-section {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .descricao-titulo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .descricao-texto {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .especificacoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .especificacao-card {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .espec-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .espec-titulo {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .espec-valor {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .produtos-relacionados {
+            margin-top: 3rem;
+        }
+
+        .relacionados-titulo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .relacionados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .produto-principal {
+                grid-template-columns: 1fr;
+            }
+
+            .produto-imagem-grande {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .produto-container {
+                padding: 1rem;
+                margin-top: 70px;
+            }
+
+            .produto-titulo-grande {
+                font-size: 1.5rem;
+            }
+
+            .produto-preco-grande {
+                font-size: 2rem;
+            }
+
+            .relacionados-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="index.html#noticias">Notícias</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <button id="btnPerfil" class="btn btn--profile" style="display: none;">
+                    <i class="fas fa-user-circle"></i> Perfil
+                </button>
+                <a href="login.html" id="btnLogin" class="btn btn--login">Entrar</a>
+                <a href="cadastro.html" class="btn btn--register">Registrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="produto-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="catalogo.html">Catálogo</a>
+            <span>/</span>
+            <span id="breadcrumbProduto">Produto</span>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div id="conteudoPrincipal" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando detalhes do produto...</p>
+        </div>
+    </div>
+
+    <script>
+        let produtoAtual = null;
+        let todosProdutos = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const produtoId = urlParams.get('id');
+
+            if (!produtoId) {
+                document.getElementById('conteudoPrincipal').innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #EF4444; margin-bottom: 1rem; display: block;"></i>
+                        <h3 style="color: var(--text-primary);">Produto não encontrado</h3>
+                        <p style="color: var(--text-secondary); margin-top: 1rem;">
+                            <a href="catalogo.html" style="color: var(--primary-color);">Voltar ao catálogo</a>
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            await carregarProdutos();
+            const produto = todosProdutos.find(p => p.id == produtoId);
+
+            if (!produto) {
+                document.getElementById('conteudoPrincipal').innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #EF4444; margin-bottom: 1rem; display: block;"></i>
+                        <h3 style="color: var(--text-primary);">Produto não encontrado</h3>
+                        <p style="color: var(--text-secondary); margin-top: 1rem;">
+                            <a href="catalogo.html" style="color: var(--primary-color);">Voltar ao catálogo</a>
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            produtoAtual = produto;
+            exibirProduto(produto);
+            carregarProdutosRelacionados(produto.categoria);
+            verificarLogin();
+        });
+
+        async function carregarProdutos() {
+            try {
+                const response = await fetch('Front-End/gun/painel.php');
+                if (response.ok) {
+                    todosProdutos = await response.json();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+            }
+        }
+
+        function exibirProduto(produto) {
+            const statusEstoque = !produto.disponivel ? 'indisponivel' : 
+                                 produto.estoque < 5 ? 'estoque-baixo' : 'disponivel';
+            
+            const textoEstoque = !produto.disponivel ? '❌ Indisponível' :
+                                produto.estoque < 5 ? `⚠️ Apenas ${produto.estoque} em estoque` :
+                                `✅ ${produto.estoque} em estoque`;
+
+            const html = `
+                <div class="produto-principal">
+                    <div>
+                        <div class="produto-imagem-grande">
+                            <img src="${produto.imagem || 'https://via.placeholder.com/500x500/1F1F1F/DC2626?text=Sem+Imagem'}" 
+                                 id="imagemPrincipal"
+                                 alt="${produto.nome}"
+                                 onerror="this.src='https://via.placeholder.com/500x500/1F1F1F/DC2626?text=Erro'">
+                            ${produto.badge ? `<span class="produto-badge-grande">${produto.badge}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="produto-detalhes-info">
+                        <h1 class="produto-titulo-grande">${produto.nome}</h1>
+                        <p class="produto-marca">${produto.marca || 'Sem marca'}</p>
+
+                        <div class="produto-rating-grande">
+                            <div class="stars-grande">
+                                ${'<i class="fas fa-star"></i>'.repeat(4)}
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="review-count">4.8 (2,431 avaliações)</span>
+                        </div>
+
+                        <div class="produto-preco-grande">
+                            R$ ${parseFloat(produto.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                        </div>
+
+                        <div class="disponibilidade ${statusEstoque}">
+                            ${textoEstoque}
+                        </div>
+
+                        <div class="produto-info-box">
+                            ${produto.calibre ? `
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-bullseye"></i> Calibre</span>
+                                    <span class="info-valor">${produto.calibre}</span>
+                                </div>
+                            ` : ''}
+                            ${produto.capacidade ? `
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-layer-group"></i> Capacidade</span>
+                                    <span class="info-valor">${produto.capacidade}</span>
+                                </div>
+                            ` : ''}
+                            ${produto.peso ? `
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-weight"></i> Peso</span>
+                                    <span class="info-valor">${produto.peso}g</span>
+                                </div>
+                            ` : ''}
+                            ${produto.categoria ? `
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-tag"></i> Categoria</span>
+                                    <span class="info-valor">${produto.categoria}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="quantidade-container">
+                            <span class="quantidade-label">Quantidade:</span>
+                            <div class="quantidade-control">
+                                <button class="quantidade-btn" onclick="diminuirQuantidade()">−</button>
+                                <input type="number" id="quantidade" class="quantidade-input" value="1" min="1" max="${produto.estoque}">
+                                <button class="quantidade-btn" onclick="aumentarQuantidade()">+</button>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn-comprar" ${!produto.disponivel ? 'disabled' : ''} onclick="comprar()">
+                                <i class="fas fa-shopping-cart"></i> ${!produto.disponivel ? 'Indisponível' : 'Comprar Agora'}
+                            </button>
+                            <button class="btn-favorito" id="btnFavorito" onclick="toggleFavorito()">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="descricao-section">
+                    <h2 class="descricao-titulo">Descrição do Produto</h2>
+                    <p class="descricao-texto">
+                        ${produto.descricao || 'Nenhuma descrição disponível para este produto.'}
+                    </p>
+                </div>
+
+                <div class="descricao-section">
+                    <h2 class="descricao-titulo">Especificações Técnicas</h2>
+                    <div class="especificacoes-grid">
+                        ${produto.marca ? `
+                            <div class="especificacao-card">
+                                <i class="espec-icon fas fa-copyright"></i>
+                                <div class="espec-titulo">Marca</div>
+                                <div class="espec-valor">${produto.marca}</div>
+                            </div>
+                        ` : ''}
+                        ${produto.calibre ? `
+                            <div class="especificacao-card">
+                                <i class="espec-icon fas fa-bullseye"></i>
+                                <div class="espec-titulo">Calibre</div>
+                                <div class="espec-valor">${produto.calibre}</div>
+                            </div>
+                        ` : ''}
+                        ${produto.capacidade ? `
+                            <div class="especificacao-card">
+                                <i class="espec-icon fas fa-layer-group"></i>
+                                <div class="espec-titulo">Capacidade</div>
+                                <div class="espec-valor">${produto.capacidade}</div>
+                            </div>
+                        ` : ''}
+                        ${produto.peso ? `
+                            <div class="especificacao-card">
+                                <i class="espec-icon fas fa-weight"></i>
+                                <div class="espec-titulo">Peso</div>
+                                <div class="espec-valor">${produto.peso}g</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('conteudoPrincipal').innerHTML = html;
+            document.getElementById('breadcrumbProduto').textContent = produto.nome;
+        }
+
+        function aumentarQuantidade() {
+            const input = document.getElementById('quantidade');
+            const max = produtoAtual.estoque;
+            if (parseInt(input.value) < max) {
+                input.value = parseInt(input.value) + 1;
+            }
+        }
+
+        function diminuirQuantidade() {
+            const input = document.getElementById('quantidade');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+
+        function comprar() {
+            if (!produtoAtual.disponivel) return;
+            
+            const quantidade = parseInt(document.getElementById('quantidade').value);
+            alert(`✅ ${quantidade}x ${produtoAtual.nome} adicionado ao carrinho!`);
+        }
+
+        function toggleFavorito() {
+            const btn = document.getElementById('btnFavorito');
+            btn.classList.toggle('favorito');
+        }
+
+        function carregarProdutosRelacionados(categoria) {
+            // Aqui você pode carregar produtos relacionados
+        }
+
+        function verificarLogin() {
+            const usuarioId = localStorage.getItem('usuario_id');
+            const btnPerfil = document.getElementById('btnPerfil');
+            const btnLogin = document.getElementById('btnLogin');
+
+            if (usuarioId) {
+                btnPerfil.style.display = 'inline-flex';
+                btnLogin.style.display = 'none';
+                btnPerfil.addEventListener('click', () => {
+                    window.location.href = 'perfil.html';
+                });
+            }
+        }
+    </script>
+</body>
+</html>

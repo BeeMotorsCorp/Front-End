@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .perfil-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            margin-top: 80px;
+        }
+
+        .perfil-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .perfil-titulo {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .perfil-titulo i {
+            color: var(--primary-color);
+        }
+
+        .btn-logout {
+            padding: 12px 24px;
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+
+        .perfil-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .perfil-card {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .card-titulo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-titulo i {
+            color: var(--primary-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-valor {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 10px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            word-break: break-all;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-grupo {
+            margin-bottom: 2rem;
+        }
+
+        .form-grupo-titulo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-salvar,
+        .btn-cancelar {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-salvar {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-salvar:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-salvar:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+
+        .btn-cancelar {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-cancelar:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-editar {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-editar:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .alerta {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alerta.show {
+            display: flex;
+        }
+
+        .alerta-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10B981;
+            color: #10B981;
+        }
+
+        .alerta-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #EF4444;
+            color: #EF4444;
+        }
+
+        .alerta i {
+            font-size: 1.5rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modo-edicao {
+            display: none;
+        }
+
+        .modo-edicao.ativo {
+            display: block;
+        }
+
+        .modo-visualizacao {
+            display: block;
+        }
+
+        .modo-visualizacao.oculto {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-numero {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .perfil-container {
+                padding: 1rem;
+                margin-top: 70px;
+            }
+
+            .perfil-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .perfil-titulo {
+                font-size: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <a href="index.html" class="btn btn--login">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="perfil-container">
+        <!-- Cabeçalho -->
+        <div class="perfil-header">
+            <h1 class="perfil-titulo">
+                <i class="fas fa-user-circle"></i> Meu Perfil
+            </h1>
+        </div>
+
+        <!-- Alerta -->
+        <div id="alerta" class="alerta"></div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-numero" id="statCompras">0</div>
+                <div class="stat-label">Compras</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-numero" id="statFavoritos">0</div>
+                <div class="stat-label">Favoritos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-numero" id="statData">--</div>
+                <div class="stat-label">Membro desde</div>
+            </div>
+        </div>
+
+        <!-- MODO VISUALIZAÇÃO -->
+        <div id="modoVisualizacao" class="modo-visualizacao">
+            <!-- Informações Pessoais -->
+            <div class="perfil-card">
+                <h2 class="card-titulo">
+                    <i class="fas fa-user"></i> Informações Pessoais
+                </h2>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Nome</span>
+                        <span class="info-valor" id="displayNome">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sobrenome</span>
+                        <span class="info-valor" id="displaySobrenome">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">CPF</span>
+                        <span class="info-valor" id="displayCpf">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Usuário</span>
+                        <span class="info-valor" id="displayUsuario">--</span>
+                    </div>
+                </div>
+
+                <button class="btn-editar" onclick="ativarEdicao()">
+                    <i class="fas fa-edit"></i> Editar Informações
+                </button>
+            </div>
+        </div>
+
+        <!-- MODO EDIÇÃO -->
+        <div id="modoEdicao" class="modo-edicao">
+            <div class="perfil-card">
+                <h2 class="card-titulo">
+                    <i class="fas fa-edit"></i> Editar Informações
+                </h2>
+
+                <form id="formEdicao" onsubmit="salvarEdicoes(event)">
+                    <div class="form-grupo">
+                        <h3 class="form-grupo-titulo">Dados Pessoais</h3>
+
+                        <div class="info-grid">
+                            <div class="form-group">
+                                <label for="editNome">Nome</label>
+                                <input type="text" id="editNome" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editSobrenome">Sobrenome</label>
+                                <input type="text" id="editSobrenome" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editCpf">CPF</label>
+                                <input type="text" id="editCpf" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editUsuario">Usuário</label>
+                                <input type="text" id="editUsuario" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn-salvar">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </button>
+                        <button type="button" class="btn-cancelar" onclick="cancelarEdicao()">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuarioAtual = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioId = localStorage.getItem('usuario_id');
+
+            if (!usuarioId) {
+                alert('Você precisa estar logado!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            carregarDadosUsuario();
+        });
+
+        function carregarDadosUsuario() {
+            const usuarioId = localStorage.getItem('usuario_id');
+            const usuarioNome = localStorage.getItem('usuario_nome');
+
+            // Simulando dados do usuário (em produção, você buscaria do servidor)
+            usuarioAtual = {
+                id: usuarioId,
+                nome: usuarioNome || 'Usuário',
+                sobrenome: 'Silva',
+                cpf: '123.456.789-00',
+                usuario: 'usuario_' + usuarioId
+            };
+
+            exibirDados();
+        }
+
+        function exibirDados() {
+            document.getElementById('displayNome').textContent = usuarioAtual.nome;
+            document.getElementById('displaySobrenome').textContent = usuarioAtual.sobrenome;
+            document.getElementById('displayCpf').textContent = usuarioAtual.cpf;
+            document.getElementById('displayUsuario').textContent = usuarioAtual.usuario;
+
+            // Preenchendo os campos de edição
+            document.getElementById('editNome').value = usuarioAtual.nome;
+            document.getElementById('editSobrenome').value = usuarioAtual.sobrenome;
+            document.getElementById('editCpf').value = usuarioAtual.cpf;
+            document.getElementById('editUsuario').value = usuarioAtual.usuario;
+        }
+
+        function ativarEdicao() {
+            document.getElementById('modoVisualizacao').classList.add('oculto');
+            document.getElementById('modoEdicao').classList.add('ativo');
+        }
+
+        function cancelarEdicao() {
+            document.getElementById('modoVisualizacao').classList.remove('oculto');
+            document.getElementById('modoEdicao').classList.remove('ativo');
+        }
+
+        function salvarEdicoes(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('editNome').value.trim();
+            const sobrenome = document.getElementById('editSobrenome').value.trim();
+
+            if (!nome || !sobrenome) {
+                mostrarAlerta('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            usuarioAtual.nome = nome;
+            usuarioAtual.sobrenome = sobrenome;
+
+            localStorage.setItem('usuario_nome', nome);
+
+            exibirDados();
+            cancelarEdicao();
+            mostrarAlerta('Alterações salvas com sucesso!', 'success');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('usuario_id');
+                localStorage.removeItem('usuario_nome');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function mostrarAlerta(mensagem, tipo) {
+            const alerta = document.getElementById('alerta');
+            const icon = tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+            alerta.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${mensagem}</span>
+            `;
+            alerta.className = `alerta alerta-${tipo} show`;
+
+            setTimeout(() => {
+                alerta.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

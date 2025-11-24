@@ -254,11 +254,11 @@
 
         async function testeEstruturaPastas() {
             const arquivos = [
-                'gunPHP/conexao.php',
-                'gunPHP/login.php',
-                'gunPHP/cadastrar.php',
-                'css/style.css',
-                'js/script.js'
+                './gunPHP/conexao.php',
+                './gunPHP/login.php',
+                './gunPHP/cadastrar.php',
+                './css/style.css',
+                './js/script.js'
             ];
 
             let encontrados = 0;
@@ -290,7 +290,7 @@
 
         async function testeConexaoPHP() {
             try {
-                const response = await fetch('gunPHP/teste_conexao.php?acao=testar');
+                const response = await fetch('/gunPHP/teste_conexao.php?acao=testar');
                 
                 if (response.ok) {
                     const data = await response.json();
@@ -317,7 +317,7 @@
 
         async function testeBancoDados() {
             try {
-                const response = await fetch('gunPHP/teste_conexao.php?acao=listar');
+                const response = await fetch('./gunPHP/teste_conexao.php?acao=listar');
                 
                 if (response.ok) {
                     const data = await response.json();
@@ -339,7 +339,7 @@
 
         async function testeLogin() {
             try {
-                const response = await fetch('gunPHP/login.php', {
+                const response = await fetch('./gunPHP/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario: 'teste', senha: 'teste' })

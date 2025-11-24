@@ -67,7 +67,7 @@
             clearMessages();
             
             try {
-                const response = await fetch("gunPHP/login.php", {
+                const response = await fetch("php/login.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ usuario, senha })

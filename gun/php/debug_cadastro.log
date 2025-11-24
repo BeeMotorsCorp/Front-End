@@ -1,0 +1,7 @@
+[2025-11-22 05:51:23] === CADASTRAR.PHP INICIADO ===
+[2025-11-22 05:51:23] JSON recebido: {"nome":"55","sobrenome":"55","cpf":"55","usuario":"55","senha":"1234"}
+[2025-11-22 05:51:23] Usuario: 55
+[2025-11-22 05:51:25] Conectado ao banco
+[2025-11-22 05:51:25] Senha criptografada
+[2025-11-22 05:51:25] Cadastrado com ID: 12
+[2025-11-22 05:51:25] Enviando resposta: {"status":"ok","mensagem":"Cadastro realizado com sucesso!","usuario_id":12}

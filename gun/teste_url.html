@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste URL</title>
+    <style>
+        .ok { color: green; font-weight: bold; }
+        .erro { color: red; font-weight: bold; }
+        .loading { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Teste de URL e Estrutura</h1>
+    
+    <h2>1. Testando arquivos locais:</h2>
+    <div id="locais">Carregando...</div>
+    
+    <h2>2. Testando PHP:</h2>
+    <button onclick="testarPHP()">Testar PHP</button>
+    <div id="php">Clique no botão para testar</div>
+
+    <script>
+        // Testar arquivos locais
+        const files = [
+            'css/style.css',
+            'js/script.js', 
+            'php/conexao.php',
+            'Imagens/Logo.png'
+        ];
+        
+        const locaisDiv = document.getElementById('locais');
+        locaisDiv.innerHTML = '';
+        
+        files.forEach(file => {
+            fetch(file)
+                .then(response => {
+                    if (response.ok) {
+                        locaisDiv.innerHTML += `<p class="ok">✅ ${file} - ENCONTRADO</p>`;
+                    } else {
+                        locaisDiv.innerHTML += `<p class="erro">❌ ${file} - Erro ${response.status}</p>`;
+                    }
+                })
+                .catch(error => {
+                    locaisDiv.innerHTML += `<p class="erro">❌ ${file} - ${error.message}</p>`;
+                });
+        });
+
+        // Testar PHP
+        async function testarPHP() {
+            const phpDiv = document.getElementById('php');
+            phpDiv.innerHTML = '<p class="loading">⏳ Testando PHP...</p>';
+            
+            try {
+                const response = await fetch('php/teste_conexao.php?acao=testar');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.sucesso) {
+                    phpDiv.innerHTML = '<p class="ok">✅ PHP CONECTADO COM SUCESSO!</p>';
+                    phpDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    phpDiv.innerHTML = `<p class="erro">❌ PHP: ${data.mensagem}</p>`;
+                }
+            } catch (error) {
+                phpDiv.innerHTML = `<p class="erro">❌ ERRO PHP: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

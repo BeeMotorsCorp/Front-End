@@ -309,37 +309,44 @@
         </div>
 
         <!-- Lista de Produtos Cadastrados -->
-<div class="lista-header">
-    <h2 class="section-title">
-        <i class="fas fa-list"></i> Produtos Cadastrados
-    </h2>
-    <div class="lista-actions">
-        <input 
-            type="text" 
-            id="searchProdutos" 
-            placeholder="Buscar produtos..."
-            class="search-input">
-        
-        <div class="ordenacao-botoes">
-            <button class="btn-ordenacao" onclick="ordenarProdutos('nome')" data-sort="nome">
-                <i class="fas fa-font"></i> Nome
-            </button>
-            <button class="btn-ordenacao" onclick="ordenarProdutos('preco')" data-sort="preco">
-                <i class="fas fa-dollar-sign"></i> Preço
-            </button>
-            <button class="btn-ordenacao" onclick="ordenarProdutos('estoque')" data-sort="estoque">
-                <i class="fas fa-boxes"></i> Estoque
-            </button>
-            <button class="btn-ordenacao" onclick="ordenarProdutos('marca')" data-sort="marca">
-                <i class="fas fa-copyright"></i> Marca
-            </button>
+        <div class="lista-header">
+            <h2 class="section-title">
+                <i class="fas fa-list"></i> Produtos Cadastrados
+            </h2>
+            <div class="lista-actions">
+                <input 
+                    type="text" 
+                    id="searchProdutos" 
+                    placeholder="Buscar produtos..."
+                    class="search-input">
+                
+                <div class="ordenacao-botoes">
+                    <button class="btn-ordenacao" onclick="ordenarProdutos('nome')" data-sort="nome">
+                        <i class="fas fa-font"></i> Nome
+                    </button>
+                    <button class="btn-ordenacao" onclick="ordenarProdutos('preco')" data-sort="preco">
+                        <i class="fas fa-dollar-sign"></i> Preço
+                    </button>
+                    <button class="btn-ordenacao" onclick="ordenarProdutos('estoque')" data-sort="estoque">
+                        <i class="fas fa-boxes"></i> Estoque
+                    </button>
+                    <button class="btn-ordenacao" onclick="ordenarProdutos('marca')" data-sort="marca">
+                        <i class="fas fa-copyright"></i> Marca
+                    </button>
+                </div>
+                
+                <button class="btn-refresh" onclick="loadProdutos()">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
         </div>
-        
-        <button class="btn-refresh" onclick="loadProdutos()">
-            <i class="fas fa-sync-alt"></i> Atualizar
-        </button>
+
+        <!-- ELEMENTO FALTANDO - Lista de Produtos -->
+        <div id="produtosLista" class="produtos-lista">
+            <!-- Os produtos vão aparecer aqui -->
+        </div>
     </div>
-</div>
+
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay" style="display: none;">
         <div class="loading-spinner">

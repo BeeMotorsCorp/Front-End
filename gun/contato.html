@@ -1,237 +1,870 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contato - Sport Gun Imports</title>
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
-    <link rel="stylesheet" href="css/contact.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Header com Barra de Busca Fixa -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ==================== CONTACT PAGE STYLES ==================== */
+        
+        .contact-hero {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(23, 23, 23, 0.9) 100%), 
+                        url('Imagens/contact-bg.jpg') center/cover no-repeat;
+            padding: 140px var(--spacing-xl) 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+
+        .contact-hero__content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-hero__title {
+            font-size: var(--font-size-4xl);
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-hero__description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .contact-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-2xl);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-xl);
+        }
+
+        .contact-stat {
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .contact-stat i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+
+        .contact-stat h3 {
+            font-size: var(--font-size-xl);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .contact-stat p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .contact-section {
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            background: var(--background);
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== CARDS NA HORIZONTAL ========== */
+        .contact-cards-horizontal {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+            align-items: start;
+        }
+
+        .contact-card {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-hover);
+            overflow: hidden;
+            transition: var(--transition);
+            height: fit-content;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: var(--spacing-lg);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h2 {
+            color: white;
+            font-size: var(--font-size-xl);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .card-body {
+            padding: var(--spacing-xl);
+        }
+
+        /* Formulário */
+        .contact-form .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-form label i {
+            color: var(--primary-color);
+            margin-right: var(--spacing-xs);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--background);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: var(--background-light);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .checkbox-group:hover {
+            background: var(--background);
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .btn-submit,
+        .btn-reset {
+            flex: 1;
+            padding: 16px 32px;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-reset:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .contact-item {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: flex-start;
+            padding: var(--spacing-lg);
+            background: var(--background-light);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background: var(--background);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xl);
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .contact-details h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-lg);
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Social Links */
+        .social-section {
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-section h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            font-size: var(--font-size-lg);
+        }
+
+        .social-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .social-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-lg);
+            background: var(--background-light);
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            background: var(--background);
+        }
+
+        .social-btn i {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .social-btn--instagram i { color: #E4405F; }
+        .social-btn--facebook i { color: #1877F2; }
+        .social-btn--whatsapp i { color: #25D366; }
+
+        .social-btn span {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Map & FAQ Section - MANTIDO VERTICAL */
+        .contact-secondary {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2xl);
+        }
+
+        .map-container, .faq-container {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--border-color);
+        }
+
+        .map-header, .faq-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .map-header h2, .faq-header h2 {
+            color: white;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .map-real {
+            background: var(--background);
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-real iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        /* FAQ */
+        .faq-content {
+            padding: var(--spacing-xl);
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .faq-item {
+            background: var(--background-light);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-lg);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .faq-item:hover {
+            background: var(--background);
+            transform: translateX(5px);
+        }
+
+        .faq-item h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .faq-item h3::before {
+            content: '▸';
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .faq-item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .contact-cards-horizontal {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-hero {
+                padding: 120px var(--spacing-md) 60px;
+            }
+            
+            .contact-hero__title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .contact-stats {
+                gap: var(--spacing-lg);
+            }
+            
+            .contact-stat {
+                padding: var(--spacing-md);
+            }
+            
+            .contact-section {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+            
+            .card-body {
+                padding: var(--spacing-lg);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-icon {
+                align-self: center;
+            }
+            
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-stat {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
     <header class="header">
-      <div class="header__top">
-        <div class="container">
-          <div class="header__search">
-            <div class="search-container">
-              <input type="text" id="globalSearch" placeholder="Buscar produtos, marcas, categorias..." />
-              <button class="search-btn" onclick="performSearch()">
-                <i class="fas fa-search"></i>
-              </button>
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
             </div>
-          </div>
-          <div class="header__actions">
-            <a href="contato.html" class="header__link">
-              <i class="fas fa-headset"></i>
-              <span>Atendimento</span>
-            </a>
-            <a href="contato.html" class="header__link">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>Onde Encontrar</span>
-            </a>
-          </div>
-        </div>
-      </div>
+            
+            <ul class="nav__menu">
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="catalago.html">Produtos</a></li>
+                <li><a href="index.html#noticias">Notícias</a></li>
+                <li><a href="index.html#servicos">Serviços</a></li>
+                <li><a href="contato.html" class="active">Contato</a></li>
+            </ul>
 
-      <nav class="nav">
-        <div class="nav__logo">
-          <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo" />
-          <span class="logo-text">SPORT GUN IMPORTS</span>
-        </div>
+            <div class="nav__actions">
+                <a href="index.html" class="btn btn--register">Voltar</a>
+            </div>
 
-        <ul class="nav__menu">
-          <li><a href="home.html">Home</a></li>
-          <li><a href="produtos.html">Produtos</a></li>
-          <li><a href="home.html">Notícias</a></li>
-          <li><a href="home.html">Serviços</a></li>
-          <li><a href="contato.html" class="active">Contato</a></li>
-        </ul>
-
-        <div class="nav__actions">
-          <button class="btn-icon search-toggle" onclick="toggleSearch()">
-            <i class="fas fa-search"></i>
-          </button>
-          <button class="btn-icon" onclick="window.location.href='login.html'">
-            <i class="fas fa-user"></i>
-          </button>
-          <button class="btn-icon" onclick="window.location.href='carrinho.html'">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count">0</span>
-          </button>
-        </div>
-
-        <div class="nav__hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </nav>
+            <div class="nav__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
     </header>
 
-    <!-- Página de Contato -->
-    <section class="contact">
-      <div class="container">
-        <div class="contact__header">
-          <h1>FALE CONOSCO</h1>
-          <p>Estamos aqui para ajudar. Entre em contato conosco.</p>
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="contact-hero__content">
+            <h1 class="contact-hero__title">FALE CONOSCO</h1>
+            <p class="contact-hero__description">
+                Estamos à disposição para esclarecer dúvidas, fornecer orçamentos 
+                e oferecer o melhor suporte para suas necessidades.
+            </p>
+            
+            <div class="contact-stats">
+                <div class="contact-stat">
+                    <i class="fas fa-clock"></i>
+                    <h3>Atendimento Rápido</h3>
+                    <p>Resposta em até 24h</p>
+                </div>
+                <div class="contact-stat">
+                    <i class="fas fa-headset"></i>
+                    <h3>Suporte Especializado</h3>
+                    <p>Equipe técnica qualificada</p>
+                </div>
+                <div class="contact-stat">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Segurança</h3>
+                    <p>Transações 100% seguras</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="contact__grid">
-          <!-- Informações de Contato -->
-          <div class="contact__info">
-            <div class="contact__card">
-              <i class="fas fa-headset"></i>
-              <h3>Atendimento ao Cliente</h3>
-              <p>Segunda a Sexta: 8h às 18h</p>
-              <p>Sábado: 8h às 12h</p>
-              <strong>(11) 4004-1234</strong>
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <!-- ========== CARDS NA HORIZONTAL ========== -->
+            <div class="contact-cards-horizontal">
+                <!-- Formulário de Contato -->
+                <div class="contact-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-paper-plane"></i> ENVIE SUA MENSAGEM</h2>
+                    </div>
+                    <div class="card-body">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nome"><i class="fas fa-user"></i> NOME COMPLETO</label>
+                                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email"><i class="fas fa-envelope"></i> E-MAIL</label>
+                                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="telefone"><i class="fas fa-phone"></i> TELEFONE</label>
+                                    <input type="tel" id="telefone" name="telefone" required placeholder="(11) 99999-9999">
+                                </div>
+                                <div class="form-group">
+                                    <label for="assunto"><i class="fas fa-tag"></i> ASSUNTO</label>
+                                    <select id="assunto" name="assunto" required>
+                                        <option value="">Selecione um assunto</option>
+                                        <option value="duvida">Dúvida sobre produtos</option>
+                                        <option value="orcamento">Solicitação de orçamento</option>
+                                        <option value="suporte">Suporte técnico</option>
+                                        <option value="vendas">Departamento de vendas</option>
+                                        <option value="outro">Outro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mensagem"><i class="fas fa-comment"></i> MENSAGEM</label>
+                                <textarea id="mensagem" name="mensagem" required placeholder="Descreva sua dúvida ou solicitação..."></textarea>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <label for="newsletter">Desejo receber novidades e promoções por e-mail</label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    ENVIAR MENSAGEM
+                                </button>
+                                <button type="reset" class="btn-reset">
+                                    <i class="fas fa-redo"></i>
+                                    LIMPAR
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Informações de Contato -->
+                <div class="contact-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-info-circle"></i> INFORMAÇÕES</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>ENDEREÇO</h3>
+                                    <p>Rua das Armas, 123<br>Centro, São Paulo - SP<br>CEP: 01234-567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>TELEFONE</h3>
+                                    <p>(11) 3456-7890<br>(11) 98765-4321</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>E-MAIL</h3>
+                                    <p>contato@sportgun.com.br<br>vendas@sportgun.com.br</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>HORÁRIO</h3>
+                                    <p>Segunda a Sexta: 8h às 18h<br>Sábado: 9h às 13h</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Redes Sociais -->
+                        <div class="social-section">
+                            <h3>REDES SOCIAIS</h3>
+                            <div class="social-buttons">
+                                <a href="#" class="social-btn social-btn--instagram">
+                                    <i class="fab fa-instagram"></i>
+                                    <span>Instagram</span>
+                                </a>
+                                <a href="#" class="social-btn social-btn--facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="#" class="social-btn social-btn--whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>WhatsApp</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="contact__card">
-              <i class="fas fa-envelope"></i>
-              <h3>E-mail</h3>
-              <p>vendas@sportgun.com.br</p>
-              <p>suporte@sportgun.com.br</p>
+            
+            <!-- Mapa e FAQ - MANTIDO VERTICAL -->
+            <div class="contact-secondary">
+                <!-- Mapa -->
+                <div class="map-container">
+                    <div class="map-header">
+                        <h2><i class="fas fa-map-marked-alt"></i> NOSSA LOCALIZAÇÃO</h2>
+                    </div>
+                    <div class="map-real">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7642.279358318099!2d-49.22256238986063!3d-16.719880996628312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935ef040db966fa5%3A0xd25f73b2cab5d89b!2sSport%20Gun%20Imports!5e0!3m2!1spt-BR!2sbr!4v1764096645591!5m2!1spt-BR!2sbr" 
+                            width="100%" 
+                            height="400" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- FAQ -->
+                <div class="faq-container">
+                    <div class="faq-header">
+                        <h2><i class="fas fa-question-circle"></i> PERGUNTAS FREQUENTES</h2>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-grid">
+                            <div class="faq-item">
+                                <h3>Como faço para comprar uma arma?</h3>
+                                <p>Para adquirir uma arma de fogo, é necessário possuir o Certificado de Registro (CR) e atender aos requisitos legais estabelecidos pela Polícia Federal.</p>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <h3>Vocês fazem entrega em todo o Brasil?</h3>
+                                <p>Sim, realizamos entregas para todo o território nacional, seguindo todas as normas de segurança e legislação vigente.</p>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <h3>Qual o prazo de entrega?</h3>
+                                <p>O prazo de entrega varia de acordo com a localidade e a disponibilidade do produto, geralmente entre 7 a 15 dias úteis.</p>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <h3>Oferecem garantia nos produtos?</h3>
+                                <p>Sim, todos os nossos produtos possuem garantia do fabricante, que varia de acordo com a marca e o modelo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="contact__card">
-              <i class="fas fa-map-marker-alt"></i>
-              <h3>Endereço</h3>
-              <p>Rua das Armas, 123</p>
-              <p>Jardim Industrial</p>
-              <p>São Paulo - SP</p>
-              <p>CEP: 01234-567</p>
-            </div>
-
-            <div class="contact__card">
-              <i class="fas fa-shield-alt"></i>
-              <h3>Garantia</h3>
-              <p>Central de Garantia</p>
-              <p>garantia@sportgun.com.br</p>
-              <strong>(11) 4004-5678</strong>
-            </div>
-          </div>
-
-          <!-- Formulário de Contato -->
-          <div class="contact__form">
-            <h2>ENVIE UMA MENSAGEM</h2>
-            <form id="contactForm">
-              <div class="form-group">
-                <label for="name">Nome Completo *</label>
-                <input type="text" id="name" name="name" required>
-              </div>
-
-              <div class="form-group">
-                <label for="email">E-mail *</label>
-                <input type="email" id="email" name="email" required>
-              </div>
-
-              <div class="form-group">
-                <label for="phone">Telefone</label>
-                <input type="tel" id="phone" name="phone">
-              </div>
-
-              <div class="form-group">
-                <label for="subject">Assunto *</label>
-                <select id="subject" name="subject" required>
-                  <option value="">Selecione um assunto</option>
-                  <option value="vendas">Dúvidas sobre Vendas</option>
-                  <option value="suporte">Suporte Técnico</option>
-                  <option value="garantia">Garantia</option>
-                  <option value="reclamacao">Reclamação</option>
-                  <option value="sugestao">Sugestão</option>
-                  <option value="outro">Outro</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="message">Mensagem *</label>
-                <textarea id="message" name="message" rows="6" required></textarea>
-              </div>
-
-              <button type="submit" class="btn btn--primary btn--large">
-                <i class="fas fa-paper-plane"></i> Enviar Mensagem
-              </button>
-            </form>
-          </div>
         </div>
-
-        <!-- Mapa -->
-        <div class="contact__map">
-          <h2>ONDE NOS ENCONTRAR</h2>
-          <div class="map-container">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197584455234!2d-46.654126924687!3d-23.561347178789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1690000000000!5m2!1spt-BR!2sbr" 
-              width="100%" 
-              height="400" 
-              style="border:0;" 
-              allowfullscreen="" 
-              loading="lazy" 
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="container">
         <div class="footer__content">
-          <div class="footer__section">
-            <h2>Sport Gun Imports</h2>
-            <p>
-              Empresa de venda de equipamentos, acessorios e armas nacionais e
-              importadas com marcas famosas como Glock, Sig Sauer, Smith &
-              Wesson, Colt, Beretta...
-            </p>
-          </div>
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessorios e armas nacionais e importadas com marcas famosas como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta...</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Armalite</h3>
+                <ul>
+                    <li><a href="#">Comprar</a></li>
+                    <li><a href="#">Mapa do Site</a></li>
+                    <li><a href="#">Como funciona</a></li>
+                </ul>
+            </div>
 
-          <div class="footer__section">
-            <h3>Institucional</h3>
-            <ul>
-              <li><a href="#">Sobre Nós</a></li>
-              <li><a href="#">Compre Aqui</a></li>
-              <li><a href="produtos.html">Produtos</a></li>
-              <li><a href="#">Notícias</a></li>
-            </ul>
-          </div>
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="#">Entrega</a></li>
+                    <li><a href="#">Verificação</a></li>
+                    <li><a href="#">Garantia</a></li>
+                </ul>
+            </div>
 
-          <div class="footer__section">
-            <h3>Serviços</h3>
-            <ul>
-              <li><a href="#">Onde Encontrar</a></li>
-              <li><a href="#">Garantia</a></li>
-              <li><a href="#">Investidores</a></li>
-              <li><a href="contato.html">Contatos</a></li>
-              <li><a href="#">FAQ</a></li>
-            </ul>
-          </div>
-
-          <div class="footer__section">
-            <h3>Contato</h3>
-            <ul>
-              <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-              <li><i class="fas fa-envelope"></i> contato@sportgun.com.br</li>
-              <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
-            </ul>
-          </div>
+            <div class="footer__section">
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="#sobre.html">Sobre nós</a></li>
+                    <li><a href="#">Termos de uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
         </div>
         
         <div class="footer__bottom">
-          <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
         </div>
-      </div>
     </footer>
 
-    <script src="js/search.js"></script>
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-floating">
+        <a href="https://wa.me/5511999999999" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            <div class="whatsapp-tooltip">Fale conosco no WhatsApp</div>
+        </a>
+    </div>
+
     <script src="js/script.js"></script>
-    <script src="js/contact.js"></script>
-  </body>
+    <script>
+        // Script para o formulário de contato
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulação de envio do formulário
+            const submitBtn = this.querySelector('.btn-submit');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 2000);
+        });
+
+        // Efeito de hover nas perguntas frequentes
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
 </html>

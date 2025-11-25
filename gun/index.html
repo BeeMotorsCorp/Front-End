@@ -1,544 +1,250 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sport Gun Imports - Venda de Armas</title>
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
-    <link rel="stylesheet" href="css/idade.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0A0A0A;
+        }
+
+        /* Overlay de verificação de idade */
+        .Idade-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 9999;
+        }
+
+        .Idade-overlay.hidden {
+            display: none;
+        }
+
+        .Idade-content {
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .Idade-logo {
+            margin-bottom: 40px;
+        }
+
+        .Idade-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .Idade-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: #DC2626;
+        }
+
+        .Idade-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: #FFFFFF;
+        }
+
+        .Idade-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            border: none;
+        }
+
+        .btn--yes {
+            background-color: #DC2626;
+            color: white;
+        }
+
+        .btn--yes:hover {
+            background-color: #EF4444;
+            transform: scale(1.05);
+        }
+
+        .btn--no {
+            background-color: #424242;
+            color: white;
+        }
+
+        .btn--no:hover {
+            background-color: #616161;
+            transform: scale(1.05);
+        }
+
+        .Idade-footer {
+            font-size: 0.9rem;
+            color: #A3A3A3;
+            line-height: 1.5;
+        }
+
+        .Idade-footer p {
+            margin: 5px 0;
+        }
+
+        /* Tela de acesso negado */
+        .Idade-denied {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10000;
+        }
+
+        .Idade-denied.show {
+            display: flex;
+        }
+
+        .Idade-denied h1 {
+            color: #DC2626;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .Idade-denied p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #A3A3A3;
+        }
+    </style>
+</head>
+<body>
     <!-- Overlay de verificação de idade -->
     <div class="Idade-overlay" id="IdadeOverlay">
-      <div class="Idade-content">
-        <div class="Idade-logo">
-          <img src="Imagens/Logo.png" alt="Sport Gun Imports Logo" />
-        </div>
+        <div class="Idade-content">
+            <div class="Idade-logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports Logo" />
+            </div>
 
-        <h1>SEJA BEM-VINDO À SPORT GUN IMPORTS</h1>
-        <h2>VOCÊ TEM MAIS DE 18 ANOS DE IDADE?</h2>
+            <h1>SEJA BEM-VINDO À SPORT GUN IMPORTS</h1>
+            <h2>VOCÊ TEM MAIS DE 18 ANOS DE IDADE?</h2>
 
-        <div class="Idade-buttons">
-          <button class="btn btn--yes" onclick="handleIdadeVerification(true)">
-            SIM
-          </button>
-          <button class="btn btn--no" onclick="handleIdadeVerification(false)">
-            NÃO
-          </button>
-        </div>
+            <div class="Idade-buttons">
+                <button class="btn btn--yes" onclick="handleIdadeVerification(true)">
+                    SIM
+                </button>
+                <button class="btn btn--no" onclick="handleIdadeVerification(false)">
+                    NÃO
+                </button>
+            </div>
 
-        <div class="Idade-footer">
-          <p>O CONTEÚDO DESTE SITE NÃO PODE SER EXIBIDO ATÉ VOCÊ</p>
-          <p>COMPLETAR 18 ANOS DE IDADE.</p>
+            <div class="Idade-footer">
+                <p>O CONTEÚDO DESTE SITE NÃO PODE SER EXIBIDO ATÉ VOCÊ</p>
+                <p>COMPLETAR 18 ANOS DE IDADE.</p>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Tela de acesso negado -->
     <div class="Idade-denied" id="IdadeDenied">
-      <div class="Idade-content">
-        <h1>ACESSO NEGADO</h1>
-        <p>
-          Lamentamos, mas o conteúdo deste site é restrito a maiores de 18 anos.
-        </p>
-        <p>Você será redirecionado para a página inicial do Google.</p>
-      </div>
+        <div class="Idade-content">
+            <h1>ACESSO NEGADO</h1>
+            <p>Lamentamos, mas o conteúdo deste site é restrito a maiores de 18 anos.</p>
+            <p>Você será redirecionado para a página inicial do Google em 3 segundos...</p>
+        </div>
     </div>
 
-    <!-- Conteúdo principal do site (só aparece após verificação de idade) -->
-    <div id="mainContent" style="display: none">
-      <!-- Header com Barra de Busca Fixa -->
-      <header class="header">
-        <div class="header__top">
-          <div class="container">
-            <div class="header__search">
-              <div class="search-container">
-                <input
-                  type="text"
-                  id="globalSearch"
-                  placeholder="Buscar produtos, marcas, categorias..."
-                />
-                <button class="search-btn" onclick="performSearch()">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-            <div class="header__actions">
-              <a href="contato.html" class="header__link">
-                <i class="fas fa-headset"></i>
-                <span>Atendimento</span>
-              </a>
-              <a href="contato.html" class="header__link">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Onde Encontrar</span>
-              </a>
-            </div>
-          </div>
-        </div>
+    <script>
+        // Função para limpar a verificação de idade (útil para testes)
+        window.limparVerificacaoIdade = function() {
+            localStorage.removeItem("isAdult");
+            location.reload();
+            console.log('✅ Verificação de idade limpa!');
+        };
 
-        <nav class="nav">
-          <div class="nav__logo">
-            <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo" />
-            <span class="logo-text">SPORT GUN IMPORTS</span>
-          </div>
+        // Obter o diretório base (varia se está em uma subpasta)
+        function getBaseUrl() {
+            const currentPath = window.location.pathname;
+            // Remove o nome do arquivo (index.html)
+            const pathWithoutFile = currentPath.substring(0, currentPath.lastIndexOf('/'));
+            return pathWithoutFile + '/';
+        }
 
-          <ul class="nav__menu">
-            <li><a href="home.html">Home</a></li>
-            <li><a href="produtos.html">Produtos</a></li>
-            <li><a href="#noticias">Notícias</a></li>
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="contato.html">Contato</a></li>
-          </ul>
+        // Script de verificação de idade
+        function handleIdadeVerification(isAdult) {
+            const overlay = document.getElementById("IdadeOverlay");
+            const deniedScreen = document.getElementById("IdadeDenied");
+            const baseUrl = getBaseUrl();
 
-          <div class="nav__actions">
-            <button class="btn-icon search-toggle" onclick="toggleSearch()">
-              <i class="fas fa-search"></i>
-            </button>
-            <button
-              class="btn-icon"
-              onclick="window.location.href='login.html'"
-            >
-              <i class="fas fa-user"></i>
-            </button>
-            <button
-              class="btn-icon"
-              onclick="window.location.href='carrinho.html'"
-            >
-              <i class="fas fa-shopping-cart"></i>
-              <span class="cart-count">0</span>
-            </button>
-          </div>
+            if (isAdult) {
+                // Usuário confirmou que tem 18 anos
+                overlay.classList.add('hidden');
+                
+                // Redirecionar para home após 500ms (SEM salvar no localStorage)
+                setTimeout(() => {
+                    window.location.href = baseUrl + "home.html";
+                }, 500);
+            } else {
+                // Usuário confirmou que NÃO tem 18 anos
+                overlay.classList.add('hidden');
+                deniedScreen.classList.add('show');
 
-          <div class="nav__hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </nav>
-      </header>
+                // Redirecionar para Google após 3 segundos (SEM salvar no localStorage)
+                setTimeout(() => {
+                    window.location.href = "https://www.google.com";
+                }, 3000);
+            }
+        }
 
-      <!-- Hero Carousel Section -->
-      <section id="home" class="hero-carousel">
-        <div class="carousel-container">
-          <div class="carousel-slide active">
-            <div class="slide-content">
-              <div class="slide-text">
-                <h1 class="hero__title">
-                  Armamento Militar
-                  <span class="hero__highlight">de ponta</span>
-                </h1>
-                <p class="hero__description">Armas Importadas.</p>
-                <div class="hero__buttons">
-                  <button
-                    class="btn btn--primary"
-                    onclick="location.href='produtos.html'"
-                  >
-                    Ver Produtos
-                  </button>
-                  <button class="btn btn--secondary">Catálogo Completo</button>
-                </div>
-              </div>
-              <div class="slide-image">
-                <img
-                  src="Imagens/Sig_Sauer_P320.png"
-                  alt="SIG SAUER P320 M18 COYOTE"
-                />
-                <div class="slide-overlay">
-                  <button class="btn btn--primary btn--large">
-                    Comprar Agora
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        // Verificar no carregamento
+        document.addEventListener("DOMContentLoaded", () => {
+            // ✅ LIMPAR SEMPRE ao entrar no index.html
+            localStorage.removeItem("isAdult");
+            console.log('🧹 localStorage limpo ao entrar no index.html');
 
-          <div class="carousel-slide">
-            <div class="slide-content">
-              <div class="slide-text">
-                <h1 class="hero__title">
-                  Pistolas de
-                  <span class="hero__highlight">Alta Performance</span>
-                </h1>
-                <p class="hero__description">
-                  As melhores pistolas do mercado com garantia e procedência
-                </p>
-                <div class="hero__buttons">
-                  <button
-                    class="btn btn--primary"
-                    onclick="location.href='produtos.html?category=pistolas'"
-                  >
-                    Ver Pistolas
-                  </button>
-                  <button class="btn btn--secondary">Ver Especificações</button>
-                </div>
-              </div>
-              <div class="slide-image">
-                <img src="Imagens/Smith_Wesson_MP.jpg" alt="Sig Sauer" />
-                <div class="slide-overlay">
-                  <button class="btn btn--primary btn--large">
-                    Comprar Agora
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+            const overlay = document.getElementById("IdadeOverlay");
+            const deniedScreen = document.getElementById("IdadeDenied");
 
-          <div class="carousel-slide">
-            <div class="slide-content">
-              <div class="slide-text">
-                <h1 class="hero__title">
-                  Rifles e
-                  <span class="hero__highlight">Armas Longas</span>
-                </h1>
-                <p class="hero__description">
-                  Para caça e esporte, temos a melhor seleção de rifles
-                </p>
-                <div class="hero__buttons">
-                  <button
-                    class="btn btn--primary"
-                    onclick="location.href='produtos.html?category=armas-longas'"
-                  >
-                    Ver Rifles
-                  </button>
-                  <button class="btn btn--secondary">Consultar Estoque</button>
-                </div>
-              </div>
-              <div class="slide-image">
-                <img src="Imagens/Colt_1911.jpg" alt="Rifle" />
-                <div class="slide-overlay">
-                  <button class="btn btn--primary btn--large">
-                    Comprar Agora
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            // Mostrar o overlay de idade sempre (primeira vez ou não)
+            overlay.classList.remove('hidden');
+            deniedScreen.classList.remove('show');
 
-        <!-- Carousel Controls -->
-        <button class="carousel-btn carousel-prev">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="carousel-btn carousel-next">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-
-        <!-- Carousel Indicators -->
-        <div class="carousel-indicators">
-          <span class="indicator active"></span>
-          <span class="indicator"></span>
-          <span class="indicator"></span>
-        </div>
-      </section>
-
-      <!-- Brands Section -->
-      <section class="brands">
-        <div class="container">
-          <h2 class="brands__title">MARCAS PARCEIRAS</h2>
-          <div class="brands__container">
-            <div class="brand">GLOCK</div>
-            <div class="brand">SMITH & WESSON</div>
-            <div class="brand">COLT</div>
-            <div class="brand">SIG SAUER</div>
-            <div class="brand">BERETTA</div>
-            <div class="brand">TAURUS</div>
-            <div class="brand">CBC</div>
-            <div class="brand">CZ</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Products Section -->
-      <section id="produtos" class="products">
-        <div class="container">
-          <div class="section__header">
-            <h2>PRODUTOS EM DESTAQUE</h2>
-            <p>Confira nossas armas mais vendidas</p>
-          </div>
-
-          <div class="products__grid">
-            <!-- Produto 1 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img src="Imagens/f-9 brigade.jpg" alt="F-9 Brigade" />
-                <div class="product__badge">Popular</div>
-              </div>
-              <div class="product__info">
-                <h4>BM-F-9 Brigade</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span>4.8 (2.436 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> 9mm</span>
-                  <span><i class="fas fa-layer-group"></i> 32+1</span>
-                  <span><i class="fas fa-weight"></i> 2580g</span>
-                </div>
-                <div class="product__features">
-                  <span>Nova</span>
-                  <span>Com garantia</span>
-                  <span>Estoque: 6</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 12.200</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Produto 2 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img
-                  src="Imagens/fuzil taurus t10.jpg"
-                  alt="fuzil taurus t10"
-                />
-                <div class="product__badge product__badge--new">Novo</div>
-              </div>
-              <div class="product__info">
-                <h4>fuzil taurus t10</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>5.0 (1.894 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> 7,62x51mm</span>
-                  <span><i class="fas fa-layer-group"></i> 15+1</span>
-                  <span><i class="fas fa-weight"></i> 833g</span>
-                </div>
-                <div class="product__features">
-                  <span>Direto de Gases</span>
-                  <span>Com case</span>
-                  <span>Estoque: 8</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 14.500</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Produto 3 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img
-                  src="Imagens/carabina 8 semi-auto.png"
-                  alt="carabina 8 semi-auto"
-                />
-              </div>
-              <div class="product__info">
-                <h4>carabina 8 semi-auto</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>4.9 (3.127 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> 9mm</span>
-                  <span><i class="fas fa-layer-group"></i> 17+1</span>
-                  <span><i class="fas fa-weight"></i> 694g</span>
-                </div>
-                <div class="product__features">
-                  <span>Performance</span>
-                  <span>3 magazines</span>
-                  <span>Estoque: 12</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 9.800</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Produto 4 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img
-                  src="Imagens/T4 14,5 semi-auto.jpg"
-                  alt="T4 14,5 semi-auto"
-                />
-              </div>
-              <div class="product__info">
-                <h4>T4 14,5 semi-auto</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>4.7 (1.542 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> 5.56</span>
-                  <span><i class="fas fa-layer-group"></i> 7+1</span>
-                  <span><i class="fas fa-weight"></i> 1105g</span>
-                </div>
-                <div class="product__features">
-                  <span>Clássico</span>
-                  <span>Aço inox</span>
-                  <span>Estoque: 6</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 9.200</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Produto 5 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img
-                  src="Imagens/pistola 59s 85anos.jpg"
-                  alt="pistola 59s 85anos"
-                />
-              </div>
-              <div class="product__info">
-                <h4>pistola 59s 85anos</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span>4.6 (2.118 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> 9mm</span>
-                  <span><i class="fas fa-layer-group"></i> 15+1</span>
-                  <span><i class="fas fa-weight"></i> 945g</span>
-                </div>
-                <div class="product__features">
-                  <span>Militar</span>
-                  <span>Alumínio</span>
-                  <span>Estoque: 10</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 6.500</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Produto 6 -->
-            <div class="product__card">
-              <div class="product__image">
-                <img
-                  src="Imagens/carabina lever action rossi 20.png"
-                  alt="carabina lever action rossi 20"
-                />
-              </div>
-              <div class="product__info">
-                <h4>Carabina lever action rossi 20'</h4>
-                <div class="product__rating">
-                  <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>4.8 (1.876 Reviews)</span>
-                  </div>
-                </div>
-                <div class="product__details">
-                  <span><i class="fas fa-bullseye"></i> .38SPL</span>
-                  <span><i class="fas fa-layer-group"></i> 5 cilindros</span>
-                  <span><i class="fas fa-weight"></i> 750g</span>
-                </div>
-                <div class="product__features">
-                  <span>Versátil</span>
-                  <span>Defesa</span>
-                  <span>Estoque: 7</span>
-                </div>
-                <div class="product__price">
-                  <span class="price">R$ 7.900</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="products__footer">
-            <a href="produtos.html" class="see-all">Ver todos os produtos</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="container">
-          <div class="footer__content">
-            <div class="footer__section">
-              <h2>Sport Gun Imports</h2>
-              <p>
-                Empresa de venda de equipamentos, acessorios e armas nacionais e
-                importadas com marcas famosas como Glock, Sig Sauer, Smith &
-                Wesson, Colt, Beretta...
-              </p>
-            </div>
-
-            <div class="footer__section">
-              <h3>Institucional</h3>
-              <ul>
-                <li><a href="#">Sobre Nós</a></li>
-                <li><a href="#">Compre Aqui</a></li>
-                <li><a href="produtos.html">Produtos</a></li>
-                <li><a href="#">Notícias</a></li>
-              </ul>
-            </div>
-
-            <div class="footer__section">
-              <h3>Serviços</h3>
-              <ul>
-                <li><a href="#">Onde Encontrar</a></li>
-                <li><a href="#">Garantia</a></li>
-                <li><a href="#">Investidores</a></li>
-                <li><a href="contato.html">Contatos</a></li>
-                <li><a href="#">FAQ</a></li>
-              </ul>
-            </div>
-
-            <div class="footer__section">
-              <h3>Contato</h3>
-              <ul>
-                <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-                <li><i class="fas fa-envelope"></i> contato@sportgun.com.br</li>
-                <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="footer__bottom">
-            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
-          </div>
-        </div>
-      </footer>
-    </div>
-
-    <script src="js/idade.js"></script>
-    <script src="js/carousel.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/script.js"></script>
-  </body>
+            // Atalho de teclado: Pressione Ctrl+Shift+R para limpar verificação (se necessário)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
 </html>

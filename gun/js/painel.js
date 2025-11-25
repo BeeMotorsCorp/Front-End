@@ -1,5 +1,11 @@
 // ==================== CONFIGURAÇÃO ====================
-const API_URL = 'Front-End/gun/painel.php';
+const baseURL = window.location.pathname.includes('/painel.html') 
+    ? window.location.pathname.split('/painel.html')[0] 
+    : '';
+const API_URL = baseURL + '/php/painel.php';
+
+console.log('📍 BASE URL detectada:', baseURL);
+console.log('📍 API URL final:', API_URL);
 
 // ==================== ELEMENTOS DO DOM ====================
 const form = document.getElementById('productForm');
@@ -18,33 +24,30 @@ const inputs = {
     imagemInput: document.getElementById('imagemInput')
 };
 
+let produtoEmEdicao = null;
+
 // ==================== PREVIEW EM TEMPO REAL ====================
 function setupPreviewListeners() {
-    // Nome
     inputs.nome.addEventListener('input', (e) => {
         document.getElementById('previewNome').textContent = e.target.value || 'Nome do Produto';
     });
 
-    // Descrição
     inputs.descricao.addEventListener('input', (e) => {
         const texto = e.target.value || 'Descrição do produto aparecerá aqui...';
         document.getElementById('previewDescricao').textContent = 
             texto.length > 200 ? texto.substring(0, 200) + '...' : texto;
     });
 
-    // Preço
     inputs.preco.addEventListener('input', (e) => {
         const valor = parseFloat(e.target.value) || 0;
         document.getElementById('previewPreco').textContent = 
             valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     });
 
-    // Estoque
     inputs.estoque.addEventListener('input', (e) => {
         document.getElementById('previewEstoque').textContent = `Estoque: ${e.target.value || 0}`;
     });
 
-    // Badge
     inputs.badge.addEventListener('change', (e) => {
         const badge = document.getElementById('previewBadge');
         if (e.target.value) {
@@ -55,7 +58,6 @@ function setupPreviewListeners() {
         }
     });
 
-    // Detalhes (calibre, capacidade, peso)
     inputs.calibre.addEventListener('change', updatePreviewDetails);
     inputs.capacidade.addEventListener('input', updatePreviewDetails);
     inputs.peso.addEventListener('input', updatePreviewDetails);
@@ -81,12 +83,10 @@ function setupImageUpload() {
     const uploadPreview = document.getElementById('imagePreviewUpload');
     const icon = document.querySelector('.preview-image > i');
 
-    // Click no upload area
     uploadArea.addEventListener('click', () => {
         fileInput.click();
     });
 
-    // Drag and drop
     uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         uploadArea.style.borderColor = 'var(--primary-color)';
@@ -110,7 +110,6 @@ function setupImageUpload() {
         }
     });
 
-    // Change no input
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -139,7 +138,10 @@ form.addEventListener('submit', async (e) => {
     
     const formData = new FormData();
     
-    // Adicionar dados
+    if (produtoEmEdicao) {
+        formData.append('id', produtoEmEdicao.id);
+    }
+    
     Object.keys(inputs).forEach(key => {
         if (key === 'imagemInput') {
             if (inputs[key].files[0]) {
@@ -153,24 +155,29 @@ form.addEventListener('submit', async (e) => {
     });
 
     try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
+        const url = produtoEmEdicao ? API_URL : API_URL;
+        const method = produtoEmEdicao ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+            method: method,
             body: formData
         });
 
         if (response.ok) {
             const produto = await response.json();
-            showAlert('✅ Produto cadastrado com sucesso!', 'success');
+            const msg = produtoEmEdicao ? 'Produto atualizado' : 'Produto cadastrado';
+            showAlert(`✅ ${msg} com sucesso!`, 'success');
             resetForm();
             loadProdutos();
             updateStats();
+            produtoEmEdicao = null;
         } else {
             const error = await response.json();
-            showAlert('❌ ' + (error.error || 'Erro ao cadastrar produto'), 'error');
+            showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showAlert('❌ Erro de conexão com o servidor', 'error');
+        showAlert('❌ Erro de conexão com o servidor: ' + error.message, 'error');
     } finally {
         showLoading(false);
     }
@@ -200,6 +207,7 @@ async function loadProdutos() {
         }
         
         lista.innerHTML = produtos.map(p => createProductItem(p)).join('');
+        setupSearch();
         
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
@@ -231,7 +239,10 @@ function createProductItem(produto) {
         currency: 'BRL'
     });
     
-    const imagemURL = imagem || 'https://via.placeholder.com/80/1F1F1F/DC2626?text=Sem+Imagem';
+    // ✅ CORRIGIR: caminho completo da imagem
+    const imagemURL = imagem 
+        ? (imagem.startsWith('http') ? imagem : baseURL + '/' + imagem)
+        : 'https://via.placeholder.com/80/1F1F1F/DC2626?text=Sem+Imagem';
     
     const statusBadge = disponivel 
         ? '<span style="color: #10B981;"><i class="fas fa-check-circle"></i> Disponível</span>'
@@ -258,10 +269,10 @@ function createProductItem(produto) {
                 </div>
             </div>
             <div class="produto-actions">
-                <button class="btn-edit" onclick="editProduto('${id}')">
+                <button class="btn-edit" onclick="editProduto(${id})">
                     <i class="fas fa-edit"></i> Editar
                 </button>
-                <button class="btn-delete" onclick="deleteProduto('${id}')">
+                <button class="btn-delete" onclick="deleteProduto(${id})">
                     <i class="fas fa-trash"></i> Excluir
                 </button>
             </div>
@@ -278,8 +289,12 @@ async function deleteProduto(id) {
     showLoading(true);
     
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'DELETE'
+        const response = await fetch(API_URL, {
+            method: 'DELETE',
+            body: 'id=' + id,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         });
         
         if (response.ok) {
@@ -287,7 +302,8 @@ async function deleteProduto(id) {
             loadProdutos();
             updateStats();
         } else {
-            showAlert('❌ Erro ao excluir produto', 'error');
+            const error = await response.json();
+            showAlert('❌ ' + (error.error || error.message || 'Erro ao excluir produto'), 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
@@ -297,31 +313,58 @@ async function deleteProduto(id) {
     }
 }
 
-// ==================== EDITAR PRODUTO (PLACEHOLDER) ====================
+// ==================== EDITAR PRODUTO ====================
 async function editProduto(id) {
-    // TODO: Implementar edição de produto
-    showAlert('⚠️ Funcionalidade de edição em desenvolvimento', 'error');
-    
-    // Exemplo de como seria:
-    /*
     try {
-        const response = await fetch(`${API_URL}/${id}`);
-        const produto = await response.json();
+        const response = await fetch(API_URL);
+        const produtos = await response.json();
+        const produto = produtos.find(p => p.id == id);
         
-        // Preencher formulário com dados do produto
-        Object.keys(inputs).forEach(key => {
-            if (inputs[key] && produto[key] !== undefined) {
-                inputs[key].value = produto[key];
-            }
-        });
+        if (!produto) {
+            showAlert('❌ Produto não encontrado', 'error');
+            return;
+        }
+        
+        produtoEmEdicao = produto;
+        
+        // Preencher formulário
+        inputs.nome.value = produto.nome || '';
+        inputs.descricao.value = produto.descricao || '';
+        inputs.preco.value = produto.preco || '';
+        inputs.estoque.value = produto.estoque || '';
+        inputs.calibre.value = produto.calibre || '';
+        inputs.capacidade.value = produto.capacidade || '';
+        inputs.peso.value = produto.peso || '';
+        inputs.marca.value = produto.marca || '';
+        inputs.categoria.value = produto.categoria || '';
+        inputs.badge.value = produto.badge || '';
+        inputs.disponivel.checked = produto.disponivel == 1 || produto.disponivel === '1';
+        
+        // Mostrar imagem se existir
+        if (produto.imagem) {
+            const imagemURL = baseURL + '/' + produto.imagem;
+            const previewImg = document.getElementById('previewImage');
+            previewImg.src = imagemURL;
+            previewImg.style.display = 'block';
+            document.querySelector('.preview-image > i').style.display = 'none';
+        }
+        
+        // Atualizar preview
+        updatePreviewDetails();
         
         // Scroll para o formulário
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Mudar texto do botão
+        const btnSubmit = form.querySelector('button[type="submit"]');
+        btnSubmit.innerHTML = '<i class="fas fa-save"></i> Atualizar Produto';
+        
+        showAlert('📝 Editando produto. Faça suas alterações e clique em "Atualizar"', 'success');
         
     } catch (error) {
-        console.error('Erro ao carregar produto:', error);
+        console.error('Erro:', error);
+        showAlert('❌ Erro ao carregar dados do produto', 'error');
     }
-    */
 }
 
 // ==================== ATUALIZAR ESTATÍSTICAS ====================
@@ -331,8 +374,8 @@ async function updateStats() {
         const produtos = await response.json();
         
         const total = produtos.length;
-        const disponiveis = produtos.filter(p => p.disponivel).length;
-        const estoquesBaixos = produtos.filter(p => p.estoque < 5 && p.disponivel).length;
+        const disponiveis = produtos.filter(p => p.disponivel == 1 || p.disponivel === '1').length;
+        const estoquesBaixos = produtos.filter(p => p.estoque < 5 && (p.disponivel == 1 || p.disponivel === '1')).length;
         const valorTotal = produtos.reduce((sum, p) => sum + (parseFloat(p.preco) * parseInt(p.estoque)), 0);
         
         document.getElementById('totalProdutos').textContent = total;
@@ -372,6 +415,11 @@ function setupSearch() {
 // ==================== RESETAR FORMULÁRIO ====================
 function resetForm() {
     form.reset();
+    produtoEmEdicao = null;
+    
+    // Mudar texto do botão de volta
+    const btnSubmit = form.querySelector('button[type="submit"]');
+    btnSubmit.innerHTML = '<i class="fas fa-save"></i> Cadastrar Produto';
     
     // Resetar preview
     document.getElementById('previewNome').textContent = 'Nome do Produto';
@@ -404,7 +452,6 @@ function showAlert(message, type) {
         alert.classList.remove('show');
     }, 5000);
     
-    // Scroll para o alert
     alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -414,33 +461,10 @@ function showLoading(show) {
     overlay.style.display = show ? 'flex' : 'none';
 }
 
-// ==================== INICIALIZAÇÃO ====================
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Painel Admin carregado!');
-    
-    setupPreviewListeners();
-    setupImageUpload();
-    setupSearch();
-    loadProdutos();
-    updateStats();
-    
-    // Atualizar a cada 30 segundos
-    setInterval(() => {
-        loadProdutos();
-        updateStats();
-    }, 30000);
-    
-    console.log('✅ Todos os componentes inicializados!');
-});
-// ==================== SISTEMA DE ORDENAÇÃO VIA BACKEND ====================
-
+// ==================== ORDENAÇÃO ====================
 let ordenacaoAtual = { campo: 'id', ordem: 'desc' };
 
-// Função para carregar produtos ordenados
 async function carregarProdutosOrdenados(campo = null, ordem = null) {
-    showLoading(true);
-    
-    // Atualizar ordenação se novos parâmetros foram passados
     if (campo) {
         if (ordenacaoAtual.campo === campo) {
             ordenacaoAtual.ordem = ordenacaoAtual.ordem === 'asc' ? 'desc' : 'asc';
@@ -451,57 +475,32 @@ async function carregarProdutosOrdenados(campo = null, ordem = null) {
     }
     
     try {
-        // Fazer requisição para o backend com parâmetros de ordenação
-        const url = new URL(API_URL, window.location.origin);
-        url.searchParams.append('ordenarPor', ordenacaoAtual.campo);
-        url.searchParams.append('ordem', ordenacaoAtual.ordem);
-        
-        const response = await fetch(url);
+        const urlComParametros = `${API_URL}?ordenarPor=${ordenacaoAtual.campo}&ordem=${ordenacaoAtual.ordem}`;
+        const response = await fetch(urlComParametros);
         
         if (!response.ok) {
             throw new Error('Erro ao carregar produtos');
         }
         
         const produtos = await response.json();
-        exibirProdutosOrdenados(produtos);
+        const lista = document.getElementById('produtosLista');
+        lista.innerHTML = produtos.map(p => createProductItem(p)).join('');
+        setupSearch();
         atualizarInterfaceOrdenacao();
         
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
         showAlert('❌ Erro ao carregar produtos', 'error');
-    } finally {
-        showLoading(false);
     }
 }
 
-// Função para exibir produtos (mantém sua função createProductItem)
-function exibirProdutosOrdenados(produtos) {
-    const lista = document.getElementById('produtosLista');
-    
-    if (produtos.length === 0) {
-        lista.innerHTML = `
-            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
-                <p style="font-size: 1.1rem;">Nenhum produto cadastrado ainda.</p>
-            </div>
-        `;
-        return;
-    }
-    
-    lista.innerHTML = produtos.map(p => createProductItem(p)).join('');
-}
-
-// Função para ordenar produtos (chama o backend)
 function ordenarProdutos(campo) {
     carregarProdutosOrdenados(campo);
 }
 
-// Atualizar interface com indicadores de ordenação
 function atualizarInterfaceOrdenacao() {
-    // Remover indicadores anteriores
     document.querySelectorAll('.sort-indicator').forEach(ind => ind.remove());
     
-    // Adicionar novo indicador
     const header = document.querySelector(`[data-sort="${ordenacaoAtual.campo}"]`);
     if (header) {
         const indicator = document.createElement('span');
@@ -514,48 +513,15 @@ function atualizarInterfaceOrdenacao() {
     }
 }
 
-// ==================== ATUALIZAR FUNÇÕES EXISTENTES ====================
-
-// Substituir a função loadProdutos existente
-async function loadProdutos() {
-    await carregarProdutosOrdenados();
-}
-
-// Atualizar a função setupSearch para trabalhar com ordenação
-function setupSearch() {
-    const searchInput = document.getElementById('searchProdutos');
-    
-    if (searchInput) {
-        // Para busca, vamos fazer no frontend mesmo para ser mais rápido
-        searchInput.addEventListener('input', (e) => {
-            const termo = e.target.value.toLowerCase();
-            const items = document.querySelectorAll('.produto-item');
-            
-            items.forEach(item => {
-                const texto = item.textContent.toLowerCase();
-                if (texto.includes(termo)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    }
-}
-
 // ==================== INICIALIZAÇÃO ====================
-
-// Atualizar a inicialização para usar a nova função
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Painel Admin carregado!');
     
     setupPreviewListeners();
     setupImageUpload();
-    setupSearch();
-    loadProdutos(); // Agora usa o sistema com ordenação
+    loadProdutos();
     updateStats();
     
-    // Atualizar a cada 30 segundos
     setInterval(() => {
         loadProdutos();
         updateStats();

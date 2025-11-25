@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="home.html">Menu</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="home.html">Notícias</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <button id="btnPerfil" class="btn btn--profile" style="display: none;">
+                    <i class="fas fa-user-circle"></i> Perfil
+                </button>
+                <a href="login.html" id="btnLogin" class="btn btn--login">Entrar</a>
+                <a href="cadastro.html" class="btn btn--register">Registrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Catálogo Header -->
+    <div class="catalogo-container">
+        <div class="catalogo-header">
+            <h1>Catálogo de Produtos</h1>
+            <p>Encontre as melhores armas e acessórios do mercado</p>
+        </div>
+
+        <div class="catalogo-content">
+            <!-- SIDEBAR FILTROS -->
+            <aside class="filtros-sidebar">
+                <h3 class="filtro-titulo">
+                    <i class="fas fa-filter"></i> Filtros
+                </h3>
+
+                <!-- Busca por Nome -->
+                <div class="filtro-grupo">
+                    <label class="filtro-titulo" style="color: var(--text-primary); margin-bottom: 0.75rem;">
+                        <i class="fas fa-search"></i> Buscar
+                    </label>
+                    <input type="text" id="filtroNome" class="busca-input" placeholder="Nome do produto...">
+                </div>
+
+                <!-- Categoria -->
+                <div class="filtro-grupo">
+                    <h4 class="filtro-titulo">Categoria</h4>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="pistola">
+                        Pistola
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="revolver">
+                        Revólver
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="rifle">
+                        Rifle
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="carabina">
+                        Carabina
+                    </label>
+                </div>
+
+                <!-- Calibre -->
+                <div class="filtro-grupo">
+                    <h4 class="filtro-titulo">Calibre</h4>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="9mm">
+                        9mm
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".40 S&W">
+                        .40 S&W
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".45 ACP">
+                        .45 ACP
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="5.56x45mm">
+                        5.56x45mm
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="7.62x51mm">
+                        7.62x51mm
+                    </label>
+                </div>
+
+                <!-- Preço -->
+                <div class="filtro-grupo">
+                    <h4 class="filtro-titulo">Preço</h4>
+                    <div class="filtro-range">
+                        <input type="range" id="filtroPrecoMin" class="filtro-preco-range" min="0" max="50000" value="0">
+                        <input type="range" id="filtroPrecoMax" class="filtro-preco-range" min="0" max="50000" value="50000">
+                        <div class="filtro-valor">
+                            <span>R$ <span id="precoMinDisplay">0</span></span>
+                            <span>R$ <span id="precoMaxDisplay">50000</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disponibilidade -->
+                <div class="filtro-grupo">
+                    <h4 class="filtro-titulo">Disponibilidade</h4>
+                    <label class="filtro-label">
+                        <input type="checkbox" id="filtroDisponivel" checked>
+                        Apenas disponíveis
+                    </label>
+                </div>
+
+                <!-- Botão Limpar -->
+                <button class="btn-limpar-filtros" onclick="limparFiltros()">
+                    <i class="fas fa-redo"></i> Limpar Filtros
+                </button>
+            </aside>
+
+            <!-- AREA DE PRODUTOS -->
+            <main class="produtos-area">
+                <!-- Busca -->
+                <div class="busca-barra">
+                    <input type="text" id="buscaPrincipal" class="busca-input" placeholder="Buscar por nome, marca, calibre...">
+                    <button class="busca-btn" onclick="aplicarFiltros()">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+
+                <!-- Ordenação -->
+                <div class="ordenacao">
+                    <label>Ordenar por:</label>
+                    <select id="ordenacao" onchange="aplicarFiltros()">
+                        <option value="relevancia">Relevância</option>
+                        <option value="precoAsc">Preço (Menor)</option>
+                        <option value="precoDesc">Preço (Maior)</option>
+                        <option value="nomeAsc">Nome (A-Z)</option>
+                        <option value="nomeDesc">Nome (Z-A)</option>
+                    </select>
+                </div>
+
+                <!-- Info Resultados -->
+                <div class="resultados-info" id="resultadosInfo"></div>
+
+                <!-- Grid de Produtos -->
+                <div class="produtos-grid" id="produtosGrid">
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                        <p style="color: var(--text-secondary);">Carregando produtos...</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessórios e armas nacionais e importadas</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="#">Entrega</a></li>
+                    <li><a href="#">Verificação</a></li>
+                    <li><a href="#">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="#">Sobre nós</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Termos de uso</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        let todosProdutos = [];
+
+        // Carregar produtos ao abrir página
+        document.addEventListener('DOMContentLoaded', async () => {
+            await carregarProdutos();
+            verificarLogin();
+        });
+
+        // CARREGAR PRODUTOS DO BANCO
+        async function carregarProdutos() {
+            try {
+                // Tentar diferentes caminhos possíveis
+                let response;
+                const caminhos = [
+                    './php/painel.php',
+                    '../php/painel.php',
+                    '/Repositorios/Front-End/Gun/php/painel.php'
+                ];
+
+                for (let caminho of caminhos) {
+                    try {
+                        response = await fetch(caminho);
+                        if (response.ok) {
+                            console.log('✅ Produtos carregados de:', caminho);
+                            todosProdutos = await response.json();
+                            aplicarFiltros();
+                            return;
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+                }
+
+                // Se nenhum caminho funcionou, usar produtos de demonstração
+                console.warn('⚠️ Não foi possível carregar do servidor. Usando dados de demonstração.');
+                usarProdutosDemonstracao();
+
+            } catch (error) {
+                console.error('❌ Erro ao carregar produtos:', error);
+                usarProdutosDemonstracao();
+            }
+        }
+
+        // Dados de demonstração
+        function usarProdutosDemonstracao() {
+            todosProdutos = [
+                {
+                    id: 1,
+                    nome: "BM-F-9 Brigade",
+                    preco: 12200,
+                    estoque: 6,
+                    calibre: "9mm",
+                    capacidade: "32+1",
+                    marca: "Taurus",
+                    categoria: "pistola",
+                    imagem: "Imagens/f-9 brigade.jpg",
+                    disponivel: 1,
+                    badge: "Popular"
+                },
+                {
+                    id: 2,
+                    nome: "Fuzil Taurus T10",
+                    preco: 14500,
+                    estoque: 8,
+                    calibre: "7.62x51mm",
+                    capacidade: "15+1",
+                    marca: "Taurus",
+                    categoria: "rifle",
+                    imagem: "Imagens/fuzil taurus t10.jpg",
+                    disponivel: 1,
+                    badge: "Novo"
+                },
+                {
+                    id: 3,
+                    nome: "Carabina 8 Semi-Auto",
+                    preco: 9800,
+                    estoque: 12,
+                    calibre: "9mm",
+                    capacidade: "17+1",
+                    marca: "CBC",
+                    categoria: "carabina",
+                    imagem: "Imagens/carabina 8 semi-auto.png",
+                    disponivel: 1,
+                    badge: null
+                }
+            ];
+            aplicarFiltros();
+        }
+
+        // APLICAR FILTROS
+        function aplicarFiltros() {
+            let filtrados = [...todosProdutos];
+
+            // Filtro por nome/busca
+            const busca = (document.getElementById('buscaPrincipal').value + document.getElementById('filtroNome').value).toLowerCase();
+            if (busca) {
+                filtrados = filtrados.filter(p => 
+                    p.nome.toLowerCase().includes(busca) ||
+                    p.marca?.toLowerCase().includes(busca) ||
+                    p.calibre?.toLowerCase().includes(busca)
+                );
+            }
+
+            // Filtro por categoria
+            const categorias = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(c => c.value);
+            if (categorias.length > 0) {
+                filtrados = filtrados.filter(p => categorias.includes(p.categoria));
+            }
+
+            // Filtro por calibre
+            const calibres = Array.from(document.querySelectorAll('.filtro-calibre:checked')).map(c => c.value);
+            if (calibres.length > 0) {
+                filtrados = filtrados.filter(p => calibres.includes(p.calibre));
+            }
+
+            // Filtro por preço
+            const precoMin = parseInt(document.getElementById('filtroPrecoMin').value);
+            const precoMax = parseInt(document.getElementById('filtroPrecoMax').value);
+            filtrados = filtrados.filter(p => p.preco >= precoMin && p.preco <= precoMax);
+
+            // Filtro por disponibilidade
+            if (document.getElementById('filtroDisponivel').checked) {
+                filtrados = filtrados.filter(p => p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true);
+            }
+
+            // Ordenação
+            const ordem = document.getElementById('ordenacao').value;
+            switch(ordem) {
+                case 'precoAsc':
+                    filtrados.sort((a, b) => a.preco - b.preco);
+                    break;
+                case 'precoDesc':
+                    filtrados.sort((a, b) => b.preco - a.preco);
+                    break;
+                case 'nomeAsc':
+                    filtrados.sort((a, b) => a.nome.localeCompare(b.nome));
+                    break;
+                case 'nomeDesc':
+                    filtrados.sort((a, b) => b.nome.localeCompare(a.nome));
+                    break;
+            }
+
+            // Mostrar resultados
+            exibirProdutos(filtrados);
+        }
+
+        // EXIBIR PRODUTOS - ✅ CORRIGIDO
+        function exibirProdutos(produtos) {
+            const grid = document.getElementById('produtosGrid');
+            const info = document.getElementById('resultadosInfo');
+
+            info.textContent = `${produtos.length} produto(s) encontrado(s)`;
+
+            if (produtos.length === 0) {
+                grid.innerHTML = `
+                    <div class="vazio">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Nenhum produto encontrado</h3>
+                        <p>Tente ajustar seus filtros</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = produtos.map(p => {
+                // ✅ CORRIGIR CAMINHO DA IMAGEM
+                let imagemURL = p.imagem || 'https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Sem+Imagem';
+                
+                // Se a imagem vier do banco (uploads/)
+                if (p.imagem && !p.imagem.startsWith('http') && !p.imagem.startsWith('Imagens')) {
+                    imagemURL = p.imagem;
+                }
+                
+                return `
+                    <div class="produto-card" onclick="verProduto(${p.id})">
+                        <div class="produto-imagem">
+                            <img src="${imagemURL}" 
+                                 alt="${p.nome}"
+                                 onerror="this.src='https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Erro'">
+                            ${p.badge ? `<span class="produto-badge">${p.badge}</span>` : ''}
+                        </div>
+                        <div class="produto-info">
+                            <h3 class="produto-nome">${p.nome}</h3>
+                            <div class="produto-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.8</span>
+                            </div>
+                            <div class="produto-detalhes">
+                                ${p.calibre ? `<span class="detalhe-item"><i class="fas fa-bullseye"></i> ${p.calibre}</span>` : ''}
+                                ${p.capacidade ? `<span class="detalhe-item"><i class="fas fa-layer-group"></i> ${p.capacidade}</span>` : ''}
+                            </div>
+                            <div class="produto-preco">R$ ${parseFloat(p.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                            <div class="produto-estoque ${p.estoque < 5 ? 'baixo' : ''} ${!p.disponivel ? 'indisponivel' : ''}">
+                                ${!p.disponivel ? 'Indisponível' : p.estoque < 5 ? `⚠️ Apenas ${p.estoque} em estoque` : `Estoque: ${p.estoque}`}
+                            </div>
+                            <button class="btn-produto" ${!p.disponivel ? 'disabled' : ''} onclick="event.stopPropagation(); verProduto(${p.id})">
+                                ${!p.disponivel ? 'Indisponível' : 'Ver Detalhes'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // VER PRODUTO - ✅ CORRIGIDO
+        function verProduto(id) {
+            console.log('Produto selecionado:', id);
+            window.location.href = 'produto.html?id=' + id;
+        }
+
+        // LIMPAR FILTROS
+        function limparFiltros() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(c => {
+                c.checked = c.id === 'filtroDisponivel';
+            });
+            document.getElementById('filtroNome').value = '';
+            document.getElementById('buscaPrincipal').value = '';
+            document.getElementById('filtroPrecoMin').value = '0';
+            document.getElementById('filtroPrecoMax').value = '50000';
+            document.getElementById('precoMinDisplay').textContent = '0';
+            document.getElementById('precoMaxDisplay').textContent = '50000';
+            document.getElementById('ordenacao').value = 'relevancia';
+            aplicarFiltros();
+        }
+
+        // ATUALIZAR DISPLAY DE PREÇO
+        document.getElementById('filtroPrecoMin').addEventListener('input', (e) => {
+            document.getElementById('precoMinDisplay').textContent = e.target.value;
+            aplicarFiltros();
+        });
+
+        document.getElementById('filtroPrecoMax').addEventListener('input', (e) => {
+            document.getElementById('precoMaxDisplay').textContent = e.target.value;
+            aplicarFiltros();
+        });
+
+        document.querySelectorAll('.filtro-categoria, .filtro-calibre').forEach(c => {
+            c.addEventListener('change', aplicarFiltros);
+        });
+
+        document.getElementById('filtroDisponivel').addEventListener('change', aplicarFiltros);
+
+        // VERIFICAR LOGIN
+        function verificarLogin() {
+            const usuarioId = localStorage.getItem('usuario_id');
+            const btnPerfil = document.getElementById('btnPerfil');
+            const btnLogin = document.getElementById('btnLogin');
+
+            if (usuarioId) {
+                btnPerfil.style.display = 'inline-flex';
+                btnLogin.style.display = 'none';
+                btnPerfil.addEventListener('click', () => {
+                    window.location.href = 'usuario.html';
+                });
+            }
+        }
+    </script>
+</body>
+</html>

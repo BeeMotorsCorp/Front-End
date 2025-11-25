@@ -7,425 +7,6 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .produto-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
-            margin-top: 80px;
-        }
-
-        .breadcrumb {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .breadcrumb a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .produto-principal {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .produto-imagem-grande {
-            background: var(--background-card);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            position: relative;
-            height: 500px;
-        }
-
-        .produto-imagem-grande img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .produto-badge-grande {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        .produto-imagens-thumb {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .thumb {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 8px;
-            border: 2px solid transparent;
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .thumb:hover, .thumb.active {
-            border-color: var(--primary-color);
-        }
-
-        .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .produto-detalhes-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .produto-titulo-grande {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .produto-marca {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .produto-rating-grande {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .stars-grande {
-            display: flex;
-            gap: 4px;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-
-        .review-count {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .produto-preco-grande {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .produto-info-box {
-            background: var(--background-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .info-item:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-valor {
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .disponibilidade {
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .disponivel {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10B981;
-            color: #10B981;
-        }
-
-        .indisponivel {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #EF4444;
-            color: #EF4444;
-        }
-
-        .estoque-baixo {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid #F59E0B;
-            color: #F59E0B;
-        }
-
-        .quantidade-container {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .quantidade-label {
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        .quantidade-control {
-            display: flex;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .quantidade-btn {
-            background: transparent;
-            border: none;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            color: var(--text-primary);
-            font-weight: 700;
-            transition: var(--transition);
-        }
-
-        .quantidade-btn:hover {
-            background: var(--background-light);
-        }
-
-        .quantidade-input {
-            width: 60px;
-            border: none;
-            background: transparent;
-            text-align: center;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .quantidade-input:focus {
-            outline: none;
-        }
-
-        .btn-comprar, .btn-favorito {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-            text-decoration: none;
-        }
-
-        .btn-comprar {
-            background: var(--primary-color);
-            color: white;
-            flex: 1;
-        }
-
-        .btn-comprar:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-comprar:disabled {
-            background: var(--text-light);
-            cursor: not-allowed;
-        }
-
-        .btn-favorito {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            width: 50px;
-            padding: 0;
-        }
-
-        .btn-favorito:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-favorito.favorito {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .descricao-section {
-            background: var(--background-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .descricao-titulo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.75rem;
-        }
-
-        .descricao-texto {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        .especificacoes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .especificacao-card {
-            background: var(--background);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .espec-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .espec-titulo {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .espec-valor {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-
-        .produtos-relacionados {
-            margin-top: 3rem;
-        }
-
-        .relacionados-titulo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .relacionados-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-
-        .loading i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        @media (max-width: 1024px) {
-            .produto-principal {
-                grid-template-columns: 1fr;
-            }
-
-            .produto-imagem-grande {
-                height: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .produto-container {
-                padding: 1rem;
-                margin-top: 70px;
-            }
-
-            .produto-titulo-grande {
-                font-size: 1.5rem;
-            }
-
-            .produto-preco-grande {
-                font-size: 2rem;
-            }
-
-            .relacionados-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
@@ -514,15 +95,83 @@
 
         async function carregarProdutos() {
             try {
-                const response = await fetch('Front-End/gun/painel.php');
-                if (response.ok) {
-                    todosProdutos = await response.json();
+                const caminhos = [
+                    './php/painel.php',
+                    '../php/painel.php',
+                    '/Repositorios/Front-End/Gun/php/painel.php'
+                ];
+
+                for (let caminho of caminhos) {
+                    try {
+                        const response = await fetch(caminho);
+                        if (response.ok) {
+                            console.log('✅ Produtos carregados de:', caminho);
+                            todosProdutos = await response.json();
+                            return;
+                        }
+                    } catch (e) {
+                        continue;
+                    }
                 }
+
+                console.warn('⚠️ Não foi possível carregar do servidor. Usando dados de demonstração.');
+                usarProdutosDemonstracao();
+
             } catch (error) {
-                console.error('Erro ao carregar produtos:', error);
+                console.error('❌ Erro ao carregar produtos:', error);
+                usarProdutosDemonstracao();
             }
         }
 
+        // Dados de demonstração
+        function usarProdutosDemonstracao() {
+            todosProdutos = [
+                {
+                    id: 1,
+                    nome: "BM-F-9 Brigade",
+                    preco: 12200,
+                    estoque: 6,
+                    calibre: "9mm",
+                    capacidade: "32+1",
+                    marca: "Taurus",
+                    categoria: "pistola",
+                    descricao: "Pistola semi-automática de alta qualidade da marca Taurus. Modelo BM-F-9 Brigade com excelente ergonomia e precisão.",
+                    imagem: "Imagens/f-9 brigade.jpg",
+                    disponivel: 1,
+                    badge: "Popular"
+                },
+                {
+                    id: 2,
+                    nome: "Fuzil Taurus T10",
+                    preco: 14500,
+                    estoque: 8,
+                    calibre: "7.62x51mm",
+                    capacidade: "15+1",
+                    marca: "Taurus",
+                    categoria: "rifle",
+                    descricao: "Fuzil tático de alto desempenho. Certificado e com todas as documentações necessárias para uso legal.",
+                    imagem: "Imagens/fuzil taurus t10.jpg",
+                    disponivel: 1,
+                    badge: "Novo"
+                },
+                {
+                    id: 3,
+                    nome: "Carabina 8 Semi-Auto",
+                    preco: 9800,
+                    estoque: 12,
+                    calibre: "9mm",
+                    capacidade: "17+1",
+                    marca: "CBC",
+                    categoria: "carabina",
+                    descricao: "Carabina semi-automática de precisão. Excelente para tiro esportivo e coleccionismo.",
+                    imagem: "Imagens/carabina 8 semi-auto.png",
+                    disponivel: 1,
+                    badge: null
+                }
+            ];
+        }
+
+        // EXIBIR PRODUTO - ✅ CORRIGIDO
         function exibirProduto(produto) {
             const statusEstoque = !produto.disponivel ? 'indisponivel' : 
                                  produto.estoque < 5 ? 'estoque-baixo' : 'disponivel';
@@ -531,11 +180,19 @@
                                 produto.estoque < 5 ? `⚠️ Apenas ${produto.estoque} em estoque` :
                                 `✅ ${produto.estoque} em estoque`;
 
+            // ✅ CORRIGIR CAMINHO DA IMAGEM
+            let imagemURL = produto.imagem || 'https://via.placeholder.com/500x500/1F1F1F/DC2626?text=Sem+Imagem';
+            
+            // Se a imagem vier do banco (uploads/)
+            if (produto.imagem && !produto.imagem.startsWith('http') && !produto.imagem.startsWith('Imagens')) {
+                imagemURL = produto.imagem;
+            }
+
             const html = `
                 <div class="produto-principal">
                     <div>
                         <div class="produto-imagem-grande">
-                            <img src="${produto.imagem || 'https://via.placeholder.com/500x500/1F1F1F/DC2626?text=Sem+Imagem'}" 
+                            <img src="${imagemURL}" 
                                  id="imagemPrincipal"
                                  alt="${produto.nome}"
                                  onerror="this.src='https://via.placeholder.com/500x500/1F1F1F/DC2626?text=Erro'">

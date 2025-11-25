@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Sport Gun Imports</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Cores - Tema Preto e Vermelho */
+            --primary-color: #DC2626;
+            --primary-dark: #B91C1C;
+            --primary-light: #EF4444;
+            --secondary-color: #000000;
+            --accent-color: #1E40AF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A3A3A3;
+            --text-light: #737373;
+            --background: #0A0A0A;
+            --background-light: #171717;
+            --background-card: #1F1F1F;
+            --border-color: #404040;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            --font-size-4xl: 3rem;
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            /* Transitions */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav__menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-xl);
+        }
+
+        .nav__menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav__menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: var(--font-size-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn--secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn--secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--background) 0%, var(--background-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 50px,
+                rgba(220, 38, 38, 0.03) 50px,
+                rgba(220, 38, 38, 0.03) 51px
+            );
+        }
+
+        .hero__content {
+            text-align: center;
+            max-width: 800px;
+            padding: var(--spacing-2xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero__title {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+        }
+
+        .hero__highlight {
+            color: var(--primary-color);
+        }
+
+        .hero__description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl) var(--spacing-xl);
+        }
+
+        /* Section Header */
+        .section__header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .section__header h2 {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section__header p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-lg);
+        }
+
+        /* História Section */
+        .historia {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .historia__text h3 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .historia__text p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-lg);
+            line-height: 1.8;
+        }
+
+        .historia__image {
+            background: var(--background-card);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--primary-color);
+            text-align: center;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .historia__image i {
+            font-size: 12rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--background-card);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-2xl) 0;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .stats__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .stat__item h3 {
+            font-size: var(--font-size-4xl);
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 700;
+        }
+
+        .stat__item p {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: var(--font-size-sm);
+        }
+
+        /* Values Grid */
+        .values__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .value__card {
+            background: var(--background-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .value__card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .value__icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .value__card h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-xl);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value__card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Team Section */
+        .team__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .team__card {
+            background: var(--background-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .team__card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .team__avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            margin: 0 auto var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .team__card h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-lg);
+        }
+
+        .team__card .role {
+            color: var(--primary-color);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .team__card p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+        }
+
+        /* Certificates Section */
+        .certificates__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .certificate__card {
+            background: var(--background-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 2px solid var(--primary-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .certificate__card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .certificate__icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .certificate__card h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-lg);
+        }
+
+        .certificate__card p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Brands Section */
+        .brands {
+            padding: var(--spacing-2xl) 0;
+            background: var(--background-light);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brands__container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .brand {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+
+        .brand:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: var(--spacing-2xl) 0;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .cta h2 {
+            color: white;
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-size-lg);
+        }
+
+        .btn--dark {
+            background: var(--secondary-color);
+            color: white;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn--dark:hover {
+            background: var(--background);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: var(--spacing-2xl) 0 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-2xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        .footer__section h2 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section h3 {
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer__section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section ul {
+            list-style: none;
+        }
+
+        .footer__section ul li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer__section a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer__section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer__bottom {
+            border-top: 1px solid var(--border-color);
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav__menu {
+                display: none;
+            }
+
+            .hero__title {
+                font-size: var(--font-size-3xl);
+            }
+
+            .historia {
+                grid-template-columns: 1fr;
+            }
+
+            .stats__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .values__grid,
+            .team__grid,
+            .certificates__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .brands__container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <i class="fas fa-crosshairs" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="catalago.html">Produtos</a></li>
+                <li><a href="index.html#noticias">Notícias</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+
+            <a href="index.html" class="btn btn--secondary">
+                <i class="fas fa-home"></i> Voltar
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">
+                <span class="hero__highlight">SOBRE</span> NÓS
+            </h1>
+            <p class="hero__description">
+                Excelência em armamento desde 1985 • 40 anos de tradição e confiança
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- História Section -->
+        <section>
+            <div class="section__header">
+                <h2>NOSSA HISTÓRIA</h2>
+                <p>Quatro décadas de excelência e tradição</p>
+            </div>
+            
+            <div class="historia">
+                <div class="historia__text">
+                    <h3>40 ANOS DE TRADIÇÃO</h3>
+                    <p>Fundada em 1985, a Sport Gun Imports nasceu com a missão de trazer ao mercado brasileiro as melhores marcas internacionais de armamento esportivo e de defesa.</p>
+                    <p>Ao longo de quatro décadas, construímos uma reputação sólida baseada em qualidade, segurança e atendimento diferenciado aos nossos clientes.</p>
+                    <p>Somos especialistas em importação e comercialização de armas de fogo das marcas mais renomadas do mundo, como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta, e muitas outras.</p>
+                    <p>Nossa equipe é formada por profissionais experientes e apaixonados pelo segmento, sempre prontos para orientar nossos clientes na escolha do equipamento ideal para suas necessidades.</p>
+                </div>
+                <div class="historia__image">
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats__grid">
+                <div class="stat__item">
+                    <h3>40+</h3>
+                    <p>Anos de Mercado</p>
+                </div>
+                <div class="stat__item">
+                    <h3>15.000+</h3>
+                    <p>Clientes Satisfeitos</p>
+                </div>
+                <div class="stat__item">
+                    <h3>50+</h3>
+                    <p>Marcas Representadas</p>
+                </div>
+                <div class="stat__item">
+                    <h3>100%</h3>
+                    <p>Produtos Certificados</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section>
+            <div class="section__header">
+                <h2>NOSSOS VALORES</h2>
+                <p>Os pilares que sustentam nossa empresa</p>
+            </div>
+            
+            <div class="values__grid">
+                <div class="value__card">
+                    <div class="value__icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Segurança</h3>
+                    <p>Todos os nossos produtos passam por rigorosos testes de qualidade e segurança antes de chegar ao cliente.</p>
+                </div>
+                <div class="value__card">
+                    <div class="value__icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Qualidade</h3>
+                    <p>Trabalhamos apenas com marcas reconhecidas mundialmente por sua excelência e durabilidade.</p>
+                </div>
+                <div class="value__card">
+                    <div class="value__icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Confiança</h3>
+                    <p>Transparência e ética em todas as nossas negociações, construindo relacionamentos duradouros.</p>
+                </div>
+                <div class="value__card">
+                    <div class="value__icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Expertise</h3>
+                    <p>Equipe altamente capacitada para oferecer consultoria especializada e suporte técnico.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates Section -->
+        <section>
+            <div class="section__header">
+                <h2>CERTIFICAÇÕES E LICENÇAS</h2>
+                <p>Credibilidade e conformidade legal</p>
+            </div>
+            
+            <div class="certificates__grid">
+                <div class="certificate__card">
+                    <div class="certificate__icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>Exército Brasileiro</h4>
+                    <p>Autorização completa para comércio</p>
+                </div>
+                <div class="certificate__card">
+                    <div class="certificate__icon">
+                        <i class="fas fa-stamp"></i>
+                    </div>
+                    <h4>Polícia Federal</h4>
+                    <p>Credenciamento PF</p>
+                </div>
+                <div class="certificate__card">
+                    <div class="certificate__icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h4>ISO 9001</h4>
+                    <p>Gestão de Qualidade</p>
+                </div>
+                <div class="certificate__card">
+                    <div class="certificate__icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h4>Importação</h4>
+                    <p>Licença internacional</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="container">
+        <section class="cta">
+            <h2>VISITE NOSSA LOJA</h2>
+            <p>Conheça nosso showroom e fale com nossos especialistas</p>
+            <a href="contato.html" class="btn btn--dark">
+                <i class="fas fa-envelope"></i> ENTRE EM CONTATO
+            </a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessórios e armas nacionais e importadas com marcas famosas como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta.</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="catalago.html">Produtos</a></li>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="#">Entrega</a></li>
+                    <li><a href="#">Verificação</a></li>
+                    <li><a href="#">Garantia</a></li>
+                    <li><a href="#">Manutenção</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Contato</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> (62) 3000-0000</li>
+                    <li><i class="fas fa-envelope"></i> contato@sportgun.com.br</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Goiânia, GO</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <p>Sport Gun Imports, 2025 - Todos os direitos reservados</p>
+        </div>
+    </footer>
+</body>
+</html>

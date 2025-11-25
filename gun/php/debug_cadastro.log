@@ -5,3 +5,10 @@
 [2025-11-22 05:51:25] Senha criptografada
 [2025-11-22 05:51:25] Cadastrado com ID: 12
 [2025-11-22 05:51:25] Enviando resposta: {"status":"ok","mensagem":"Cadastro realizado com sucesso!","usuario_id":12}
+[2025-11-24 23:18:35] === CADASTRAR.PHP INICIADO ===
+[2025-11-24 23:18:35] JSON recebido: {"nome":"Mathews","sobrenome":"Rosa","cpf":"07807807807","usuario":"Thews","senha":"Thewslindao18@"}
+[2025-11-24 23:18:35] Usuario: Thews
+[2025-11-24 23:18:37] Conectado ao banco
+[2025-11-24 23:18:37] Senha criptografada
+[2025-11-24 23:18:37] Cadastrado com ID: 13
+[2025-11-24 23:18:37] Enviando resposta: {"status":"ok","mensagem":"Cadastro realizado com sucesso!","usuario_id":13}

@@ -4,3 +4,9 @@
 [2025-11-22 05:52:01] Conectado ao banco
 [2025-11-22 05:52:01] Login bem-sucedido - ID: 12
 [2025-11-22 05:52:01] Enviando resposta: {"status":"ok","usuario_id":12,"usuario_nome":"55"}
+[2025-11-24 23:22:28] === LOGIN.PHP INICIADO ===
+[2025-11-24 23:22:28] JSON recebido: {"usuario":"Thews","senha":"Thewslindao18@"}
+[2025-11-24 23:22:28] Tentativa de login - Usuario: Thews
+[2025-11-24 23:22:30] Conectado ao banco
+[2025-11-24 23:22:30] Login bem-sucedido - ID: 13
+[2025-11-24 23:22:30] Enviando resposta: {"status":"ok","usuario_id":13,"usuario_nome":"Mathews"}

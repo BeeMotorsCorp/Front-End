@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/contact.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header com Barra de Busca Fixa -->
+    <header class="header">
+      <div class="header__top">
+        <div class="container">
+          <div class="header__search">
+            <div class="search-container">
+              <input type="text" id="globalSearch" placeholder="Buscar produtos, marcas, categorias..." />
+              <button class="search-btn" onclick="performSearch()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <div class="header__actions">
+            <a href="contato.html" class="header__link">
+              <i class="fas fa-headset"></i>
+              <span>Atendimento</span>
+            </a>
+            <a href="contato.html" class="header__link">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Onde Encontrar</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav__logo">
+          <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo" />
+          <span class="logo-text">SPORT GUN IMPORTS</span>
+        </div>
+
+        <ul class="nav__menu">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="home.html">Notícias</a></li>
+          <li><a href="home.html">Serviços</a></li>
+          <li><a href="contato.html" class="active">Contato</a></li>
+        </ul>
+
+        <div class="nav__actions">
+          <button class="btn-icon search-toggle" onclick="toggleSearch()">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="btn-icon" onclick="window.location.href='login.html'">
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="btn-icon" onclick="window.location.href='carrinho.html'">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </button>
+        </div>
+
+        <div class="nav__hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Página de Contato -->
+    <section class="contact">
+      <div class="container">
+        <div class="contact__header">
+          <h1>FALE CONOSCO</h1>
+          <p>Estamos aqui para ajudar. Entre em contato conosco.</p>
+        </div>
+
+        <div class="contact__grid">
+          <!-- Informações de Contato -->
+          <div class="contact__info">
+            <div class="contact__card">
+              <i class="fas fa-headset"></i>
+              <h3>Atendimento ao Cliente</h3>
+              <p>Segunda a Sexta: 8h às 18h</p>
+              <p>Sábado: 8h às 12h</p>
+              <strong>(11) 4004-1234</strong>
+            </div>
+
+            <div class="contact__card">
+              <i class="fas fa-envelope"></i>
+              <h3>E-mail</h3>
+              <p>vendas@sportgun.com.br</p>
+              <p>suporte@sportgun.com.br</p>
+            </div>
+
+            <div class="contact__card">
+              <i class="fas fa-map-marker-alt"></i>
+              <h3>Endereço</h3>
+              <p>Rua das Armas, 123</p>
+              <p>Jardim Industrial</p>
+              <p>São Paulo - SP</p>
+              <p>CEP: 01234-567</p>
+            </div>
+
+            <div class="contact__card">
+              <i class="fas fa-shield-alt"></i>
+              <h3>Garantia</h3>
+              <p>Central de Garantia</p>
+              <p>garantia@sportgun.com.br</p>
+              <strong>(11) 4004-5678</strong>
+            </div>
+          </div>
+
+          <!-- Formulário de Contato -->
+          <div class="contact__form">
+            <h2>ENVIE UMA MENSAGEM</h2>
+            <form id="contactForm">
+              <div class="form-group">
+                <label for="name">Nome Completo *</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="tel" id="phone" name="phone">
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Assunto *</label>
+                <select id="subject" name="subject" required>
+                  <option value="">Selecione um assunto</option>
+                  <option value="vendas">Dúvidas sobre Vendas</option>
+                  <option value="suporte">Suporte Técnico</option>
+                  <option value="garantia">Garantia</option>
+                  <option value="reclamacao">Reclamação</option>
+                  <option value="sugestao">Sugestão</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Mensagem *</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--large">
+                <i class="fas fa-paper-plane"></i> Enviar Mensagem
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Mapa -->
+        <div class="contact__map">
+          <h2>ONDE NOS ENCONTRAR</h2>
+          <div class="map-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197584455234!2d-46.654126924687!3d-23.561347178789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1690000000000!5m2!1spt-BR!2sbr" 
+              width="100%" 
+              height="400" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__content">
+          <div class="footer__section">
+            <h2>Sport Gun Imports</h2>
+            <p>
+              Empresa de venda de equipamentos, acessorios e armas nacionais e
+              importadas com marcas famosas como Glock, Sig Sauer, Smith &
+              Wesson, Colt, Beretta...
+            </p>
+          </div>
+
+          <div class="footer__section">
+            <h3>Institucional</h3>
+            <ul>
+              <li><a href="#">Sobre Nós</a></li>
+              <li><a href="#">Compre Aqui</a></li>
+              <li><a href="produtos.html">Produtos</a></li>
+              <li><a href="#">Notícias</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Serviços</h3>
+            <ul>
+              <li><a href="#">Onde Encontrar</a></li>
+              <li><a href="#">Garantia</a></li>
+              <li><a href="#">Investidores</a></li>
+              <li><a href="contato.html">Contatos</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Contato</h3>
+            <ul>
+              <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+              <li><i class="fas fa-envelope"></i> contato@sportgun.com.br</li>
+              <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer__bottom">
+          <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/search.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/contact.js"></script>
+  </body>
+</html>

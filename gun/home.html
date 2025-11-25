@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Gun Imports - Venda de Armas</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+<div class="nav__logo">
+    <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+    <span class="logo-text">Sport Gun</span>
+</div>
+            
+            <ul class="nav__menu">
+                <li><a href="#home">Menu</a></li>
+                <li><a href="catalago.html">Produtos</a></li>
+                <li><a href="#noticias">Notícias</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <a href="login.html" class="btn btn--login">Entrar</a>
+                <a href="cadastro.html" class="btn btn--register">Registrar</a>
+            </div>
+
+            <div class="nav__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Carousel Section -->
+    <section id="home" class="hero-carousel">
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1 class="hero__title">
+                            Armamento Militar
+                            <span class="hero__highlight">de ponta</span>
+                        </h1>
+                        <p class="hero__description">
+                            Armas Importadas.
+                        </p>
+                        <div class="hero__buttons">
+                            <button class="btn btn--primary">Ver Produtos</button>
+                           <a href="catalago.html" class="btn btn--secondary">Catálogo Completo</a>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="Imagens/Sig_Sauer_P320.png" alt="SIG SAUER P320 M18 COYOTE">
+                        <div class="slide-overlay">
+                            <button class="btn btn--primary btn--large">Comprar Agora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1 class="hero__title">
+                            Pistolas de
+                            <span class="hero__highlight">Alta Performance</span>
+                        </h1>
+                        <p class="hero__description">
+                            As melhores pistolas do mercado com garantia e procedência
+                        </p>
+                        <div class="hero__buttons">
+                            <button class="btn btn--primary">Ver Pistolas</button>
+                            <button class="btn btn--secondary">Ver Especificações</button>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="Imagens/Smith_Wesson_MP.jpg" alt="Sig Sauer">
+                        <div class="slide-overlay">
+                            <button class="btn btn--primary btn--large">Comprar Agora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h1 class="hero__title">
+                            Rifles e
+                            <span class="hero__highlight">Armas Longas</span>
+                        </h1>
+                        <p class="hero__description">
+                            Para caça e esporte, temos a melhor seleção de rifles
+                        </p>
+                        <div class="hero__buttons">
+                            <button class="btn btn--primary">Ver Rifles</button>
+                            <button class="btn btn--secondary">Consultar Estoque</button>
+                        </div>
+                    </div>
+                    <div class="slide-image">
+                        <img src="Imagens/Colt_1911.jpg" alt="Rifle">
+                        <div class="slide-overlay">
+                            <button class="btn btn--primary btn--large">Comprar Agora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-btn carousel-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="carousel-btn carousel-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="brands__container">
+            <div class="brand">GLOCK</div>
+            <div class="brand">SMITH & WESSON</div>
+            <div class="brand">COLT</div>
+            <div class="brand">SIG SAUER</div>
+            <div class="brand">BERETTA</div>
+            <div class="brand">TAURUS</div>
+            <div class="brand">CBC</div>
+            <div class="brand">CZ</div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="produtos" class="products">
+        <div class="section__header">
+            <h2>PRODUTOS EM DESTAQUE</h2>
+            <p>Confira nossas armas mais vendidas</p>
+        </div>
+        
+        <div class="products__grid">
+            <!-- Produto 1 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens/f-9 brigade.jpg" alt="F-9 Brigade">
+                        <div class="weapon__badge">Popular</div>
+                    </div>
+                    <div class="weapon__info">
+                        <h4>BM-F-9 Brigade</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.8 (2.436 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> 9mm</span>
+                        <span><i class="fas fa-layer-group"></i> 32+1</span>
+                        <span><i class="fas fa-weight"></i> 2580g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Nova</span>
+                        <span>Com garantia</span>
+                        <span>Estoque: 6</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 12.200</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produto 2 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\fuzil taurus t10.jpg" alt="fuzil taurus t10">
+                    <div class="product__badge product__badge--new">Novo</div>
+                </div>
+                <div class="product__info">
+                    <h4>fuzil taurus t10</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0 (1.894 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> 7,62x51mm</span>
+                        <span><i class="fas fa-layer-group"></i> 15+1</span>
+                        <span><i class="fas fa-weight"></i> 833g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Direto de Gases</span>
+                        <span>Com case</span>
+                        <span>Estoque: 8</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 14.500</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produto 3 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\carabina 8 semi-auto.png" alt="carabina 8 semi-auto">
+                </div>
+                <div class="product__info">
+                    <h4>carabina 8 semi-auto</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (3.127 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> 9mm</span>
+                        <span><i class="fas fa-layer-group"></i> 17+1</span>
+                        <span><i class="fas fa-weight"></i> 694g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Performance</span>
+                        <span>3 magazines</span>
+                        <span>Estoque: 12</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 9.800</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produto 4 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\T4 14,5 semi-auto.jpg" alt="T4 14,5 semi-auto.jpg">
+                </div>
+                <div class="product__info">
+                    <h4>T4 14,5 semi-auto</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.7 (1.542 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> 5.56</span>
+                        <span><i class="fas fa-layer-group"></i> 7+1</span>
+                        <span><i class="fas fa-weight"></i> 1105g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Clássico</span>
+                        <span>Aço inox</span>
+                        <span>Estoque: 6</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 9.200</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produto 5 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\pistola 59s 85anos.jpg" alt="pistola 59s 85anos">
+                </div>
+                <div class="product__info">
+                    <h4>pistola 59s 85anos</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.6 (2.118 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> 9mm</span>
+                        <span><i class="fas fa-layer-group"></i> 15+1</span>
+                        <span><i class="fas fa-weight"></i> 945g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Militar</span>
+                        <span>Alumínio</span>
+                        <span>Estoque: 10</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 6.500</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produto 6 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\carabina lever action rossi 20.png" alt="carabina lever action rossi 20'">
+                </div>
+                <div class="product__info">
+                    <h4>Carabina lever action rossi 20'</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (1.876 Reviews)</span>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <span><i class="fas fa-bullseye"></i> .38SPL</span>
+                        <span><i class="fas fa-layer-group"></i> 5 cilindros</span>
+                        <span><i class="fas fa-weight"></i> 750g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Versátil</span>
+                        <span>Defesa</span>
+                        <span>Estoque: 7</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 7.900</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produto 7 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\acessorios.jpg" alt="Acessórios">
+                </div>
+                <div class="product__info">
+                    <h4>Acessórios</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (1.876 Reviews)</span>
+                        </div>
+                    </div>
+                    
+                        <span><i class="fas fa-weight"></i> 500g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Versátil</span>
+                        <span>Cases e maletas</span>
+                        <span>Estoque: 7</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 4.900</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+                <!-- Produto 8 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\acessorios.jpg" alt="Acessórios">
+                </div>
+                <div class="product__info">
+                    <h4>Acessórios</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (1.876 Reviews)</span>
+                        </div>
+                    </div>
+                    
+                        <span><i class="fas fa-weight"></i> 500g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Versátil</span>
+                        <span>Cases e maletas</span>
+                        <span>Estoque: 7</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 4.900</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+                <!-- Produto 9 -->
+            <div class="product__card">
+                <div class="product__image">
+                    <img src="Imagens\acessorios.jpg" alt="Acessórios">
+                </div>
+                <div class="product__info">
+                    <h4>Acessórios</h4>
+                    <div class="product__rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (1.876 Reviews)</span>
+                        </div>
+                    </div>
+                    
+                        <span><i class="fas fa-weight"></i> 500g</span>
+                    </div>
+                    <div class="product__features">
+                        <span>Versátil</span>
+                        <span>Cases e maletas</span>
+                        <span>Estoque: 7</span>
+                    </div>
+                    <div class="product__price">
+                        <span class="price">R$ 4.900</span>
+                        <button class="btn btn--primary btn--small">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+
+        <div class="products__footer">
+            <a href="#" class="see-all">Ver todos os produtos</a>
+        </div>
+    </section>
+
+     <!-- News Section -->
+   <section id="noticias" class="news">
+    <div class="section__header">
+        <h2>NOTÍCIAS EM DESTAQUE</h2>
+        <p>Fique por dentro das últimas novidades do mundo das armas</p>
+    </div>
+
+    <div class="news__grid">
+        <!-- As notícias serão carregadas aqui via JavaScript -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <p style="color: var(--text-secondary); font-size: 1.2rem;">
+                <i class="fas fa-spinner fa-spin"></i> Carregando notícias...
+            </p>
+        </div>
+    </div>
+
+    <div class="news__footer">
+        <a href="https://infoarmas.com.br" target="_blank" rel="noopener noreferrer" class="see-all">
+            Ver todas as notícias no InfoArmas
+        </a>
+    </div>
+</section>
+
+    <!-- Partners Section -->
+<section class="partners">
+    <div class="partners__content">
+        <h2>ACOMPANHE NOSSOS CANAIS</h2>
+        <p>Fique por dentro das novidades, promoções e lançamentos</p>
+           <div class="social-buttons">
+            <!-- Instagram -->
+            <a href="#"  class="social-btn social-btn--outline">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <!-- Facebook -->
+            <a href="#"  class="social-btn social-btn--outline">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+            </a>
+            <!-- WhatsApp -->
+            <a href="#" class="social-btn social-btn--outline">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessorios e armas nacionais e importadas com marcas famosas como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta...</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Armalite</h3>
+                <ul>
+                    <li><a href="#">Comprar</a></li>
+                    <li><a href="#">Mapa do Site</a></li>
+                    <li><a href="#">Como funciona</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="#">Entrega</a></li>
+                    <li><a href="#">Verificação</a></li>
+                    <li><a href="#">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="#">Sobre nós</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Termos de uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

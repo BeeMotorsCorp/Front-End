@@ -371,12 +371,12 @@
             </div>
             
             <ul class="nav__menu">
-                <li><a href="index.html">Menu</a></li>
+                <li><a href="home.html">Menu</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
             </ul>
 
             <div class="nav__actions">
-                <a href="index.html" class="btn btn--login">
+                <a href="home.html" class="btn btn--login">
                     <i class="fas fa-arrow-left"></i> Voltar
                 </a>
                 <button class="btn-logout" onclick="logout()">
@@ -572,7 +572,7 @@
             if (confirm('Tem certeza que deseja sair?')) {
                 localStorage.removeItem('usuario_id');
                 localStorage.removeItem('usuario_nome');
-                window.location.href = 'index.html';
+                window.location.href = 'home.html';
             }
         }
 

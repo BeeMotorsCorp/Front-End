@@ -1,0 +1,114 @@
+/* Estilos específicos para a verificação de idade */
+.Idade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 9999;
+    font-family: 'Arial', sans-serif;
+}
+
+.Idade-content {
+    max-width: 600px;
+    padding: 20px;
+}
+
+.Idade-logo {
+    margin-bottom: 40px;
+}
+
+.Idade-logo img {
+    max-width: 150px;
+    height: auto;
+}
+
+.Idade-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+.Idade-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+.Idade-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.Idade-buttons .btn {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-transform: uppercase;
+}
+
+.Idade-buttons .btn--yes {
+    background-color: #e65100;
+    color: white;
+    border: none;
+}
+
+.Idade-buttons .btn--yes:hover {
+    background-color: #ff6f00;
+    transform: scale(1.05);
+}
+
+.Idade-buttons .btn--no {
+    background-color: #424242;
+    color: white;
+    border: none;
+}
+
+.Idade-buttons .btn--no:hover {
+    background-color: #616161;
+    transform: scale(1.05);
+}
+
+.Idade-footer {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.Idade-footer p {
+    margin: 5px 0;
+}
+
+.Idade-denied {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10000;
+}
+
+.Idade-denied h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}

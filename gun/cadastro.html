@@ -56,10 +56,16 @@
                     <input type="password" id="senha" placeholder="Crie sua senha" required>
                 </div>
 
-                <button type="submit" class="btn-auth">
+                <button type="submit" class="btn-auth" id="btnCadastro">
                     <i class="fas fa-user-plus"></i> Cadastrar
                 </button>
+
+                <div id="loading" class="carregando" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
             </form>
+
+            <div id="mensagemContainer"></div>
 
             <div class="auth-footer">
                 <p>Já tem conta? <a href="login.html">Faça login</a></p>
@@ -72,7 +78,17 @@
         document.getElementById("cadastroForm").addEventListener("submit", async function(e) {
             e.preventDefault();
 
+            const btnCadastro = document.getElementById("btnCadastro");
+            const loading = document.getElementById("loading");
+            const form = document.getElementById("cadastroForm");
+            
+            btnCadastro.disabled = true;
+            loading.style.display = "block";
+            clearMessages();
+
             try {
+                console.log("📝 Iniciando cadastro...");
+                
                 const resposta = await fetch("php/cadastrar.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -85,26 +101,66 @@
                     })
                 });
 
-                const resultado = await resposta.json();
-s
+                console.log("📡 Status HTTP:", resposta.status);
+                console.log("📄 Content-Type:", resposta.headers.get("content-type"));
+
+                // Ler como texto primeiro para debug
+                const textoResposta = await resposta.text();
+                console.log("📋 Resposta bruta:", textoResposta);
+
+                // Tentar parsear como JSON
+                let resultado;
+                try {
+                    resultado = JSON.parse(textoResposta);
+                    console.log("✅ JSON parseado com sucesso:", resultado);
+                } catch (jsonError) {
+                    console.error("❌ Erro ao parsear JSON:", jsonError);
+                    console.error("❌ Texto recebido:", textoResposta.substring(0, 200));
+                    throw new Error("Resposta do servidor não é JSON válido");
+                }
+
                 if (resultado.status === "ok") {
-                    alert("Cadastro realizado com sucesso!");
-                    window.location.href = "login.html";
+                    console.log("✅ Cadastro bem-sucedido!");
+                    showMessage("✅ " + resultado.mensagem, "sucesso");
+                    form.reset();
+                    
+                    // Armazenar dados (se necessário)
+                    if (resultado.usuario_id) {
+                        localStorage.setItem("usuario_id", resultado.usuario_id);
+                    }
+                    
+                    // Redirecionar após 2 segundos
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
                 } else {
-                    const mensagemErro = document.createElement("div");
-                    mensagemErro.textContent = resultado.mensagem || "Erro no cadastro";
-                    mensagemErro.classList.add("mensagem-erro");
-                    
-                    const mensagemAntiga = document.querySelector(".mensagem-erro");
-                    if (mensagemAntiga) mensagemAntiga.remove();
-                    
-                    document.getElementById("cadastroForm").appendChild(mensagemErro);
+                    console.error("❌ Erro no cadastro:", resultado.mensagem);
+                    showMessage("❌ " + (resultado.mensagem || "Erro no cadastro"), "erro");
                 }
             } catch (error) {
-                console.error("Erro:", error);
-                alert("Erro ao conectar com o servidor");
+                console.error("❌ Erro:", error);
+                console.error("❌ Stack:", error.stack);
+                showMessage("❌ Erro ao conectar com o servidor: " + error.message, "erro");
+            } finally {
+                btnCadastro.disabled = false;
+                loading.style.display = "none";
             }
         });
+
+        function showMessage(mensagem, tipo = "erro") {
+            const container = document.getElementById("mensagemContainer");
+            const classe = tipo === "sucesso" ? "mensagem-sucesso" : "mensagem-erro";
+            
+            container.innerHTML = `
+                <div class="${classe}">
+                    ${mensagem}
+                </div>
+            `;
+        }
+
+        function clearMessages() {
+            document.getElementById("mensagemContainer").innerHTML = "";
+        }
 
         // Verificar se já está logado
         if (localStorage.getItem("usuario_id")) {

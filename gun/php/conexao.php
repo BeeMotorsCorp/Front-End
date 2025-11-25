@@ -1,19 +1,10 @@
 <?php
-// Configuração de erros
+// NÃO chamar ob_start() aqui! Deixa para quem incluir
+
+// Configurações de erros
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // 0 para produção, 1 para desenvolvimento
-
-// Headers CORS
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Content-Type: application/json; charset=utf-8');
-
-// Tratar OPTIONS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 // Configurações de conexão
 define('DB_HOST', 'localhost');
@@ -36,16 +27,12 @@ try {
         throw new Exception("Erro ao definir charset: " . $conn->error);
     }
     
-    // Sucesso (comentado para não aparecer no JSON)
-    // echo json_encode(["status" => "ok", "message" => "Conectado com sucesso!"]);
+    // SUCESSO - não fazer echo aqui!
     
 } catch (Exception $e) {
-    // Em caso de erro, retornar JSON e parar execução
-    http_response_code(500);
-    echo json_encode([
-        "status" => "erro",
-        "mensagem" => $e->getMessage()
-    ]);
-    exit;
+    // Lançar erro para quem incluir tratar
+    throw $e;
 }
-?>
+
+// Não feche ?>
+// (deixar sem fechar evita espaços em branco no final)

@@ -12,3 +12,78 @@
 [2025-11-24 23:18:37] Senha criptografada
 [2025-11-24 23:18:37] Cadastrado com ID: 13
 [2025-11-24 23:18:37] Enviando resposta: {"status":"ok","mensagem":"Cadastro realizado com sucesso!","usuario_id":13}
+[2025-11-25 06:09:04] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:09:04] Diretório atual: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:09:04] REQUEST METHOD: POST
+[2025-11-25 06:09:04] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"295.058.820-41","usuario":"admin3","senha":"1234"}
+[2025-11-25 06:09:04] Tentando cadastrar usuário: admin3
+[2025-11-25 06:09:04] Caminho da conexão: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:09:04] Arquivo existe: SIM
+[2025-11-25 06:09:07] Conectado ao banco com sucesso
+[2025-11-25 06:09:07] ERRO CAPTURADO: Usuário ou CPF já cadastrado
+[2025-11-25 06:13:34] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:13:34] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:13:34] PHP Version: 8.2.12
+[2025-11-25 06:13:34] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"295.058.820-41","usuario":"admin3","senha":"1234"}
+[2025-11-25 06:13:34] Usuário a cadastrar: admin3
+[2025-11-25 06:13:34] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:13:34] Arquivo encontrado, incluindo...
+[2025-11-25 06:13:36] Conexao.php incluído
+[2025-11-25 06:13:36] Conectado ao banco com sucesso
+[2025-11-25 06:13:36] ERRO: Usuário ou CPF já cadastrado
+[2025-11-25 06:14:06] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:14:06] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:14:06] PHP Version: 8.2.12
+[2025-11-25 06:14:06] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"555","usuario":"admin3","senha":"1234"}
+[2025-11-25 06:14:06] Usuário a cadastrar: admin3
+[2025-11-25 06:14:07] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:14:07] Arquivo encontrado, incluindo...
+[2025-11-25 06:14:09] Conexao.php incluído
+[2025-11-25 06:14:09] Conectado ao banco com sucesso
+[2025-11-25 06:14:09] ERRO: Usuário ou CPF já cadastrado
+[2025-11-25 06:14:40] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:14:40] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:14:40] PHP Version: 8.2.12
+[2025-11-25 06:14:40] JSON recebido: {"nome":"kill","sobrenome":"teste21","cpf":"555","usuario":"admin33","senha":"1234"}
+[2025-11-25 06:14:40] Usuário a cadastrar: admin33
+[2025-11-25 06:14:40] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:14:40] Arquivo encontrado, incluindo...
+[2025-11-25 06:14:42] Conexao.php incluído
+[2025-11-25 06:14:42] Conectado ao banco com sucesso
+[2025-11-25 06:14:42] Dados validados, criptografando senha...
+[2025-11-25 06:14:42] Inserindo no banco...
+[2025-11-25 06:14:42] SUCESSO! Cadastrado com ID: 14
+[2025-11-25 06:17:41] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:17:41] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:17:41] PHP Version: 8.2.12
+[2025-11-25 06:17:41] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"295.058.820-41","usuario":"admin3","senha":"1234"}
+[2025-11-25 06:17:41] Usuário a cadastrar: admin3
+[2025-11-25 06:17:41] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:17:41] Arquivo encontrado, incluindo...
+[2025-11-25 06:17:43] Conexao.php incluído
+[2025-11-25 06:17:43] Conectado ao banco com sucesso
+[2025-11-25 06:17:43] ERRO CAPTURADO: Usuário ou CPF já cadastrado
+[2025-11-25 06:17:43] Enviando erro: {"status":"erro","mensagem":"Usu\u00e1rio ou CPF j\u00e1 cadastrado"}
+[2025-11-25 06:17:50] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:17:50] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:17:50] PHP Version: 8.2.12
+[2025-11-25 06:17:50] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"295.058.820-44","usuario":"admin3","senha":"1234"}
+[2025-11-25 06:17:50] Usuário a cadastrar: admin3
+[2025-11-25 06:17:50] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:17:50] Arquivo encontrado, incluindo...
+[2025-11-25 06:17:52] Conexao.php incluído
+[2025-11-25 06:17:52] Conectado ao banco com sucesso
+[2025-11-25 06:17:52] ERRO CAPTURADO: Usuário ou CPF já cadastrado
+[2025-11-25 06:17:52] Enviando erro: {"status":"erro","mensagem":"Usu\u00e1rio ou CPF j\u00e1 cadastrado"}
+[2025-11-25 06:17:57] === CADASTRAR.PHP INICIADO ===
+[2025-11-25 06:17:57] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-25 06:17:57] PHP Version: 8.2.12
+[2025-11-25 06:17:57] JSON recebido: {"nome":"nometeste","sobrenome":"teste21","cpf":"295.058.820-44","usuario":"admin34","senha":"1234"}
+[2025-11-25 06:17:57] Usuário a cadastrar: admin34
+[2025-11-25 06:17:57] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-25 06:17:57] Arquivo encontrado, incluindo...
+[2025-11-25 06:17:59] Conexao.php incluído
+[2025-11-25 06:17:59] Conectado ao banco com sucesso
+[2025-11-25 06:17:59] Dados validados, criptografando senha...
+[2025-11-25 06:17:59] Inserindo no banco...
+[2025-11-25 06:17:59] SUCESSO! Cadastrado com ID: 15

@@ -188,12 +188,3 @@ try {
     echo $resposta_erro;
     exit;
 }
-
-// Fallback (não deve chegar aqui)
-ob_end_clean();
-http_response_code(500);
-echo json_encode([
-    "status" => "erro",
-    "mensagem" => "Erro desconhecido no servidor"
-]);
-?>

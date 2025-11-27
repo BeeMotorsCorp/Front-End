@@ -48,7 +48,7 @@
 
             <div class="auth-footer">
                 <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
-                <p><a href="index.html"><i class="fas fa-arrow-left"></i> Voltar para o site</a></p>
+                <p><a href="home.html"><i class="fas fa-arrow-left"></i> Voltar para o site</a></p>
             </div>
         </div>
     </div>
@@ -82,7 +82,7 @@
                 if (data.status === "ok") {
                     localStorage.setItem("usuario_id", data.usuario_id);
                     localStorage.setItem("usuario_nome", data.usuario_nome);
-                    window.location.href = "index.html";
+                    window.location.href = "home.html";
                 } else {
                     showMessage(data.mensagem || "Erro desconhecido");
                 }
@@ -111,7 +111,7 @@
 
         // Verificar se já está logado
         if (localStorage.getItem("usuario_id")) {
-            window.location.href = "index.html";
+            window.location.href = "home.html";
         }
     </script>
 </body>

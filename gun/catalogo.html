@@ -11,6 +11,7 @@
 <body>
     <!-- Header -->
     <header class="header">
+        <script src="js/header-global.js"></script>
         <nav class="nav">
             <div class="nav__logo">
                 <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
@@ -59,20 +60,32 @@
                 <div class="filtro-grupo">
                     <h4 class="filtro-titulo">Categoria</h4>
                     <label class="filtro-label">
-                        <input type="checkbox" class="filtro-categoria" value="pistola">
+                        <input type="checkbox" class="filtro-categoria" value="Pistola">
                         Pistola
                     </label>
                     <label class="filtro-label">
-                        <input type="checkbox" class="filtro-categoria" value="revolver">
+                        <input type="checkbox" class="filtro-categoria" value="Revolver">
                         Revólver
                     </label>
                     <label class="filtro-label">
-                        <input type="checkbox" class="filtro-categoria" value="rifle">
+                        <input type="checkbox" class="filtro-categoria" value="Rifle">
                         Rifle
                     </label>
                     <label class="filtro-label">
-                        <input type="checkbox" class="filtro-categoria" value="carabina">
+                        <input type="checkbox" class="filtro-categoria" value="Carabina">
                         Carabina
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="Espingarda">
+                        Espingarda
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="Acessórios">
+                        Acessórios
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-categoria" value="Munição">
+                        Munição
                     </label>
                 </div>
 
@@ -92,6 +105,62 @@
                         .45 ACP
                     </label>
                     <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".380 ACP">
+                        .380 ACP
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".38 Special">
+                        .38 Special
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".38 TPC">
+                        .38 TPC
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".357 Magnum">
+                        .357 Magnum
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="10mm">
+                        10mm
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".22 Magnum">
+                        .22 Magnum
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".17 HMR">
+                        .17 HMR
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="12 Gauge">
+                        12 Gauge
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value="20 Gauge">
+                        20 Gauge
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".223 Remington">
+                        .223 Remington
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".30-06 Springfield">
+                        .30-06 Springfield
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".44 Magnum">
+                        .44 Magnum
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".300 Win Mag">
+                        .300 Win Mag
+                    </label>
+                    <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".308 Winchester">
+                        .308 Winchester
+                    </label>
+                    <label class="filtro-label">
                         <input type="checkbox" class="filtro-calibre" value="5.56x45mm">
                         5.56x45mm
                     </label>
@@ -105,11 +174,11 @@
                 <div class="filtro-grupo">
                     <h4 class="filtro-titulo">Preço</h4>
                     <div class="filtro-range">
-                        <input type="range" id="filtroPrecoMin" class="filtro-preco-range" min="0" max="50000" value="0">
-                        <input type="range" id="filtroPrecoMax" class="filtro-preco-range" min="0" max="50000" value="50000">
+                        <input type="range" id="filtroPrecoMin" class="filtro-preco-range" min="0" max="100000" value="0">
+                        <input type="range" id="filtroPrecoMax" class="filtro-preco-range" min="0" max="100000" value="100000">
                         <div class="filtro-valor">
                             <span>R$ <span id="precoMinDisplay">0</span></span>
-                            <span>R$ <span id="precoMaxDisplay">50000</span></span>
+                            <span>R$ <span id="precoMaxDisplay">100000</span></span>
                         </div>
                     </div>
                 </div>
@@ -296,123 +365,145 @@
         }
 
         // APLICAR FILTROS
-        function aplicarFiltros() {
-            let filtrados = [...todosProdutos];
+function aplicarFiltros() {
+    let filtrados = [...todosProdutos];
 
-            // Filtro por nome/busca
-            const busca = (document.getElementById('buscaPrincipal').value + document.getElementById('filtroNome').value).toLowerCase();
-            if (busca) {
-                filtrados = filtrados.filter(p => 
-                    p.nome.toLowerCase().includes(busca) ||
-                    p.marca?.toLowerCase().includes(busca) ||
-                    p.calibre?.toLowerCase().includes(busca)
-                );
-            }
+    // Filtro por nome/busca
+    const busca = (document.getElementById('buscaPrincipal').value + document.getElementById('filtroNome').value).toLowerCase();
+    if (busca) {
+        filtrados = filtrados.filter(p => 
+            p.nome.toLowerCase().includes(busca) ||
+            p.marca?.toLowerCase().includes(busca) ||
+            p.calibre?.toLowerCase().includes(busca)
+        );
+    }
 
-            // Filtro por categoria
-            const categorias = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(c => c.value);
-            if (categorias.length > 0) {
-                filtrados = filtrados.filter(p => categorias.includes(p.categoria));
-            }
+    // Filtro por categoria
+    const categorias = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(c => c.value);
+    if (categorias.length > 0) {
+        filtrados = filtrados.filter(p => categorias.includes(p.categoria));
+    }
 
-            // Filtro por calibre
-            const calibres = Array.from(document.querySelectorAll('.filtro-calibre:checked')).map(c => c.value);
-            if (calibres.length > 0) {
-                filtrados = filtrados.filter(p => calibres.includes(p.calibre));
-            }
+    // Filtro por calibre
+    const calibres = Array.from(document.querySelectorAll('.filtro-calibre:checked')).map(c => c.value);
+    if (calibres.length > 0) {
+        filtrados = filtrados.filter(p => calibres.includes(p.calibre));
+    }
 
-            // Filtro por preço
-            const precoMin = parseInt(document.getElementById('filtroPrecoMin').value);
-            const precoMax = parseInt(document.getElementById('filtroPrecoMax').value);
-            filtrados = filtrados.filter(p => p.preco >= precoMin && p.preco <= precoMax);
+    // Filtro por preço
+    const precoMin = parseInt(document.getElementById('filtroPrecoMin').value);
+    const precoMax = parseInt(document.getElementById('filtroPrecoMax').value);
+    filtrados = filtrados.filter(p => p.preco >= precoMin && p.preco <= precoMax);
 
-            // Filtro por disponibilidade
-            if (document.getElementById('filtroDisponivel').checked) {
-                filtrados = filtrados.filter(p => p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true);
-            }
+    // ✅ ATUALIZADO: Se checkbox "Apenas disponíveis" estiver marcado, mostrar apenas disponíveis
+    // Se desmarcado, mostrar todos (incluindo indisponíveis)
+    if (document.getElementById('filtroDisponivel').checked) {
+        filtrados = filtrados.filter(p => p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true);
+    }
+    // Se não estiver marcado, não filtra nada - mostra tudo incluindo indisponíveis
 
-            // Ordenação
-            const ordem = document.getElementById('ordenacao').value;
-            switch(ordem) {
-                case 'precoAsc':
-                    filtrados.sort((a, b) => a.preco - b.preco);
-                    break;
-                case 'precoDesc':
-                    filtrados.sort((a, b) => b.preco - a.preco);
-                    break;
-                case 'nomeAsc':
-                    filtrados.sort((a, b) => a.nome.localeCompare(b.nome));
-                    break;
-                case 'nomeDesc':
-                    filtrados.sort((a, b) => b.nome.localeCompare(a.nome));
-                    break;
-            }
+    // Ordenação
+    const ordem = document.getElementById('ordenacao').value;
+    switch(ordem) {
+        case 'precoAsc':
+            filtrados.sort((a, b) => a.preco - b.preco);
+            break;
+        case 'precoDesc':
+            filtrados.sort((a, b) => b.preco - a.preco);
+            break;
+        case 'nomeAsc':
+            filtrados.sort((a, b) => a.nome.localeCompare(b.nome));
+            break;
+        case 'nomeDesc':
+            filtrados.sort((a, b) => b.nome.localeCompare(a.nome));
+            break;
+    }
 
-            // Mostrar resultados
-            exibirProdutos(filtrados);
+    // Mostrar resultados
+    exibirProdutos(filtrados);
+}
+
+// ✅ ATUALIZAR: função exibirProdutos() para mostrar produtos indisponíveis
+function exibirProdutos(produtos) {
+    const grid = document.getElementById('produtosGrid');
+    const info = document.getElementById('resultadosInfo');
+
+    info.textContent = `${produtos.length} produto(s) encontrado(s)`;
+
+    if (produtos.length === 0) {
+        grid.innerHTML = `
+            <div class="vazio">
+                <i class="fas fa-inbox"></i>
+                <h3>Nenhum produto encontrado</h3>
+                <p>Tente ajustar seus filtros</p>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = produtos.map(p => {
+        // ✅ CORRIGIR CAMINHO DA IMAGEM
+        let imagemURL = p.imagem || 'https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Sem+Imagem';
+        
+        if (p.imagem && !p.imagem.startsWith('http') && !p.imagem.startsWith('Imagens')) {
+            imagemURL = p.imagem;
         }
-
-        // EXIBIR PRODUTOS - ✅ CORRIGIDO
-        function exibirProdutos(produtos) {
-            const grid = document.getElementById('produtosGrid');
-            const info = document.getElementById('resultadosInfo');
-
-            info.textContent = `${produtos.length} produto(s) encontrado(s)`;
-
-            if (produtos.length === 0) {
-                grid.innerHTML = `
-                    <div class="vazio">
-                        <i class="fas fa-inbox"></i>
-                        <h3>Nenhum produto encontrado</h3>
-                        <p>Tente ajustar seus filtros</p>
+        
+        // ✅ VERIFICAR DISPONIBILIDADE
+        const estaDisponivel = p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true;
+        const temEstoque = p.estoque > 0;
+        
+        return `
+            <div class="produto-card" onclick="verProduto(${p.id})" ${!estaDisponivel ? 'style="opacity: 0.7;"' : ''}>
+                <div class="produto-imagem">
+                    <img src="${imagemURL}" 
+                         alt="${p.nome}"
+                         onerror="this.src='https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Erro'">
+                    ${p.badge ? `<span class="produto-badge">${p.badge}</span>` : ''}
+                    ${!temEstoque ? '<span class="produto-badge" style="background-color: #EF4444;">Indisponível</span>' : ''}
+                </div>
+                <div class="produto-info">
+                    <h3 class="produto-nome">${p.nome}</h3>
+                    <div class="produto-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.8</span>
                     </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = produtos.map(p => {
-                // ✅ CORRIGIR CAMINHO DA IMAGEM
-                let imagemURL = p.imagem || 'https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Sem+Imagem';
-                
-                // Se a imagem vier do banco (uploads/)
-                if (p.imagem && !p.imagem.startsWith('http') && !p.imagem.startsWith('Imagens')) {
-                    imagemURL = p.imagem;
-                }
-                
-                return `
-                    <div class="produto-card" onclick="verProduto(${p.id})">
-                        <div class="produto-imagem">
-                            <img src="${imagemURL}" 
-                                 alt="${p.nome}"
-                                 onerror="this.src='https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Erro'">
-                            ${p.badge ? `<span class="produto-badge">${p.badge}</span>` : ''}
-                        </div>
-                        <div class="produto-info">
-                            <h3 class="produto-nome">${p.nome}</h3>
-                            <div class="produto-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>4.8</span>
-                            </div>
-                            <div class="produto-detalhes">
-                                ${p.calibre ? `<span class="detalhe-item"><i class="fas fa-bullseye"></i> ${p.calibre}</span>` : ''}
-                                ${p.capacidade ? `<span class="detalhe-item"><i class="fas fa-layer-group"></i> ${p.capacidade}</span>` : ''}
-                            </div>
-                            <div class="produto-preco">R$ ${parseFloat(p.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
-                            <div class="produto-estoque ${p.estoque < 5 ? 'baixo' : ''} ${!p.disponivel ? 'indisponivel' : ''}">
-                                ${!p.disponivel ? 'Indisponível' : p.estoque < 5 ? `⚠️ Apenas ${p.estoque} em estoque` : `Estoque: ${p.estoque}`}
-                            </div>
-                            <button class="btn-produto" ${!p.disponivel ? 'disabled' : ''} onclick="event.stopPropagation(); verProduto(${p.id})">
-                                ${!p.disponivel ? 'Indisponível' : 'Ver Detalhes'}
-                            </button>
-                        </div>
+                    <div class="produto-detalhes">
+                        ${p.calibre ? `<span class="detalhe-item"><i class="fas fa-bullseye"></i> ${p.calibre}</span>` : ''}
+                        ${p.capacidade ? `<span class="detalhe-item"><i class="fas fa-layer-group"></i> ${p.capacidade}</span>` : ''}
                     </div>
-                `;
-            }).join('');
-        }
+                    <div class="produto-preco">R$ ${parseFloat(p.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                    <div class="produto-estoque ${p.estoque < 5 ? 'baixo' : ''} ${!temEstoque ? 'indisponivel' : ''}">
+                        ${!temEstoque ? 'Fora de estoque' : p.estoque < 5 ? `⚠️ Apenas ${p.estoque} em estoque` : `Estoque: ${p.estoque}`}
+                    </div>
+                    <button class="btn-produto" ${!temEstoque ? 'disabled' : ''} onclick="event.stopPropagation(); verProduto(${p.id})">
+                        ${!temEstoque ? 'Indisponível' : 'Ver Detalhes'}
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ✅ ATUALIZAR: checkbox padrão para mostrar todos (incluso indisponíveis)
+function limparFiltros() {
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => {
+        // Deixar desmarcado para mostrar todos, inclusive indisponíveis
+        c.checked = false;
+    });
+    document.getElementById('filtroNome').value = '';
+    document.getElementById('buscaPrincipal').value = '';
+    document.getElementById('filtroPrecoMin').value = '0';
+    document.getElementById('filtroPrecoMax').value = '100000';
+    document.getElementById('precoMinDisplay').textContent = '0';
+    document.getElementById('precoMaxDisplay').textContent = '100000';
+    document.getElementById('ordenacao').value = 'relevancia';
+    aplicarFiltros();
+}
 
         // VER PRODUTO - ✅ CORRIGIDO
         function verProduto(id) {
@@ -428,9 +519,9 @@
             document.getElementById('filtroNome').value = '';
             document.getElementById('buscaPrincipal').value = '';
             document.getElementById('filtroPrecoMin').value = '0';
-            document.getElementById('filtroPrecoMax').value = '50000';
+            document.getElementById('filtroPrecoMax').value = '100000';
             document.getElementById('precoMinDisplay').textContent = '0';
-            document.getElementById('precoMaxDisplay').textContent = '50000';
+            document.getElementById('precoMaxDisplay').textContent = '100000';
             document.getElementById('ordenacao').value = 'relevancia';
             aplicarFiltros();
         }
@@ -466,6 +557,395 @@
                 });
             }
         }
+        // ==================== INTEGRAÇÃO CATÁLOGO COM CARRINHO ====================
+// Adicione este script em catalogo.html ANTES do fechamento </body>
+
+// Função para adicionar produto ao carrinho
+function adicionarAoCarrinho(produtoId) {
+    // Encontrar o produto na lista
+    const produto = todosProdutos.find(p => p.id == produtoId);
+    
+    if (!produto) {
+        console.error('Produto não encontrado:', produtoId);
+        alert('Produto não encontrado!');
+        return;
+    }
+
+    // Verificar estoque
+    if (produto.estoque <= 0) {
+        alert('Produto fora de estoque!');
+        return;
+    }
+
+    // Obter carrinho do localStorage
+    let carrinho = JSON.parse(localStorage.getItem('carrinho_items') || '[]');
+    
+    // Verificar se produto já existe
+    const existente = carrinho.find(p => p.id == produto.id);
+    
+    if (existente) {
+        existente.quantidade = (existente.quantidade || 1) + 1;
+        console.log(`✅ Quantidade aumentada: ${produto.nome}`);
+    } else {
+        // Adicionar novo item
+        const itemCarrinho = {
+            id: produto.id,
+            nome: produto.nome,
+            preco: produto.preco,
+            imagem: produto.imagem,
+            descricao: `${produto.marca} - ${produto.calibre}`,
+            quantidade: 1
+        };
+        carrinho.push(itemCarrinho);
+        console.log(`✅ Produto adicionado: ${produto.nome}`);
+    }
+    
+    // Salvar no localStorage
+    localStorage.setItem('carrinho_items', JSON.stringify(carrinho));
+    
+    // Atualizar contador no header
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        cartCount.textContent = carrinho.length;
+    }
+    
+    // Mostrar notificação
+    mostrarNotificacaoCarrinho(produto.nome);
+    
+    // Atualizar HeaderGlobal (se disponível)
+    if (typeof HeaderGlobal !== 'undefined') {
+        const hg = new HeaderGlobal();
+        hg.atualizarCarrinhoCount();
+    }
+}
+
+// Função para mostrar notificação de produto adicionado
+function mostrarNotificacaoCarrinho(nomeProduto) {
+    // Remover notificação anterior se existir
+    const notifAnterior = document.querySelector('.notificacao-carrinho');
+    if (notifAnterior) notifAnterior.remove();
+    
+    // Criar elemento de notificação
+    const notif = document.createElement('div');
+    notif.className = 'notificacao-carrinho';
+    notif.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #10B981;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        z-index: 10001;
+        animation: slideIn 0.3s ease;
+        font-weight: 600;
+    `;
+    notif.innerHTML = `
+        <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+        ${nomeProduto} adicionado ao carrinho!
+    `;
+    
+    document.body.appendChild(notif);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notif.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
+}
+
+// Adicionar estilos de animação
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// ==================== ATUALIZAR GRID DE PRODUTOS ====================
+// Modificar a função exibirProdutos para incluir botão de adicionar ao carrinho
+
+function exibirProdutosComCarrinho(produtos) {
+    const grid = document.getElementById('produtosGrid');
+    const info = document.getElementById('resultadosInfo');
+
+    info.textContent = `${produtos.length} produto(s) encontrado(s)`;
+
+    if (produtos.length === 0) {
+        grid.innerHTML = `
+            <div class="vazio">
+                <i class="fas fa-inbox"></i>
+                <h3>Nenhum produto encontrado</h3>
+                <p>Tente ajustar seus filtros</p>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = produtos.map(p => {
+        const imagemURL = p.imagem || 'https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Sem+Imagem';
+        const estaDisponivel = p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true;
+        const temEstoque = p.estoque > 0;
+        
+        return `
+            <div class="produto-card" ${!estaDisponivel ? 'style="opacity: 0.7;"' : ''}>
+                <div class="produto-imagem">
+                    <img src="${imagemURL}" 
+                         alt="${p.nome}"
+                         onerror="this.src='https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Erro'">
+                    ${p.badge ? `<span class="produto-badge">${p.badge}</span>` : ''}
+                    ${!temEstoque ? '<span class="produto-badge" style="background-color: #EF4444;">Indisponível</span>' : ''}
+                </div>
+                <div class="produto-info">
+                    <h3 class="produto-nome">${p.nome}</h3>
+                    <div class="produto-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.8</span>
+                    </div>
+                    <div class="produto-detalhes">
+                        ${p.calibre ? `<span class="detalhe-item"><i class="fas fa-bullseye"></i> ${p.calibre}</span>` : ''}
+                        ${p.capacidade ? `<span class="detalhe-item"><i class="fas fa-layer-group"></i> ${p.capacidade}</span>` : ''}
+                    </div>
+                    <div class="produto-preco">R$ ${parseFloat(p.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                    <div class="produto-estoque ${p.estoque < 5 ? 'baixo' : ''} ${!temEstoque ? 'indisponivel' : ''}">
+                        ${!temEstoque ? 'Fora de estoque' : p.estoque < 5 ? `⚠️ Apenas ${p.estoque} em estoque` : `Estoque: ${p.estoque}`}
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button class="btn-produto" ${!temEstoque ? 'disabled' : ''} 
+                                onclick="adicionarAoCarrinho(${p.id})">
+                            <i class="fas fa-shopping-cart"></i> ${!temEstoque ? 'Indisponível' : 'Adicionar'}
+                        </button>
+                        <button class="btn-produto" onclick="verProduto(${p.id})" style="background: transparent; border: 1px solid #DC2626; color: #DC2626;">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ==================== SUBSTITUIR A CHAMADA ORIGINAL ====================
+// Modificar aplicarFiltros para usar a nova função
+
+const aplicarFiltrosOriginal = aplicarFiltros;
+
+function aplicarFiltrosModificado() {
+    // Executar filtros originais
+    let filtrados = [...todosProdutos];
+
+    const busca = (document.getElementById('buscaPrincipal').value + document.getElementById('filtroNome').value).toLowerCase();
+    if (busca) {
+        filtrados = filtrados.filter(p => 
+            p.nome.toLowerCase().includes(busca) ||
+            p.marca?.toLowerCase().includes(busca) ||
+            p.calibre?.toLowerCase().includes(busca)
+        );
+    }
+
+    const categorias = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(c => c.value);
+    if (categorias.length > 0) {
+        filtrados = filtrados.filter(p => categorias.includes(p.categoria));
+    }
+
+    const calibres = Array.from(document.querySelectorAll('.filtro-calibre:checked')).map(c => c.value);
+    if (calibres.length > 0) {
+        filtrados = filtrados.filter(p => calibres.includes(p.calibre));
+    }
+
+    const precoMin = parseInt(document.getElementById('filtroPrecoMin').value);
+    const precoMax = parseInt(document.getElementById('filtroPrecoMax').value);
+    filtrados = filtrados.filter(p => p.preco >= precoMin && p.preco <= precoMax);
+
+    if (document.getElementById('filtroDisponivel').checked) {
+        filtrados = filtrados.filter(p => p.disponivel === 1 || p.disponivel === '1' || p.disponivel === true);
+    }
+
+    const ordem = document.getElementById('ordenacao').value;
+    switch(ordem) {
+        case 'precoAsc':
+            filtrados.sort((a, b) => a.preco - b.preco);
+            break;
+        case 'precoDesc':
+            filtrados.sort((a, b) => b.preco - a.preco);
+            break;
+        case 'nomeAsc':
+            filtrados.sort((a, b) => a.nome.localeCompare(b.nome));
+            break;
+        case 'nomeDesc':
+            filtrados.sort((a, b) => b.nome.localeCompare(a.nome));
+            break;
+    }
+
+    // Usar a nova função de exibição
+    exibirProdutosComCarrinho(filtrados);
+}
+
+// Sobrescrever a função original
+window.aplicarFiltros = aplicarFiltrosModificado;
+window.exibirProdutos = exibirProdutosComCarrinho;
     </script>
+    // ==================== ADICIONE ISTO AO FINAL DO catalogo.html ====================
+// Coloque antes de </body>
+
+<script>
+// ==================== FUNÇÃO ADICIONAR AO CARRINHO ====================
+function adicionarAoCarrinho(produtoId) {
+    // Encontrar o produto na lista
+    const produto = todosProdutos.find(p => p.id == produtoId);
+    
+    if (!produto) {
+        console.error('Produto não encontrado:', produtoId);
+        alert('Produto não encontrado!');
+        return;
+    }
+
+    // Verificar estoque
+    if (produto.estoque <= 0) {
+        alert('Produto fora de estoque!');
+        return;
+    }
+
+    // Obter carrinho do localStorage
+    let carrinho = JSON.parse(localStorage.getItem('carrinho_items') || '[]');
+    
+    // Verificar se produto já existe
+    const existente = carrinho.find(p => p.id == produto.id);
+    
+    if (existente) {
+        existente.quantidade = (existente.quantidade || 1) + 1;
+        console.log(`✅ Quantidade aumentada: ${produto.nome}`);
+    } else {
+        // Adicionar novo item
+        const itemCarrinho = {
+            id: produto.id,
+            nome: produto.nome,
+            preco: produto.preco,
+            imagem: produto.imagem,
+            descricao: `${produto.marca} - ${produto.calibre}`,
+            quantidade: 1
+        };
+        carrinho.push(itemCarrinho);
+        console.log(`✅ Produto adicionado: ${produto.nome}`);
+    }
+    
+    // Salvar no localStorage
+    localStorage.setItem('carrinho_items', JSON.stringify(carrinho));
+    
+    // Atualizar contador no header
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        cartCount.textContent = carrinho.length;
+    }
+    
+    // Mostrar notificação
+    mostrarNotificacaoCarrinho(produto.nome);
+}
+
+// ==================== FUNÇÃO NOTIFICAÇÃO ====================
+function mostrarNotificacaoCarrinho(nomeProduto) {
+    // Remover notificação anterior
+    const notifAnterior = document.querySelector('.notificacao-carrinho');
+    if (notifAnterior) notifAnterior.remove();
+    
+    // Criar elemento
+    const notif = document.createElement('div');
+    notif.className = 'notificacao-carrinho';
+    notif.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #10B981;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        z-index: 10001;
+        animation: slideIn 0.3s ease;
+        font-weight: 600;
+        font-size: 0.95rem;
+    `;
+    notif.innerHTML = `
+        <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+        ${nomeProduto} adicionado ao carrinho!
+    `;
+    
+    document.body.appendChild(notif);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notif.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
+}
+
+// ==================== ADICIONAR ESTILOS ====================
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// ==================== MODIFICAR exibirProdutos ORIGINAL ====================
+// Encontre a função exibirProdutos() e substitua o retorno do button por:
+
+// ANTES (remova isso):
+// <button class="btn-produto" ${!temEstoque ? 'disabled' : ''} onclick="verProduto(${p.id})">
+//     ${!temEstoque ? 'IndisponÃ­vel' : 'Ver Detalhes'}
+// </button>
+
+// DEPOIS (adicione isso):
+<div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+    <button class="btn-produto" onclick="verProduto(${p.id})" 
+            style="flex: 1; background: transparent; border: 1px solid #DC2626; color: #DC2626;">
+        <i class="fas fa-eye"></i> Ver
+    </button>
+</div>
+
+</script>
 </body>
 </html>

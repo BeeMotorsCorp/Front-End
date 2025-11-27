@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/header-global.css">
+    <title>Políticas e Privacidade - Sport Gun Imports</title>
+    <style>
+        /* Importando variáveis CSS */
+        :root {
+            --primary-color: #DC2626;
+            --primary-dark: #B91C1C;
+            --primary-light: #EF4444;
+            --secondary-color: #000000;
+            --accent-color: #1E40AF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A3A3A3;
+            --text-light: #737373;
+            --background: #0A0A0A;
+            --background-light: #171717;
+            --background-card: #1F1F1F;
+            --border-color: #404040;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            --font-size-4xl: 3rem;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav__logo h2 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+        }
+
+        .nav__menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-xl);
+        }
+
+        .nav__menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav__menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav__menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav__menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: var(--font-size-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn--primary {
+            background: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn--primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Main Content */
+        .politicas-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        .politicas-hero {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .politicas-hero h1 {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .politicas-hero p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Políticas Content */
+        .politicas-content {
+            background: var(--background-card);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .politica-section {
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .politica-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .politica-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .politica-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .politica-title {
+            font-size: var(--font-size-2xl);
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .politica-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .politica-list {
+            list-style: none;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .politica-list li {
+            padding: var(--spacing-sm) 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: var(--spacing-lg);
+            line-height: 1.6;
+        }
+
+        .politica-list li::before {
+            content: '▸';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .politica-subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--text-primary);
+            margin: var(--spacing-lg) 0 var(--spacing-md);
+            text-transform: uppercase;
+        }
+
+        .politica-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            background: var(--background);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .politica-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .politica-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .politica-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .politica-table tr:hover {
+            background: var(--background-light);
+        }
+
+        .politica-note {
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--radius-sm);
+        }
+
+        .politica-note p {
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Contact Section */
+        .politicas-contact {
+            background: var(--background-card);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .politicas-contact h2 {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .politicas-contact p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-xl);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: var(--spacing-2xl) 0 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-2xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        .footer__section h2 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section h3 {
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer__section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section ul {
+            list-style: none;
+        }
+
+        .footer__section ul li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer__section a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer__section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer__bottom {
+            border-top: 1px solid var(--border-color);
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav__menu {
+                display: none;
+            }
+
+            .politicas-container {
+                padding: 100px var(--spacing-md) var(--spacing-xl);
+            }
+
+            .politicas-hero h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .politicas-content {
+                padding: var(--spacing-lg);
+            }
+
+            .politica-header {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-sm);
+            }
+
+            .politica-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <h2>SPORT GUN IMPORTS</h2>
+            </div>
+            <ul class="nav__menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="politicas.html" style="color: var(--primary-color);">Políticas</a></li>
+            </ul>
+            <div class="nav__actions">
+                <a href="login.html" class="btn btn--primary">Área do Cliente</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="politicas-container">
+        <section class="politicas-hero">
+            <h1>Políticas e Privacidade</h1>
+            <p>Comprometidos com a transparência e segurança no tratamento de seus dados</p>
+        </section>
+
+        <div class="politicas-content">
+            <!-- Política de Privacidade -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">🔒</div>
+                    <h2 class="politica-title">Política de Privacidade</h2>
+                </div>
+                
+                <p class="politica-text">A Sport Gun Imports valoriza a privacidade e segurança dos dados de seus clientes e visitantes. Esta política descreve como coletamos, usamos e protegemos suas informações.</p>
+                
+                <h3 class="politica-subtitle">Informações Coletadas</h3>
+                <ul class="politica-list">
+                    <li>Dados pessoais fornecidos voluntariamente (nome, CPF, endereço, telefone, e-mail)</li>
+                    <li>Informações de documentos necessários para processos legais (CR, comprovantes)</li>
+                    <li>Dados de navegação e interação com nosso site</li>
+                    <li>Informações de transações e histórico de compras</li>
+                </ul>
+
+                <h3 class="politica-subtitle">Uso das Informações</h3>
+                <ul class="politica-list">
+                    <li>Processamento de pedidos e emissão de documentos legais</li>
+                    <li>Comunicação sobre status de processos e serviços</li>
+                    <li>Melhoria da experiência do usuário em nosso site</li>
+                    <li>Cumprimento de obrigações legais e regulatórias</li>
+                </ul>
+
+                <div class="politica-note">
+                    <p><strong>Observação:</strong> Todas as informações são tratadas com absoluta confidencialidade e segurança, seguindo as normas da LGPD (Lei Geral de Proteção de Dados).</p>
+                </div>
+            </section>
+
+            <!-- Termos de Uso -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">📋</div>
+                    <h2 class="politica-title">Termos de Uso</h2>
+                </div>
+                
+                <p class="politica-text">Ao utilizar nossos serviços e site, você concorda com os seguintes termos e condições:</p>
+                
+                <h3 class="politica-subtitle">Condições de Uso</h3>
+                <ul class="politica-list">
+                    <li>É necessário ter mais de 18 anos para utilizar nossos serviços</li>
+                    <li>Todas as informações fornecidas devem ser verdadeiras e precisas</li>
+                    <li>O uso do site para atividades ilegais é estritamente proibido</li>
+                    <li>Reservamo-nos o direito de recusar serviço a qualquer momento</li>
+                </ul>
+
+                <h3 class="politica-subtitle">Propriedade Intelectual</h3>
+                <p class="politica-text">Todo o conteúdo do site, incluindo textos, imagens, logotipos e design, é propriedade da Sport Gun Imports e protegido por leis de direitos autorais.</p>
+            </section>
+
+            <!-- Política de Compras -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">🛒</div>
+                    <h2 class="politica-title">Política de Compras e Vendas</h2>
+                </div>
+                
+                <p class="politica-text">Nossas transações seguem rigorosamente a legislação brasileira sobre comércio de armas e munições.</p>
+                
+                <h3 class="politica-subtitle">Requisitos para Compra</h3>
+                <table class="politica-table">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Finalidade</th>
+                            <th>Obrigatoriedade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CR (Certificado de Registro)</td>
+                            <td>Comprovar registro legal da arma</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Documento de Identidade</td>
+                            <td>Identificação do comprador</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>CPF</td>
+                            <td>Cadastro fiscal</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Comprovante de Residência</td>
+                            <td>Verificação de endereço</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="politica-subtitle">Processo de Venda</h3>
+                <ul class="politica-list">
+                    <li>Análise documental completa</li>
+                    <li>Verificação de antecedentes criminais</li>
+                    <li>Registro no sistema do Exército Brasileiro</li>
+                    <li>Emissão de nota fiscal e documentação</li>
+                </ul>
+            </section>
+
+            <!-- Política de Segurança -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">🛡️</div>
+                    <h2 class="politica-title">Política de Segurança</h2>
+                </div>
+                
+                <p class="politica-text">Implementamos medidas rigorosas para proteger suas informações e garantir a segurança de nossas operações.</p>
+                
+                <h3 class="politica-subtitle">Medidas de Segurança</h3>
+                <ul class="politica-list">
+                    <li>Criptografia de dados em trânsito e em repouso</li>
+                    <li>Armazenamento seguro em servidores protegidos</li>
+                    <li>Acesso restrito a informações sensíveis</li>
+                    <li>Auditoria regular de sistemas e processos</li>
+                </ul>
+
+                <h3 class="politica-subtitle">Segurança Física</h3>
+                <ul class="politica-list">
+                    <li>Instalações monitoradas 24 horas</li>
+                    <li>Sistemas de alarme e controle de acesso</li>
+                    <li>Armazenamento em cofres certificados</li>
+                    <li>Protocolos de emergência estabelecidos</li>
+                </ul>
+            </section>
+
+            <!-- Direitos do Cliente -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">⚖️</div>
+                    <h2 class="politica-title">Direitos do Cliente</h2>
+                </div>
+                
+                <p class="politica-text">De acordo com a LGPD, você tem direito a:</p>
+                
+                <ul class="politica-list">
+                    <li>Confirmar a existência de tratamento de dados</li>
+                    <li>Acessar seus dados pessoais</li>
+                    <li>Corrigir dados incompletos, inexatos ou desatualizados</li>
+                    <li>Solicitar a eliminação de dados tratados com consentimento</li>
+                    <li>Revogar o consentimento a qualquer momento</li>
+                </ul>
+
+                <div class="politica-note">
+                    <p><strong>Importante:</strong> Para exercer seus direitos, entre em contato conosco através dos canais oficiais.</p>
+                </div>
+            </section>
+
+            <!-- Atualizações da Política -->
+            <section class="politica-section">
+                <div class="politica-header">
+                    <div class="politica-icon">🔄</div>
+                    <h2 class="politica-title">Atualizações da Política</h2>
+                </div>
+                
+                <p class="politica-text">Esta política pode ser atualizada periodicamente para refletir mudanças em nossas práticas ou requisitos legais. Notificaremos os usuários sobre alterações significativas.</p>
+                
+                <p class="politica-text"><strong>Última atualização:</strong> 15 de Novembro de 2023</p>
+            </section>
+        </div>
+
+        <section class="politicas-contact">
+            <h2>Dúvidas sobre Nossas Políticas?</h2>
+            <p>Entre em contato com nossa equipe de proteção de dados para esclarecer qualquer questão sobre privacidade e tratamento de informações.</p>
+            <a href="contato.html" class="btn btn--primary">Fale Conosco</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>SPORT GUN IMPORTS</h2>
+                <p>Sua parceira especializada em todo o ciclo da posse de arma legal, trabalhando dentro das mais rígidas normas do Estatuto do Desarmamento.</p>
+            </div>
+            <div class="footer__section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="politicas.html">Políticas e Privacidade</a></li>
+                </ul>
+            </div>
+            <div class="footer__section">
+                <h3>Contato</h3>
+                <ul>
+                    <li>Email: contato@sportgunimports.com.br</li>
+                    <li>Telefone: (11) 99999-9999</li>
+                    <li>Endereço: Rua Exemplo, 123 - São Paulo, SP</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; 2023 Sport Gun Imports. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

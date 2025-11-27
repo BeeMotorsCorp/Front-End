@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/header-global.css">
+    <title>Serviços - Sport Gun Imports</title>
+    <style>
+        /* Importando variáveis CSS */
+        :root {
+            --primary-color: #DC2626;
+            --primary-dark: #B91C1C;
+            --primary-light: #EF4444;
+            --secondary-color: #000000;
+            --accent-color: #1E40AF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A3A3A3;
+            --text-light: #737373;
+            --background: #0A0A0A;
+            --background-light: #171717;
+            --background-card: #1F1F1F;
+            --border-color: #404040;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            --font-size-4xl: 3rem;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav__logo h2 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+        }
+
+        .nav__menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-xl);
+        }
+
+        .nav__menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav__menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav__menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav__menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: var(--font-size-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn--primary {
+            background: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn--primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Main Content */
+        .servicos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        .servicos-hero {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .servicos-hero h1 {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .servicos-hero p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .servicos-intro {
+            background: var(--background-card);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-2xl);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .servicos-intro p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* Serviços Sections */
+        .servico-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .servico-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .servico-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .servico-title {
+            font-size: var(--font-size-2xl);
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .servico-description {
+            background: var(--background-card);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .servico-description p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .servico-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .servico-item {
+            background: var(--background-card);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .servico-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .servico-item h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            text-transform: uppercase;
+        }
+
+        .servico-item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .servicos-cta {
+            background: var(--background-card);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .servicos-cta h2 {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .servicos-cta p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-xl);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: var(--spacing-2xl) 0 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-2xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        .footer__section h2 {
+            color: var(--primary-color);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section h3 {
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer__section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer__section ul {
+            list-style: none;
+        }
+
+        .footer__section ul li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer__section a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer__section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer__bottom {
+            border-top: 1px solid var(--border-color);
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav__menu {
+                display: none;
+            }
+
+            .servicos-container {
+                padding: 100px var(--spacing-md) var(--spacing-xl);
+            }
+
+            .servicos-hero h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .servico-header {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-sm);
+            }
+
+            .servico-items {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <h2>SPORT GUN IMPORTS</h2>
+            </div>
+            <ul class="nav__menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="servicos.html" style="color: var(--primary-color);">Serviços</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+            <div class="nav__actions">
+                <a href="login.html" class="btn btn--primary">Área do Cliente</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="servicos-container">
+        <section class="servicos-hero">
+            <h1>Serviços - Sport Gun Imports</h1>
+            <p>Na Sport Gun Imports, possuir uma arma com total legalidade e segurança é um processo que nós facilitamos para você.</p>
+        </section>
+
+        <section class="servicos-intro">
+            <p>Somos mais do que uma loja; somos seu parceiro especializado em todo o ciclo da posse de arma legal, trabalhando dentro das mais rígidas normas do Estatuto do Desarmamento e sob a fiscalização do Exército Brasileiro.</p>
+        </section>
+
+        <!-- Consultoria e Assessoria Legal Completa -->
+        <section class="servico-section">
+            <div class="servico-header">
+                <div class="servico-icon"></div>
+                <h2 class="servico-title">Consultoria e Assessoria Legal Completa</h2>
+            </div>
+            <div class="servico-items">
+                <div class="servico-item">
+                    <h4>Emissão do CR (Certificado de Registro)</h4>
+                    <p>Realizamos todo o processo de obtenção e renovação do seu CR junto aos órgãos competentes. Nossa equipe especializada cuida da assessoria documental, preenchimento de formulários no SIGMA e orientação até a aprovação final.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Assessoria para Posse Legal</h4>
+                    <p>Guiamos você passo a passo, desde os requisitos legais até a documentação necessária para se tornar um proprietário legalizado.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Venda de Armas e Munições Autorizadas</h4>
+                    <p>Comercializamos exclusivamente produtos homologados e legalizados, para clientes que estejam em processo de regularização ou com CR válido.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Transferência e Regularização</h4>
+                    <p>Realizamos todo o procedimento de transferência de propriedade da arma, garantindo que a compra seja registrada corretamente perante a lei.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Atendimento a Segmentos Específicos</h4>
+                    <p>Soluções dedicadas para Atiradores Esportivos (CACs), Colecionadores e Empresas de Segurança Privada.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Serviços Técnicos Especializados -->
+        <section class="servico-section">
+            <div class="servico-header">
+                <div class="servico-icon"></div>
+                <h2 class="servico-title">Serviços Técnicos Especializados</h2>
+            </div>
+            <div class="servico-items">
+                <div class="servico-item">
+                    <h4>Venda e Instalação de Acessórios</h4>
+                    <p>Comercializamos uma gama de acessórios permitidos por lei, como miras ópticas, coldres, equipamentos de limpeza e coifas para estandes de tiro.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Consultoria em Equipamentos de Segurança</h4>
+                    <p>Auxiliamos na escolha de cofres e armários forte homologados, essenciais para o armazenamento seguro que a legislação exige.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Serviços de Custódia e Segurança -->
+        <section class="servico-section">
+            <div class="servico-header">
+                <div class="servico-icon"></div>
+                <h2 class="servico-title">Serviços de Custódia e Segurança</h2>
+            </div>
+            <div class="servico-items">
+                <div class="servico-item">
+                    <h4>Custódia e Guarda de Armas</h4>
+                    <p>Oferecemos o serviço de armazenamento seguro em nossos cofres, uma solução ideal para viagens ou situações que exigem guarda temporária.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educação e Treinamento -->
+        <section class="servico-section">
+            <div class="servico-header">
+                <div class="servico-icon"></div>
+                <h2 class="servico-title">Educação e Treinamento</h2>
+            </div>
+            <div class="servico-items">
+                <div class="servico-item">
+                    <h4>Parceria com Clubes de Tiro</h4>
+                    <p>Temos parcerias com os melhores clubes de tiro da região, onde você pode praticar o tiro esportivo e realizar os testes de capacidade técnica necessários para o CR.</p>
+                </div>
+                <div class="servico-item">
+                    <h4>Orientação em Segurança e Legislação</h4>
+                    <p>Fornecemos orientações sobre manejo seguro, transporte, armazenamento de armas e as obrigações legais do proprietário.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="servicos-cta">
+            <h2>Pronto para Regularizar sua Situação?</h2>
+            <p>Entre em contato conosco e descubra como podemos ajudá-lo a ter sua arma de forma 100% legal e segura. Nossa equipe especializada está pronta para oferecer a melhor assessoria.</p>
+            <a href="contato.html" class="btn btn--primary">Entre em Contato</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>SPORT GUN IMPORTS</h2>
+                <p>Sua parceira especializada em todo o ciclo da posse de arma legal, trabalhando dentro das mais rígidas normas do Estatuto do Desarmamento.</p>
+            </div>
+            <div class="footer__section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer__section">
+                <h3>Contato</h3>
+                <ul>
+                    <li>Email: contato@sportgunimports.com.br</li>
+                    <li>Telefone: (11) 99999-9999</li>
+                    <li>Endereço: R. 1, 222 - Chácaras Alto da Glória, Goiânia - GO, 74815-610</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; 2023 Sport Gun Imports. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

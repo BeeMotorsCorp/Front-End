@@ -31,6 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// ✅ DETECÇÃO DE MÉTODO PUT VIA _method
+$method = $_SERVER['REQUEST_METHOD'];
+if ($method === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
+    $method = 'PUT';
+    logDebug("Método PUT detectado via _method");
+}
+
 // ===== ALGORITMO QUICK SORT EM PHP =====
 function quickSort($array, $campo, $ordem = 'asc') {
     if (count($array) <= 1) {
@@ -89,8 +96,6 @@ try {
     $conn->set_charset("utf8mb4");
     logDebug("Conectado ao banco com sucesso");
     
-    $method = $_SERVER['REQUEST_METHOD'];
-    
     // ===== GET - LISTAR PRODUTOS COM ORDENAÇÃO =====
     if ($method === 'GET') {
         logDebug("GET REQUEST - Listando produtos");
@@ -141,10 +146,10 @@ try {
         $marca = isset($_POST['marca']) ? trim($_POST['marca']) : '';
         $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
         $badge = isset($_POST['badge']) ? trim($_POST['badge']) : '';
-        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] === 'true') ? 1 : 0;
+        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0; // ✅ Comparar com '1'
         $imagem = '';
         
-        logDebug("Dados recebidos: Nome=$nome, Preco=$preco, Estoque=$estoque");
+        logDebug("Dados recebidos: Nome=$nome, Preco=$preco, Estoque=$estoque, Disponivel=$disponivel");
         
         // Validação
         if (empty($nome)) {
@@ -233,26 +238,24 @@ try {
     else if ($method === 'PUT') {
         logDebug("PUT REQUEST - Editando produto");
         
-        parse_str(file_get_contents("php://input"), $put_vars);
-        $id = isset($put_vars['id']) ? intval($put_vars['id']) : null;
+        $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
+        $descricao = isset($_POST['descricao']) ? trim($_POST['descricao']) : '';
+        $preco = isset($_POST['preco']) ? floatval($_POST['preco']) : 0;
+        $estoque = isset($_POST['estoque']) ? intval($_POST['estoque']) : 0;
+        $calibre = isset($_POST['calibre']) ? trim($_POST['calibre']) : '';
+        $capacidade = isset($_POST['capacidade']) ? trim($_POST['capacidade']) : '';
+        $peso = isset($_POST['peso']) ? trim($_POST['peso']) : '';
+        $marca = isset($_POST['marca']) ? trim($_POST['marca']) : '';
+        $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
+        $badge = isset($_POST['badge']) ? trim($_POST['badge']) : '';
+        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0; // ✅ Comparar com '1'
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
         
         if (!$id) {
             throw new Exception("ID não fornecido");
         }
         
-        $nome = isset($put_vars['nome']) ? trim($put_vars['nome']) : '';
-        $descricao = isset($put_vars['descricao']) ? trim($put_vars['descricao']) : '';
-        $preco = isset($put_vars['preco']) ? floatval($put_vars['preco']) : 0;
-        $estoque = isset($put_vars['estoque']) ? intval($put_vars['estoque']) : 0;
-        $calibre = isset($put_vars['calibre']) ? trim($put_vars['calibre']) : '';
-        $capacidade = isset($put_vars['capacidade']) ? trim($put_vars['capacidade']) : '';
-        $peso = isset($put_vars['peso']) ? trim($put_vars['peso']) : '';
-        $marca = isset($put_vars['marca']) ? trim($put_vars['marca']) : '';
-        $categoria = isset($put_vars['categoria']) ? trim($put_vars['categoria']) : '';
-        $badge = isset($put_vars['badge']) ? trim($put_vars['badge']) : '';
-        $disponivel = (isset($put_vars['disponivel']) && $put_vars['disponivel'] === 'true') ? 1 : 0;
-        
-        logDebug("Atualizando produto ID: $id");
+        logDebug("Atualizando produto ID: $id - Disponível: $disponivel");
         
         $stmt = $conn->prepare(
             "UPDATE produtos SET nome=?, descricao=?, preco=?, estoque=?, calibre=?, capacidade=?, peso=?, marca=?, categoria=?, badge=?, disponivel=? WHERE id=?"

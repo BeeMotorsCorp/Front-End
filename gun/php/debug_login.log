@@ -10,3 +10,27 @@
 [2025-11-24 23:22:30] Conectado ao banco
 [2025-11-24 23:22:30] Login bem-sucedido - ID: 13
 [2025-11-24 23:22:30] Enviando resposta: {"status":"ok","usuario_id":13,"usuario_nome":"Mathews"}
+[2025-11-25 23:11:57] === LOGIN.PHP INICIADO ===
+[2025-11-25 23:11:57] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-25 23:11:57] Tentativa de login - Usuario: admin5
+[2025-11-25 23:11:59] Conectado ao banco
+[2025-11-25 23:11:59] Login bem-sucedido - ID: 1
+[2025-11-25 23:11:59] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}
+[2025-11-25 23:13:27] === LOGIN.PHP INICIADO ===
+[2025-11-25 23:13:27] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-25 23:13:27] Tentativa de login - Usuario: admin5
+[2025-11-25 23:13:29] Conectado ao banco
+[2025-11-25 23:13:29] Login bem-sucedido - ID: 1
+[2025-11-25 23:13:29] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}
+[2025-11-25 23:14:54] === LOGIN.PHP INICIADO ===
+[2025-11-25 23:14:54] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-25 23:14:54] Tentativa de login - Usuario: admin5
+[2025-11-25 23:14:56] Conectado ao banco
+[2025-11-25 23:14:56] Login bem-sucedido - ID: 1
+[2025-11-25 23:14:56] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}
+[2025-11-25 23:18:36] === LOGIN.PHP INICIADO ===
+[2025-11-25 23:18:36] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-25 23:18:36] Tentativa de login - Usuario: admin5
+[2025-11-25 23:18:38] Conectado ao banco
+[2025-11-25 23:18:38] Login bem-sucedido - ID: 1
+[2025-11-25 23:18:38] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}

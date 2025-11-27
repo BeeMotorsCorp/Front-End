@@ -136,50 +136,94 @@ form.addEventListener('submit', async (e) => {
     
     showLoading(true);
     
-    const formData = new FormData();
-    
     if (produtoEmEdicao) {
-        formData.append('id', produtoEmEdicao.id);
-    }
-    
-    Object.keys(inputs).forEach(key => {
-        if (key === 'imagemInput') {
-            if (inputs[key].files[0]) {
-                formData.append('imagem', inputs[key].files[0]);
-            }
-        } else if (key === 'disponivel') {
-            formData.append(key, inputs[key].checked);
-        } else {
-            formData.append(key, inputs[key].value);
-        }
-    });
-
-    try {
-        const url = produtoEmEdicao ? API_URL : API_URL;
-        const method = produtoEmEdicao ? 'PUT' : 'POST';
+        // ✅ EDITAR PRODUTO - Usar FormData com POST e _method=PUT
+        const formData = new FormData();
         
-        const response = await fetch(url, {
-            method: method,
-            body: formData
-        });
-
-        if (response.ok) {
-            const produto = await response.json();
-            const msg = produtoEmEdicao ? 'Produto atualizado' : 'Produto cadastrado';
-            showAlert(`✅ ${msg} com sucesso!`, 'success');
-            resetForm();
-            loadProdutos();
-            updateStats();
-            produtoEmEdicao = null;
-        } else {
-            const error = await response.json();
-            showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
+        formData.append('_method', 'PUT');
+        formData.append('id', produtoEmEdicao.id);
+        formData.append('nome', inputs.nome.value);
+        formData.append('descricao', inputs.descricao.value);
+        formData.append('preco', inputs.preco.value);
+        formData.append('estoque', inputs.estoque.value);
+        formData.append('calibre', inputs.calibre.value);
+        formData.append('capacidade', inputs.capacidade.value);
+        formData.append('peso', inputs.peso.value);
+        formData.append('marca', inputs.marca.value);
+        formData.append('categoria', inputs.categoria.value);
+        formData.append('badge', inputs.badge.value);
+        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0'); // ✅ Converter para 1 ou 0
+        
+        if (inputs.imagemInput.files[0]) {
+            formData.append('imagem', inputs.imagemInput.files[0]);
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        showAlert('❌ Erro de conexão com o servidor: ' + error.message, 'error');
-    } finally {
-        showLoading(false);
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const produto = await response.json();
+                showAlert('✅ Produto atualizado com sucesso!', 'success');
+                resetForm();
+                loadProdutos();
+                updateStats();
+                produtoEmEdicao = null;
+            } else {
+                const error = await response.json();
+                showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            showAlert('❌ Erro de conexão com o servidor: ' + error.message, 'error');
+        } finally {
+            showLoading(false);
+        }
+
+    } else {
+        // ✅ CRIAR NOVO PRODUTO
+        const formData = new FormData();
+        
+        formData.append('nome', inputs.nome.value);
+        formData.append('descricao', inputs.descricao.value);
+        formData.append('preco', inputs.preco.value);
+        formData.append('estoque', inputs.estoque.value);
+        formData.append('calibre', inputs.calibre.value);
+        formData.append('capacidade', inputs.capacidade.value);
+        formData.append('peso', inputs.peso.value);
+        formData.append('marca', inputs.marca.value);
+        formData.append('categoria', inputs.categoria.value);
+        formData.append('badge', inputs.badge.value);
+        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0'); // ✅ Converter para 1 ou 0
+        
+        if (inputs.imagemInput.files[0]) {
+            formData.append('imagem', inputs.imagemInput.files[0]);
+        }
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const produto = await response.json();
+                showAlert('✅ Produto cadastrado com sucesso!', 'success');
+                resetForm();
+                loadProdutos();
+                updateStats();
+            } else {
+                const error = await response.json();
+                showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            showAlert('❌ Erro de conexão com o servidor: ' + error.message, 'error');
+        } finally {
+            showLoading(false);
+        }
     }
 });
 

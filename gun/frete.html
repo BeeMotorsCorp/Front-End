@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega e Frete - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/header-global.css">
+    <style>
+        /* ==================== FRETE PAGE STYLES ==================== */
+        
+        .frete-hero {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(23, 23, 23, 0.9) 100%);
+            padding: 140px var(--spacing-xl) 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .frete-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+
+        .frete-hero__content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .frete-hero__title {
+            font-size: var(--font-size-4xl);
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .frete-hero__description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .frete-section {
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            background: var(--background);
+        }
+
+        .frete-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Cards de Informações */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .info-card {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .info-card__icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .info-card h3 {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* Tabela de Prazos */
+        .prazos-table {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .table-header h2 {
+            color: white;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .table-content {
+            padding: var(--spacing-xl);
+        }
+
+        .prazo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .prazo-item:last-child {
+            border-bottom: none;
+        }
+
+        .prazo-item:hover {
+            background: var(--background-light);
+        }
+
+        .regiao {
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .prazo {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+        }
+
+        /* Áreas de Cobertura */
+        .cobertura {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .cobertura h2 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .cobertura-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .estado {
+            background: var(--background-light);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .estado:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .estado i {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+            display: block;
+            font-size: 1.5rem;
+        }
+
+        /* Informações Importantes */
+        .importante {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .importante h2 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .importante ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .importante li {
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: var(--spacing-lg);
+        }
+
+        .importante li:last-child {
+            border-bottom: none;
+        }
+
+        .importante li::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .frete-hero {
+                padding: 120px var(--spacing-md) 60px;
+            }
+            
+            .frete-hero__title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .prazo-item {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-sm);
+            }
+            
+            .cobertura-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="home.html">Menu</a></li>
+                <li><a href="catalogo.html">Produtos</a></li>
+                <li><a href="home.html#noticias">Notícias</a></li>
+                <li><a href="home.html#servicos">Serviços</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <a href="home.html" class="btn btn--primary">Voltar</a>
+            </div>
+
+            <div class="nav__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="frete-hero">
+        <div class="frete-hero__content">
+            <h1 class="frete-hero__title">ENTREGA E FRETE</h1>
+            <p class="frete-hero__description">
+                Entregamos em todo o Brasil com segurança, agilidade e total conformidade com a legislação.
+            </p>
+        </div>
+    </section>
+
+    <!-- Frete Section -->
+    <section class="frete-section">
+        <div class="frete-container">
+            <!-- Cards de Informações -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>ENTREGA RÁPIDA</h3>
+                    <p>Processamos e despachamos seu pedido em até 24h úteis após a aprovação do CR</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>SEGURO E RASTREADO</h3>
+                    <p>Todas as entregas são seguras, rastreadas e seguem protocolos especiais</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card__icon">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <h3>ENTREGA ESPECIALIZADA</h3>
+                    <p>Transportadoras especializadas em produtos controlados</p>
+                </div>
+            </div>
+
+            <!-- Tabela de Prazos -->
+            <div class="prazos-table">
+                <div class="table-header">
+                    <h2><i class="fas fa-calendar-alt"></i> PRAZOS DE ENTREGA</h2>
+                </div>
+                <div class="table-content">
+                    <div class="prazo-item">
+                        <span class="regiao">Grandes Capitais (SP, RJ, MG, etc.)</span>
+                        <span class="prazo">5-7 dias úteis</span>
+                    </div>
+                    <div class="prazo-item">
+                        <span class="regiao">Cidades do Interior</span>
+                        <span class="prazo">7-10 dias úteis</span>
+                    </div>
+                    <div class="prazo-item">
+                        <span class="regiao">Regiões Norte/Nordeste</span>
+                        <span class="prazo">10-15 dias úteis</span>
+                    </div>
+                    <div class="prazo-item">
+                        <span class="regiao">Áreas Rurais/Distantes</span>
+                        <span class="prazo">15-20 dias úteis</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Áreas de Cobertura -->
+            <div class="cobertura">
+                <h2><i class="fas fa-map-marked-alt"></i> COBERTURA NACIONAL</h2>
+                <div class="cobertura-grid">
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>São Paulo</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Rio de Janeiro</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Minas Gerais</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Paraná</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Santa Catarina</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Rio Grande do Sul</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Goiás</span>
+                    </div>
+                    <div class="estado">
+                        <i class="fas fa-city"></i>
+                        <span>Distrito Federal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações Importantes -->
+            <div class="importante">
+                <h2><i class="fas fa-exclamation-triangle"></i> INFORMAÇÕES IMPORTANTES</h2>
+                <ul>
+                    <li><strong>Documentação Obrigatória:</strong> A entrega só é realizada mediante apresentação do CR e documento de identidade</li>
+                    <li><strong>Endereço Cadastral:</strong> A arma será enviada apenas para o endereço cadastrado na Polícia Federal</li>
+                    <li><strong>Recepção:</strong> O destinatário deve ser o próprio comprador e apresentar documento original com foto</li>
+                    <li><strong>Segurança:</strong> Todas as armas são transportadas em embalagens especiais e discretas</li>
+                    <li><strong>Rastreamento:</strong> Código de rastreamento enviado por e-mail/SMS após o despacho</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessorios e armas nacionais e importadas com marcas famosas como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta...</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="catalogo.html">Comprar</a></li>
+                    <li><a href="#">Por onde começar</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="frete.html">Entrega e Frete</a></li>
+                    <li><a href="verificacao.html">Verificação</a></li>
+                    <li><a href="garantia.html">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="#">Termos de uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

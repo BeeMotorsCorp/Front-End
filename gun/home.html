@@ -1,5 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+    <style>
+    .user-menu-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--background-card, #1F1F1F);
+        border: 1px solid var(--border-color, #404040);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        min-width: 220px;
+        margin-top: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    .user-menu-dropdown.show {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) scale(1) !important;
+        z-index: 1001;
+    }
+
+    .user-profile-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .user-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--border-color, #404040);
+        border-radius: 12px;
+        color: var(--text-primary, #FFFFFF);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .user-profile-btn:hover {
+        border-color: var(--primary-color, #DC2626);
+        color: var(--primary-color, #DC2626);
+        background: rgba(220, 38, 38, 0.1);
+    }
+
+    .user-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 12px 16px;
+        color: var(--text-primary, #FFFFFF);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid var(--border-color, #404040);
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 0.95rem;
+        font-weight: 500;
+        font-family: inherit;
+    }
+
+    .user-menu-item:last-child {
+        border-bottom: none;
+    }
+
+    .user-menu-item:hover {
+        background: var(--background-light, #171717);
+        color: var(--primary-color, #DC2626);
+    }
+
+    .user-menu-logout {
+        color: #EF4444;
+    }
+
+    .user-menu-logout:hover {
+        background: rgba(239, 68, 68, 0.1);
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +100,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css">
     <script src="js/config.js"></script>
+    <!-- ✨ NOVO: Header Global -->
+    <script src="js/header-global.js"></script>
+    <link rel="stylesheet" href="css/header-global.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- ✨ NOVO HEADER GLOBAL - Usar este em todas as páginas -->
     <header class="header">
         <nav class="nav">
             <div class="nav__logo">
@@ -21,16 +114,47 @@
             </div>
             
             <ul class="nav__menu">
-                <li><a href="#home">Menu</a></li>
+                <li><a href="home.html">Menu</a></li>
                 <li><a href="catalogo.html">Produtos</a></li>
                 <li><a href="#noticias">Notícias</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#contato">Contato</a></li>
+                <li><a href="serviços.html">Serviços</a></li>
+                <li><a href="contato.html">Contato</a></li>
             </ul>
 
             <div class="nav__actions">
-                <a href="login.html" class="btn btn--login">Entrar</a>
-                <a href="cadastro.html" class="btn btn--register">Registrar</a>
+                <!-- Botões de Login/Registro (aparecem quando NÃO logado) -->
+                <div id="btnLoginContainer" style="display: flex; gap: 1rem;">
+                    <a href="login.html" class="btn btn--login">Entrar</a>
+                    <a href="cadastro.html" class="btn btn--register">Registrar</a>
+                </div>
+
+                <!-- Perfil do usuário (aparecem quando LOGADO) -->
+                <div id="userProfileContainer" class="user-profile-container" style="display: none;">
+                    <button id="userProfileBtn" class="user-profile-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="user-name" id="userName">Usuário</span>
+                    </button>
+                    
+                    <!-- Menu dropdown -->
+                    <div id="userMenuDropdown" class="user-menu-dropdown">
+                        <a href="#" id="menuPerfil" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            <span>Meu Perfil</span>
+                        </a>
+                        <a href="#" id="menuMinhasCompras" class="user-menu-item">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Minhas Compras</span>
+                        </a>
+                        <a href="#" id="menuConfiguracoes" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Documentos CAC</span>
+                        </a>
+                        <button id="menuLogout" class="user-menu-item user-menu-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Sair</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="nav__hamburger">
@@ -147,17 +271,17 @@
         </div>
     </section>
 
-    <!-- Products Section -->
+    <!-- ✨ NOVA SEÇÃO: PRODUTOS RECENTES (ÚLTIMOS 6) ✨ -->
     <section id="produtos" class="products">
         <div class="section__header">
-            <h2>PRODUTOS EM DESTAQUE</h2>
-            <p>Confira nossas armas mais vendidas</p>
+            <h2>PRODUTOS RECENTES</h2>
+            <p>Confira os últimos produtos adicionados ao catálogo</p>
         </div>
         
         <div class="products__grid" id="produtosGrid">
             <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
                 <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                <p style="color: var(--text-secondary);">Carregando produtos...</p>
+                <p style="color: var(--text-secondary);">Carregando produtos recentes...</p>
             </div>
         </div>
 
@@ -221,7 +345,7 @@
             <div class="footer__section">
                 <h3>Armalite</h3>
                 <ul>
-                    <li><a href="#">Comprar</a></li>
+                    <li><a href="">Comprar</a></li>
                     <li><a href="#">Mapa do Site</a></li>
                     <li><a href="#">Como funciona</a></li>
                 </ul>
@@ -230,9 +354,9 @@
             <div class="footer__section">
                 <h3>Serviços</h3>
                 <ul>
-                    <li><a href="#">Entrega</a></li>
-                    <li><a href="#">Verificação</a></li>
-                    <li><a href="#">Garantia</a></li>
+                    <li><a href="frete.html">Entrega</a></li>
+                    <li><a href="verificacao.html">Verificação</a></li>
+                    <li><a href="garantia.html">Garantia</a></li>
                 </ul>
             </div>
 
@@ -240,9 +364,9 @@
                 <h3>Empresa</h3>
                 <ul>
                     <li><a href="sobre.html">Sobre nós</a></li>
-                    <li><a href="#">Contato</a></li>
+                    <li><a href="contato.html">Contato</a></li>
                     <li><a href="#">Termos de uso</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
+                    <li><a href="politicas-e-privacidade.html">Política de privacidade</a></li>
                 </ul>
             </div>
         </div>
@@ -253,5 +377,135 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script>
+        // ==================== CARREGAR ÚLTIMOS 6 PRODUTOS ====================
+        async function carregarProdutosRecentes() {
+            try {
+                let response;
+                const caminhos = [
+                    './php/painel.php',
+                    '../php/painel.php',
+                    '/Repositorios/Front-End/Gun/php/painel.php'
+                ];
+
+                for (let caminho of caminhos) {
+                    try {
+                        response = await fetch(caminho);
+                        if (response.ok) {
+                            console.log('✅ Produtos carregados de:', caminho);
+                            const todosProdutos = await response.json();
+                            
+                            // ✨ NOVO: Pegar os 6 últimos produtos (array invertido)
+                            // Como vêm em ordem decrescente (últimos primeiro), pegamos os primeiros 6
+                            const ultimosSeis = todosProdutos.slice(0, 6);
+                            
+                            console.log('🎯 Total de produtos:', todosProdutos.length);
+                            console.log('📊 Últimos 6 produtos:', ultimosSeis.length);
+                            
+                            if (ultimosSeis.length > 0) {
+                                exibirProdutosRecentes(ultimosSeis);
+                            } else {
+                                usarProdutosRecentisDemonstracao();
+                            }
+                            return;
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+                }
+
+                usarProdutosRecentisDemonstracao();
+
+            } catch (error) {
+                console.error('❌ Erro ao carregar produtos:', error);
+                usarProdutosRecentisDemonstracao();
+            }
+        }
+
+        // ✨ NOVO: EXIBIR PRODUTOS RECENTES
+        function exibirProdutosRecentes(produtos) {
+            const grid = document.getElementById('produtosGrid');
+            
+            grid.innerHTML = produtos.map(p => {
+                let imagemURL = p.imagem || 'https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Sem+Imagem';
+                
+                return `
+                    <div class="produto-card" onclick="window.location.href='produto.html?id=${p.id}'">
+                        <div class="produto-imagem">
+                            <img src="${imagemURL}" 
+                                 alt="${p.nome}" 
+                                 onerror="this.src='https://via.placeholder.com/260x220/1F1F1F/DC2626?text=Erro'">
+                            ${p.badge ? `<span class="produto-badge">${p.badge}</span>` : '<span class="produto-badge" style="background-color: var(--primary-color);">Novo</span>'}
+                        </div>
+                        <div class="produto-info">
+                            <h3 class="produto-nome">${p.nome}</h3>
+                            <div class="produto-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.8</span>
+                            </div>
+                            <div class="produto-detalhes">
+                                ${p.calibre ? `<span class="detalhe-item"><i class="fas fa-bullseye"></i> ${p.calibre}</span>` : ''}
+                                ${p.capacidade ? `<span class="detalhe-item"><i class="fas fa-layer-group"></i> ${p.capacidade}</span>` : ''}
+                            </div>
+                            <div class="produto-preco">R$ ${parseFloat(p.preco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
+                            <div class="produto-estoque ${p.estoque < 5 ? 'baixo' : ''} ${p.estoque === 0 ? 'indisponivel' : ''}">
+                                ${p.estoque === 0 ? 'Fora de estoque' : p.estoque < 5 ? `⚠️ Apenas ${p.estoque} em estoque` : `Estoque: ${p.estoque}`}
+                            </div>
+                            <button class="btn-produto" ${p.estoque === 0 ? 'disabled' : ''} onclick="event.stopPropagation(); window.location.href='produto.html?id=${p.id}'">
+                                ${p.estoque === 0 ? 'Indisponível' : 'Ver Detalhes'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            console.log('✅ Produtos recentes exibidos!');
+        }
+
+        // ✨ NOVO: DADOS DE DEMONSTRAÇÃO
+        function usarProdutosRecentisDemonstracao() {
+            const produtos = [
+                {
+                    id: 1,
+                    nome: "BM-F-9 Brigade",
+                    preco: 12200,
+                    estoque: 6,
+                    calibre: "9mm",
+                    capacidade: "32+1",
+                    imagem: "Imagens/f-9 brigade.jpg",
+                    badge: null
+                },
+                {
+                    id: 2,
+                    nome: "Fuzil Taurus T10",
+                    preco: 14500,
+                    estoque: 8,
+                    calibre: "7.62x51mm",
+                    capacidade: "15+1",
+                    imagem: "Imagens/fuzil taurus t10.jpg",
+                    badge: null
+                },
+                {
+                    id: 3,
+                    nome: "Carabina 8 Semi-Auto",
+                    preco: 9800,
+                    estoque: 12,
+                    calibre: "9mm",
+                    capacidade: "17+1",
+                    imagem: "Imagens/carabina 8 semi-auto.png",
+                    badge: null
+                }
+            ];
+            
+            exibirProdutosRecentes(produtos);
+        }
+
+        // ✨ CHAMAR AO CARREGAR A PÁGINA
+        carregarProdutosRecentes();
+    </script>
 </body>
 </html>

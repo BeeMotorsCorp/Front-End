@@ -1,0 +1,59 @@
+<!-- ==================== HEADER GLOBAL (COPIAR PARA TODAS AS PÁGINAS) ==================== -->
+<header class="header">
+    <nav class="nav">
+        <div class="nav__logo">
+            <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+            <span class="logo-text">Sport Gun</span>
+        </div>
+        
+        <ul class="nav__menu">
+            <li><a href="home.html">Menu</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="home.html#noticias">Notícias</a></li>
+            <li><a href="home.html#servicos">Serviços</a></li>
+        </ul>
+
+        <div class="nav__actions">
+            <!-- Botões de Login/Registro (aparecem quando não logado) -->
+            <div id="btnLoginContainer" style="display: flex; gap: 1rem;">
+                <a href="login.html" class="btn btn--login">Entrar</a>
+                <a href="cadastro.html" class="btn btn--register">Registrar</a>
+            </div>
+
+            <!-- Perfil do usuário (aparecem quando logado) -->
+            <div id="userProfileContainer" class="user-profile-container" style="display: none;">
+                <button id="userProfileBtn" class="user-profile-btn">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="user-name" id="userName">Usuário</span>
+                </button>
+                
+                <!-- Menu dropdown -->
+                <div id="userMenuDropdown" class="user-menu-dropdown">
+                    <a href="#" id="menuPerfil" class="user-menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                    <a href="#" id="menuMinhasCompras" class="user-menu-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Minhas Compras</span>
+                    </a>
+                    <a href="#" id="menuConfiguracoes" class="user-menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Documentos CAC</span>
+                    </a>
+                    <button id="menuLogout" class="user-menu-item user-menu-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav__hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+<!-- ==================== FIM DO HEADER ==================== -->

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garantia - Sport Gun Imports</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/header-global.css">
+    <style>
+        /* ==================== GARANTIA PAGE STYLES ==================== */
+        
+        .garantia-hero {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(23, 23, 23, 0.9) 100%);
+            padding: 140px var(--spacing-xl) 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .garantia-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+
+        .garantia-hero__content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .garantia-hero__title {
+            font-size: var(--font-size-4xl);
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .garantia-hero__description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .garantia-section {
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            background: var(--background);
+        }
+
+        .garantia-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Cards de Garantia */
+        .garantia-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .garantia-card {
+            background: var(--background-card);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .garantia-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .garantia-card__icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .garantia-card h3 {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .garantia-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Tabela de Garantias por Marca */
+        .tabela-garantias {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .tabela-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .tabela-header h2 {
+            color: white;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .tabela-content {
+            padding: var(--spacing-xl);
+        }
+
+        .marca-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .marca-item:last-child {
+            border-bottom: none;
+        }
+
+        .marca-item:hover {
+            background: var(--background-light);
+        }
+
+        .marca-nome {
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .garantia-tempo {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+            text-align: center;
+        }
+
+        .garantia-cobertura {
+            color: var(--text-secondary);
+            text-align: right;
+            font-size: var(--font-size-sm);
+        }
+
+        /* Processo de Garantia */
+        .processo-garantia {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .processo-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .processo-header h2 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .processo-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .processo-step {
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+            margin: 0 auto var(--spacing-md);
+        }
+
+        .processo-step h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            font-size: var(--font-size-sm);
+        }
+
+        .processo-step p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+        }
+
+        /* Termos e Condições */
+        .termos-garantia {
+            background: var(--background-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            border: 1px solid var(--border-color);
+        }
+
+        .termos-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .termos-header h2 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .termos-lista {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .termos-lista h4 {
+            color: var(--text-primary);
+            margin: var(--spacing-lg) 0 var(--spacing-sm);
+            text-transform: uppercase;
+            font-size: var(--font-size-sm);
+        }
+
+        .termos-lista ul {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .termos-lista li {
+            padding: var(--spacing-xs) 0;
+            position: relative;
+            padding-left: var(--spacing-md);
+        }
+
+        .termos-lista li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .garantia-hero {
+                padding: 120px var(--spacing-md) 60px;
+            }
+            
+            .garantia-hero__title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .garantia-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .marca-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: var(--spacing-sm);
+            }
+            
+            .garantia-cobertura {
+                text-align: center;
+            }
+            
+            .processo-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+                <span class="logo-text">Sport Gun</span>
+            </div>
+            
+            <ul class="nav__menu">
+                <li><a href="home.html">Menu</a></li>
+                <li><a href="catalogo.html">Produtos</a></li>
+                <li><a href="home.html#noticias">Notícias</a></li>
+                <li><a href="home.html#servicos">Serviços</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <a href="home.html" class="btn btn--primary">Voltar</a>
+            </div>
+
+            <div class="nav__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="garantia-hero">
+        <div class="garantia-hero__content">
+            <h1 class="garantia-hero__title">GARANTIA</h1>
+            <p class="garantia-hero__description">
+                Oferecemos garantia completa em todos os nossos produtos, assegurando qualidade e confiabilidade em cada compra.
+            </p>
+        </div>
+    </section>
+
+    <!-- Garantia Section -->
+    <section class="garantia-section">
+        <div class="garantia-container">
+            <!-- Cards de Garantia -->
+            <div class="garantia-cards">
+                <div class="garantia-card">
+                    <div class="garantia-card__icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>GARANTIA ORIGINAL</h3>
+                    <p>Todos os produtos possuem garantia do fabricante, com cobertura contra defeitos de fabricação</p>
+                </div>
+                
+                <div class="garantia-card">
+                    <div class="garantia-card__icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>ASSISTÊNCIA TÉCNICA</h3>
+                    <p>Rede autorizada de assistência técnica em todo o Brasil para manutenção e reparos</p>
+                </div>
+                
+                <div class="garantia-card">
+                    <div class="garantia-card__icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>TROCA IMEDIATA</h3>
+                    <p>Troca imediata em casos de defeito constatado nos primeiros 30 dias</p>
+                </div>
+            </div>
+
+            <!-- Tabela de Garantias por Marca -->
+            <div class="tabela-garantias">
+                <div class="tabela-header">
+                    <h2><i class="fas fa-list-alt"></i> GARANTIA POR MARCA</h2>
+                </div>
+                <div class="tabela-content">
+                    <div class="marca-item">
+                        <span class="marca-nome">GLOCK</span>
+                        <span class="garantia-tempo">2 ANOS</span>
+                        <span class="garantia-cobertura">Peças e mão de obra</span>
+                    </div>
+                    <div class="marca-item">
+                        <span class="marca-nome">SIG SAUER</span>
+                        <span class="garantia-tempo">3 ANOS</span>
+                        <span class="garantia-cobertura">Defeitos de fabricação</span>
+                    </div>
+                    <div class="marca-item">
+                        <span class="marca-nome">SMITH & WESSON</span>
+                        <span class="garantia-tempo">2 ANOS</span>
+                        <span class="garantia-cobertura">Garantia limitada</span>
+                    </div>
+                    <div class="marca-item">
+                        <span class="marca-nome">TAURUS</span>
+                        <span class="garantia-tempo">1 ANO</span>
+                        <span class="garantia-cobertura">Assistência técnica</span>
+                    </div>
+                    <div class="marca-item">
+                        <span class="marca-nome">COLT</span>
+                        <span class="garantia-tempo">2 ANOS</span>
+                        <span class="garantia-cobertura">Peças e funcionamento</span>
+                    </div>
+                    <div class="marca-item">
+                        <span class="marca-nome">BERETTA</span>
+                        <span class="garantia-tempo">3 ANOS</span>
+                        <span class="garantia-cobertura">Cobertura total</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Processo de Garantia -->
+            <div class="processo-garantia">
+                <div class="processo-header">
+                    <h2><i class="fas fa-cogs"></i> PROCESSO DE GARANTIA</h2>
+                    <p>Como acionar a garantia do seu produto</p>
+                </div>
+                <div class="processo-steps">
+                    <div class="processo-step">
+                        <div class="step-number">1</div>
+                        <h4>CONTATO</h4>
+                        <p>Entre em contato conosco via WhatsApp, e-mail ou telefone</p>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">2</div>
+                        <h4>ANÁLISE</h4>
+                        <p>Nossa equipe técnica analisará o caso e orientará sobre os próximos passos</p>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">3</div>
+                        <h4>ENVIO</h4>
+                        <p>Encaminhe o produto para nossa assistência técnica autorizada</p>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">4</div>
+                        <h4>SOLUÇÃO</h4>
+                        <p>Reparo, troca ou devolução conforme análise técnica</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Termos e Condições -->
+            <div class="termos-garantia">
+                <div class="termos-header">
+                    <h2><i class="fas fa-file-contract"></i> TERMOS E CONDIÇÕES</h2>
+                </div>
+                <div class="termos-lista">
+                    <h4>O QUE ESTÁ COBERTO PELA GARANTIA:</h4>
+                    <ul>
+                        <li>Defeitos de fabricação e vícios ocultos</li>
+                        <li>Problemas de funcionamento não causados por mau uso</li>
+                        <li>Peças com falha de material ou mão de obra</li>
+                        <li>Problemas de acabamento originais de fábrica</li>
+                    </ul>
+
+                    <h4>O QUE NÃO ESTÁ COBERTO:</h4>
+                    <ul>
+                        <li>Desgaste natural por uso</li>
+                        <li>Danos por acidentes, quedas ou impacto</li>
+                        <li>Modificações não autorizadas</li>
+                        <li>Uso de munição inadequada ou de má qualidade</li>
+                        <li>Falta de manutenção preventiva</li>
+                        <li>Danos por condições climáticas ou armazenamento inadequado</li>
+                    </ul>
+
+                    <h4>DOCUMENTAÇÃO NECESSÁRIA:</h4>
+                    <ul>
+                        <li>Nota fiscal original do produto</li>
+                        <li>Certificado de Registro (CR) atualizado</li>
+                        <li>Documento de identidade com foto</li>
+                        <li>Comprovante de endereço recente</li>
+                    </ul>
+
+                    <h4>OBSERVAÇÕES IMPORTANTES:</h4>
+                    <ul>
+                        <li>A garantia é válida apenas para o primeiro comprador</li>
+                        <li>O produto deve estar em condições originais de fábrica</li>
+                        <li>Intervenções por terceiros anulam a garantia</li>
+                        <li>O prazo de garantia inicia-se a partir da data da compra</li>
+                        <li>Em caso de troca, o novo produto herdará o prazo restante da garantia original</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__section">
+                <h2>Sport Gun Imports</h2>
+                <p>Empresa de venda de equipamentos, acessorios e armas nacionais e importadas com marcas famosas como Glock, Sig Sauer, Smith & Wesson, Colt, Beretta...</p>
+            </div>
+            
+            <div class="footer__section">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="catalogo.html">Comprar</a></li>
+                    <li><a href="#">Por onde começar</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Serviços</h3>
+                <ul>
+                    <li><a href="frete.html">Entrega e Frete</a></li>
+                    <li><a href="verificacao.html">Verificação</a></li>
+                    <li><a href="garantia.html">Garantia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__section">
+                <h3>Empresa</h3>
+                <ul>
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="#">Termos de uso</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <p>Sport Gun Imports, 2025 todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

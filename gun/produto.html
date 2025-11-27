@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/header-global.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
+        <script src="js/header-global.js"></script>
         <nav class="nav">
             <div class="nav__logo">
                 <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
@@ -353,7 +355,7 @@
                 btnPerfil.style.display = 'inline-flex';
                 btnLogin.style.display = 'none';
                 btnPerfil.addEventListener('click', () => {
-                    window.location.href = 'perfil.html';
+                    window.location.href = 'usuario.html';
                 });
             }
         }

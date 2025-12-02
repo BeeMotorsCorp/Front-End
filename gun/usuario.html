@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/header-global.css">
+    <script src="js/verificar-login.js"></script>
     <style>
         .perfil-container {
             max-width: 1200px;
@@ -140,180 +141,6 @@
             word-break: break-all;
         }
 
-        /* ==================== DOCUMENTOS ==================== */
-        .documentos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .documento-card {
-            background: var(--background);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: var(--transition);
-        }
-
-        .documento-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.1);
-        }
-
-        .documento-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .documento-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .documento-nome {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            flex: 1;
-        }
-
-        .documento-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-pendente {
-            background: rgba(245, 158, 11, 0.1);
-            color: #F59E0B;
-            border: 1px solid #F59E0B;
-        }
-
-        .status-aprovado {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10B981;
-            border: 1px solid #10B981;
-        }
-
-        .status-reprovado {
-            background: rgba(239, 68, 68, 0.1);
-            color: #EF4444;
-            border: 1px solid #EF4444;
-        }
-
-        .documento-descricao {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .documento-upload {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .upload-area {
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary-color);
-            background: rgba(220, 38, 38, 0.05);
-        }
-
-        .upload-area i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-text {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .arquivo-selecionado {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10B981;
-            color: #10B981;
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            display: none;
-        }
-
-        .arquivo-selecionado.show {
-            display: block;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .btn-upload {
-            flex: 1;
-            padding: 10px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-upload:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-upload:disabled {
-            background: var(--text-light);
-            cursor: not-allowed;
-        }
-
-        .btn-limpar {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-limpar:hover {
-            border-color: #EF4444;
-            color: #EF4444;
-        }
-
         .alerta {
             padding: 1rem 1.5rem;
             border-radius: 8px;
@@ -346,10 +173,6 @@
             }
 
             .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .documentos-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -400,10 +223,6 @@
                             <i class="fas fa-shopping-bag"></i>
                             <span>Minhas Compras</span>
                         </a>
-                        <a href="usuario.html#documentos" id="menuConfiguracoes" class="user-menu-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Documentos CAC</span>
-                        </a>
                         <button id="menuLogout" class="user-menu-item user-menu-logout">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Sair</span>
@@ -430,9 +249,6 @@
             <button class="tab-btn ativo" onclick="trocarAba('perfil')">
                 <i class="fas fa-user"></i> Perfil
             </button>
-            <button class="tab-btn" onclick="trocarAba('documentos')">
-                <i class="fas fa-file-alt"></i> Documentos CAC
-            </button>
             <button class="tab-btn" onclick="trocarAba('compras')">
                 <i class="fas fa-shopping-bag"></i> Minhas Compras
             </button>
@@ -451,34 +267,70 @@
                         <span class="info-valor" id="displayNome">--</span>
                     </div>
                     <div class="info-item">
+                        <span class="info-label">Sobrenome</span>
+                        <span class="info-valor" id="displaySobrenome">--</span>
+                    </div>
+                    <div class="info-item">
                         <span class="info-label">Email</span>
                         <span class="info-valor" id="displayEmail">--</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Usuário</span>
-                        <span class="info-valor" id="displayUsuario">--</span>
+                        <span class="info-label">Telefone</span>
+                        <span class="info-valor" id="displayTelefone">--</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">ID Usuário</span>
-                        <span class="info-valor" id="displayId">--</span>
+                        <span class="info-label">CPF</span>
+                        <span class="info-valor" id="displayCpf">--</span>
                     </div>
+                </div>
+
+                <!-- Botão Editar -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="btnEditarPerfil" class="btn btn--primary" style="padding: 12px 30px;">
+                        <i class="fas fa-edit"></i> Editar Perfil
+                    </button>
                 </div>
             </div>
-        </div>
 
-        <!-- ==================== ABA DOCUMENTOS ==================== -->
-        <div id="abaDocumentos" class="tab-content">
-            <div class="perfil-card">
+            <!-- Formulário de Edição (inicialmente oculto) -->
+            <div id="formEditarPerfil" class="perfil-card" style="display: none;">
                 <h2 class="card-titulo">
-                    <i class="fas fa-file-alt"></i> Documentos CAC (Colecionador, Atirador, Caçador)
+                    <i class="fas fa-edit"></i> Editar Informações
                 </h2>
 
-                <div class="documentos-grid" id="documentosGrid">
-                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                        <p style="color: var(--text-secondary);">Carregando documentos...</p>
+                <form id="editarPerfilForm">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Nome *</span>
+                            <input type="text" id="editNome" class="info-valor" style="background: var(--background-card);" required>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Sobrenome *</span>
+                            <input type="text" id="editSobrenome" class="info-valor" style="background: var(--background-card);" required>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email *</span>
+                            <input type="email" id="editEmail" class="info-valor" style="background: var(--background-card);" required>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Telefone</span>
+                            <input type="text" id="editTelefone" class="info-valor" style="background: var(--background-card);">
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CPF</span>
+                            <span class="info-valor" style="background: var(--background); color: var(--text-secondary);" id="displayCpfEdit">--</span>
+                        </div>
                     </div>
-                </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                        <button type="submit" class="btn btn--primary" style="padding: 12px 30px;">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </button>
+                        <button type="button" id="btnCancelarEdicao" class="btn" style="padding: 12px 30px; background: transparent; border: 2px solid var(--border-color); color: var(--text-primary);">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -499,68 +351,6 @@
     <script src="js/header-global.js"></script>
     <script>
         let usuarioAtual = null;
-        const DOCUMENTOS_TIPOS = {
-            comprovante_capacidade_tecnica: {
-                nome: 'Comprovante de Capacidade Técnica',
-                descricao: 'Certificado de conclusão de curso de tiro ou comprovação de habilidade',
-                icone: 'fa-certificate'
-            },
-            comprovante_habitualidade: {
-                nome: 'Comprovante de Habitualidade',
-                descricao: 'Comprovação de atividade regular com armas',
-                icone: 'fa-check-circle'
-            },
-            declaracao_seguranca_acervo: {
-                nome: 'Declaração de Segurança do Acervo',
-                descricao: 'Comprovação de local seguro para armazenamento',
-                icone: 'fa-shield-alt'
-            },
-            certidao_antecedente_federal: {
-                nome: 'Certidão de Antecedentes Federais',
-                descricao: 'Documento expedido pela Justiça Federal',
-                icone: 'fa-gavel'
-            },
-            declaracao_nao_responde_inquerito: {
-                nome: 'Declaração de Não Responde Inquérito',
-                descricao: 'Comprovação de não estar em processos judiciais',
-                icone: 'fa-file-contract'
-            },
-            documento_identificacao: {
-                nome: 'Documento de Identificação',
-                descricao: 'RG, CNH ou Passaporte',
-                icone: 'fa-id-card'
-            },
-            laudo_aptidao_psicologica: {
-                nome: 'Laudo de Aptidão Psicológica',
-                descricao: 'Avaliação psicológica realizada por profissional habilitado',
-                icone: 'fa-brain'
-            },
-            comprovante_residencia: {
-                nome: 'Comprovante de Residência',
-                descricao: 'Conta de água, luz, telefone ou contrato de aluguel',
-                icone: 'fa-home'
-            },
-            comprovante_ocupacao_licita: {
-                nome: 'Comprovante de Ocupação Lícita',
-                descricao: 'Comprovação de renda lícita (contracheque, declaração IR, etc)',
-                icone: 'fa-briefcase'
-            },
-            certidao_antecedente_estadual: {
-                nome: 'Certidão de Antecedentes Estaduais',
-                descricao: 'Documento expedido pela Justiça Estadual',
-                icone: 'fa-building'
-            },
-            certidao_antecedente_militar: {
-                nome: 'Certidão de Antecedentes Militares',
-                descricao: 'Comprovação de situação militar regularizada',
-                icone: 'fa-user-tie'
-            },
-            certidao_antecedente_eleitoral: {
-                nome: 'Certidão de Antecedentes Eleitorais',
-                descricao: 'Documento da Justiça Eleitoral',
-                icone: 'fa-vote-yea'
-            }
-        };
 
         document.addEventListener('DOMContentLoaded', () => {
             const usuarioId = localStorage.getItem('usuario_id');
@@ -571,11 +361,42 @@
                 return;
             }
 
-            carregarDadosUsuario();
-            carregarDocumentos();
+            carregarDadosUsuarioCompletos();
+            
+            // Configurar event listeners
+            document.getElementById('btnEditarPerfil').addEventListener('click', habilitarEdicao);
+            document.getElementById('btnCancelarEdicao').addEventListener('click', desabilitarEdicao);
+            document.getElementById('editarPerfilForm').addEventListener('submit', salvarEdicao);
         });
 
-        function carregarDadosUsuario() {
+        // Função para carregar dados completos do usuário
+        async function carregarDadosUsuarioCompletos() {
+            const usuarioId = localStorage.getItem('usuario_id');
+            
+            if (!usuarioId) {
+                alert('Você precisa estar logado!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`php/buscar-usuario.php?usuario_id=${usuarioId}`);
+                const dados = await response.json();
+
+                if (dados.sucesso && dados.usuario) {
+                    usuarioAtual = dados.usuario;
+                    exibirDadosUsuario(usuarioAtual);
+                } else {
+                    throw new Error(dados.erro || 'Erro ao carregar dados');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                carregarDadosBasicos();
+            }
+        }
+
+        // Função fallback com dados do localStorage
+        function carregarDadosBasicos() {
             const usuarioId = localStorage.getItem('usuario_id');
             const usuarioNome = localStorage.getItem('usuario_nome');
             const usuarioEmail = localStorage.getItem('usuario_email');
@@ -583,183 +404,123 @@
             usuarioAtual = {
                 id: usuarioId,
                 nome: usuarioNome || 'Usuário',
+                sobrenome: '',
                 email: usuarioEmail || 'email@exemplo.com',
-                usuario: 'usuario_' + usuarioId
+                telefone: '',
+                cpf: ''
             };
 
-            // Exibir dados
-            document.getElementById('displayNome').textContent = usuarioAtual.nome;
-            document.getElementById('displayEmail').textContent = usuarioAtual.email;
-            document.getElementById('displayUsuario').textContent = usuarioAtual.usuario;
-            document.getElementById('displayId').textContent = usuarioAtual.id;
+            exibirDadosUsuario(usuarioAtual);
         }
 
-        async function carregarDocumentos() {
-            const usuarioId = localStorage.getItem('usuario_id');
+        // Função para exibir dados na tela
+        function exibirDadosUsuario(usuario) {
+            document.getElementById('displayNome').textContent = usuario.nome || '--';
+            document.getElementById('displaySobrenome').textContent = usuario.sobrenome || '--';
+            document.getElementById('displayEmail').textContent = usuario.email || '--';
+            document.getElementById('displayTelefone').textContent = usuario.telefone || '--';
+            document.getElementById('displayCpf').textContent = usuario.cpf || '--';
+        }
+
+        // Função para habilitar edição
+        function habilitarEdicao() {
+            const formEditar = document.getElementById('formEditarPerfil');
+            const perfilCard = document.querySelector('#abaPerfil .perfil-card:first-child');
             
-            try {
-                const response = await fetch(`php/documentos.php?usuario_id=${usuarioId}`);
-                const dados = await response.json();
-
-                let documentosUsuario = {};
-                
-                if (dados.sucesso && dados.documentos) {
-                    documentosUsuario = dados.documentos;
-                }
-
-                renderizarDocumentos(documentosUsuario);
-
-            } catch (error) {
-                console.error('Erro ao carregar documentos:', error);
-                renderizarDocumentos({});
-            }
-        }
-
-        function renderizarDocumentos(documentosUsuario) {
-            const grid = document.getElementById('documentosGrid');
+            // Preencher formulário com dados atuais
+            document.getElementById('editNome').value = usuarioAtual.nome || '';
+            document.getElementById('editSobrenome').value = usuarioAtual.sobrenome || '';
+            document.getElementById('editEmail').value = usuarioAtual.email || '';
+            document.getElementById('editTelefone').value = usuarioAtual.telefone || '';
+            document.getElementById('displayCpfEdit').textContent = usuarioAtual.cpf || '--';
             
-            const html = Object.entries(DOCUMENTOS_TIPOS).map(([chave, info]) => {
-                const doc = documentosUsuario[chave];
-                const status = doc ? doc.status : 'Pendente';
-                const arquivo = doc ? doc.arquivo : null;
-
-                const classStatus = `status-${status.toLowerCase()}`;
-
-                return `
-                    <div class="documento-card" data-documento="${chave}">
-                        <div class="documento-header">
-                            <i class="fas ${info.icone} documento-icon"></i>
-                            <div style="flex: 1;">
-                                <div class="documento-nome">${info.nome}</div>
-                                <div class="documento-status ${classStatus}">
-                                    ${status}
-                                </div>
-                            </div>
-                        </div>
-
-                        <p class="documento-descricao">${info.descricao}</p>
-
-                        <div class="documento-upload">
-                            <div class="upload-area" onclick="document.getElementById('file_${chave}').click()">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <div class="upload-text">
-                                    ${arquivo ? 'Alterar arquivo' : 'Clique ou arraste o arquivo'}
-                                </div>
-                            </div>
-
-                            <input type="file" id="file_${chave}" class="file-input" accept=".pdf,.jpg,.jpeg,.png">
-
-                            ${arquivo ? `
-                                <div class="arquivo-selecionado show">
-                                    <i class="fas fa-check-circle"></i> Arquivo: ${arquivo}
-                                </div>
-                            ` : ''}
-
-                            <div class="btn-group">
-                                <button class="btn-upload" onclick="enviarDocumento('${chave}')">
-                                    <i class="fas fa-upload"></i> Enviar
-                                </button>
-                                ${arquivo ? `
-                                    <button class="btn-limpar" onclick="removerDocumento('${chave}')">
-                                        <i class="fas fa-trash"></i> Remover
-                                    </button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            grid.innerHTML = html;
-
-            // Setup drag and drop
-            document.querySelectorAll('.upload-area').forEach(area => {
-                area.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    area.style.borderColor = 'var(--primary-color)';
-                    area.style.background = 'rgba(220, 38, 38, 0.05)';
-                });
-
-                area.addEventListener('dragleave', () => {
-                    area.style.borderColor = 'var(--border-color)';
-                    area.style.background = 'transparent';
-                });
-
-                area.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    area.style.borderColor = 'var(--border-color)';
-                    area.style.background = 'transparent';
-                    // Handle drop
-                });
-            });
+            // Mostrar formulário, ocultar visualização
+            perfilCard.style.display = 'none';
+            formEditar.style.display = 'block';
         }
 
-        async function enviarDocumento(documento) {
-            const usuarioId = localStorage.getItem('usuario_id');
-            const fileInput = document.getElementById(`file_${documento}`);
-            const file = fileInput.files[0];
+        // Função para desabilitar edição
+        function desabilitarEdicao() {
+            const formEditar = document.getElementById('formEditarPerfil');
+            const perfilCard = document.querySelector('#abaPerfil .perfil-card:first-child');
+            
+            formEditar.style.display = 'none';
+            perfilCard.style.display = 'block';
+        }
 
-            if (!file) {
-                mostrarAlerta('Selecione um arquivo', 'error');
+        // Função para salvar edição
+        async function salvarEdicao(event) {
+            event.preventDefault();
+            
+            const usuarioId = localStorage.getItem('usuario_id');
+            const nome = document.getElementById('editNome').value.trim();
+            const sobrenome = document.getElementById('editSobrenome').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            const telefone = document.getElementById('editTelefone').value.trim();
+
+            // Validações básicas
+            if (!nome || !sobrenome) {
+                mostrarAlerta('Nome e sobrenome são obrigatórios', 'error');
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('usuario_id', usuarioId);
-            formData.append('documento', documento);
-            formData.append('arquivo', file);
-
-            try {
-                const response = await fetch('php/enviar-documento.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const dados = await response.json();
-
-                if (dados.sucesso) {
-                    mostrarAlerta('Documento enviado com sucesso!', 'success');
-                    carregarDocumentos();
-                } else {
-                    mostrarAlerta(dados.erro || 'Erro ao enviar documento', 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                mostrarAlerta('Erro de conexão com o servidor', 'error');
+            if (!validarEmail(email)) {
+                mostrarAlerta('Email inválido', 'error');
+                return;
             }
-        }
-
-        async function removerDocumento(documento) {
-            if (!confirm('Tem certeza que deseja remover este documento?')) return;
-
-            const usuarioId = localStorage.getItem('usuario_id');
 
             try {
-                const response = await fetch('php/remover-documento.php', {
-                    method: 'DELETE',
+                const response = await fetch('php/atualizar-usuario.php', {
+                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        usuario_id: usuarioId,
-                        documento: documento
+                        id: usuarioId,
+                        nome: nome,
+                        sobrenome: sobrenome,
+                        email: email,
+                        telefone: telefone
                     })
                 });
 
                 const dados = await response.json();
 
-                if (dados.sucesso) {
-                    mostrarAlerta('Documento removido com sucesso!', 'success');
-                    carregarDocumentos();
+                if (dados.status === 'ok') {
+                    mostrarAlerta('Dados atualizados com sucesso!', 'success');
+                    
+                    // Atualizar dados locais
+                    usuarioAtual.nome = nome;
+                    usuarioAtual.sobrenome = sobrenome;
+                    usuarioAtual.email = email;
+                    usuarioAtual.telefone = telefone;
+                    
+                    // Atualizar localStorage
+                    localStorage.setItem('usuario_nome', nome);
+                    localStorage.setItem('usuario_email', email);
+                    
+                    // Atualizar exibição
+                    exibirDadosUsuario(usuarioAtual);
+                    
+                    // Sair do modo edição
+                    desabilitarEdicao();
+                    
                 } else {
-                    mostrarAlerta(dados.erro || 'Erro ao remover documento', 'error');
+                    throw new Error(dados.mensagem || 'Erro ao atualizar');
                 }
             } catch (error) {
-                console.error('Erro:', error);
-                mostrarAlerta('Erro de conexão com o servidor', 'error');
+                console.error('Erro ao salvar:', error);
+                mostrarAlerta(error.message || 'Erro ao salvar dados', 'error');
             }
         }
 
+        // Função de validação de email
+        function validarEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        // Função para trocar abas
         function trocarAba(abaNome) {
             // Remover ativa de todos os tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -772,10 +533,15 @@
 
             // Ativar a aba selecionada
             const abaId = 'aba' + abaNome.charAt(0).toUpperCase() + abaNome.slice(1);
-            document.getElementById(abaId).classList.add('ativo');
+            const abaElement = document.getElementById(abaId);
+            if (abaElement) {
+                abaElement.classList.add('ativo');
+            }
+            
             event.target.classList.add('ativo');
         }
 
+        // Função para mostrar alerta
         function mostrarAlerta(mensagem, tipo) {
             const alerta = document.getElementById('alerta');
             const icon = tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';

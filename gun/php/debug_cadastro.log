@@ -87,3 +87,69 @@
 [2025-11-25 06:17:59] Dados validados, criptografando senha...
 [2025-11-25 06:17:59] Inserindo no banco...
 [2025-11-25 06:17:59] SUCESSO! Cadastrado com ID: 15
+[2025-11-27 19:13:49] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:13:49] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:13:49] PHP Version: 8.2.12
+[2025-11-27 19:13:49] JSON recebido: {"nome":"pedro","sobrenome":"rodrigues","email":"emai@gmail.com","telefone":"99 123451234","cpf":"11
+[2025-11-27 19:13:49] Usuário a cadastrar: Lucas
+[2025-11-27 19:13:49] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-27 19:13:49] Arquivo encontrado, incluindo...
+[2025-11-27 19:13:51] Conexao.php incluído
+[2025-11-27 19:13:51] Conectado ao banco com sucesso
+[2025-11-27 19:13:51] Dados validados, criptografando senha...
+[2025-11-27 19:13:51] Inserindo no banco...
+[2025-11-27 19:13:51] SUCESSO! Cadastrado com ID: 16
+[2025-11-27 19:47:46] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:47:46] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:47:46] PHP Version: 8.2.12
+[2025-11-27 19:47:46] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:47:46] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:47:46] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:47:47] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:47:47] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:47:47] PHP Version: 8.2.12
+[2025-11-27 19:47:47] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:47:47] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:47:47] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:48:17] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:48:17] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:48:17] PHP Version: 8.2.12
+[2025-11-27 19:48:17] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:48:17] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:48:17] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:48:18] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:48:18] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:48:18] PHP Version: 8.2.12
+[2025-11-27 19:48:18] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:48:18] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:48:18] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:48:28] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:48:28] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:48:28] PHP Version: 8.2.12
+[2025-11-27 19:48:28] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:48:28] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:48:28] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:48:35] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:48:35] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:48:35] PHP Version: 8.2.12
+[2025-11-27 19:48:35] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:48:35] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:48:35] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:48:38] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:48:38] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:48:38] PHP Version: 8.2.12
+[2025-11-27 19:48:38] JSON recebido: {"nome":null,"sobrenome":null,"cpf":null,"usuario":null,"senha":null}
+[2025-11-27 19:48:38] ERRO CAPTURADO: Campo 'nome' é obrigatório
+[2025-11-27 19:48:38] Enviando erro: {"status":"erro","mensagem":"Campo 'nome' \u00e9 obrigat\u00f3rio"}
+[2025-11-27 19:50:28] === CADASTRAR.PHP INICIADO ===
+[2025-11-27 19:50:28] Diretório: C:\xampp\htdocs\Repositorios\Front-End\gun\php
+[2025-11-27 19:50:28] PHP Version: 8.2.12
+[2025-11-27 19:50:28] JSON recebido: {"nome":"Lucas","sobrenome":"silva rodrigues","email":"afafafaf@gmail.com","telefone":"62992120277",
+[2025-11-27 19:50:28] Usuário a cadastrar: admin57
+[2025-11-27 19:50:28] Procurando conexao.php em: C:\xampp\htdocs\Repositorios\Front-End\gun\php/conexao.php
+[2025-11-27 19:50:28] Arquivo encontrado, incluindo...
+[2025-11-27 19:50:30] Conexao.php incluído
+[2025-11-27 19:50:30] Conectado ao banco com sucesso
+[2025-11-27 19:50:30] Dados validados, criptografando senha...
+[2025-11-27 19:50:30] Inserindo no banco...
+[2025-11-27 19:50:30] SUCESSO! Cadastrado com ID: 17

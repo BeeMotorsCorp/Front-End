@@ -4,8 +4,8 @@ const baseURL = window.location.pathname.includes('/painel.html')
     : '';
 const API_URL = baseURL + '/php/painel.php';
 
-console.log('📍 BASE URL detectada:', baseURL);
-console.log('📍 API URL final:', API_URL);
+console.log('🔍 BASE URL detectada:', baseURL);
+console.log('🔍 API URL final:', API_URL);
 
 // ==================== ELEMENTOS DO DOM ====================
 const form = document.getElementById('productForm');
@@ -152,7 +152,7 @@ form.addEventListener('submit', async (e) => {
         formData.append('marca', inputs.marca.value);
         formData.append('categoria', inputs.categoria.value);
         formData.append('badge', inputs.badge.value);
-        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0'); // ✅ Converter para 1 ou 0
+        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0');
         
         if (inputs.imagemInput.files[0]) {
             formData.append('imagem', inputs.imagemInput.files[0]);
@@ -164,16 +164,16 @@ form.addEventListener('submit', async (e) => {
                 body: formData
             });
 
-            if (response.ok) {
-                const produto = await response.json();
-                showAlert('✅ Produto atualizado com sucesso!', 'success');
+            const data = await response.json();
+
+            if (data.success) {
+                showAlert('✅ ' + data.message, 'success');
                 resetForm();
                 loadProdutos();
                 updateStats();
                 produtoEmEdicao = null;
             } else {
-                const error = await response.json();
-                showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
+                showAlert('❌ ' + (data.message || 'Erro ao salvar produto'), 'error');
             }
         } catch (error) {
             console.error('Erro:', error);
@@ -196,7 +196,7 @@ form.addEventListener('submit', async (e) => {
         formData.append('marca', inputs.marca.value);
         formData.append('categoria', inputs.categoria.value);
         formData.append('badge', inputs.badge.value);
-        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0'); // ✅ Converter para 1 ou 0
+        formData.append('disponivel', inputs.disponivel.checked ? '1' : '0');
         
         if (inputs.imagemInput.files[0]) {
             formData.append('imagem', inputs.imagemInput.files[0]);
@@ -208,15 +208,15 @@ form.addEventListener('submit', async (e) => {
                 body: formData
             });
 
-            if (response.ok) {
-                const produto = await response.json();
-                showAlert('✅ Produto cadastrado com sucesso!', 'success');
+            const data = await response.json();
+
+            if (data.success) {
+                showAlert('✅ ' + data.message, 'success');
                 resetForm();
                 loadProdutos();
                 updateStats();
             } else {
-                const error = await response.json();
-                showAlert('❌ ' + (error.error || error.message || 'Erro ao salvar produto'), 'error');
+                showAlert('❌ ' + (data.message || 'Erro ao salvar produto'), 'error');
             }
         } catch (error) {
             console.error('Erro:', error);
@@ -283,12 +283,14 @@ function createProductItem(produto) {
         currency: 'BRL'
     });
     
-    // ✅ CORRIGIR: caminho completo da imagem
+    // ✅ Corrigir: caminho completo da imagem
     const imagemURL = imagem 
         ? (imagem.startsWith('http') ? imagem : baseURL + '/' + imagem)
         : 'https://via.placeholder.com/80/1F1F1F/DC2626?text=Sem+Imagem';
     
-    const statusBadge = disponivel 
+    // ✅ Verificar disponibilidade (pode ser string ou número)
+    const isDisponivel = disponivel == 1 || disponivel === '1' || disponivel === 'Sim';
+    const statusBadge = isDisponivel 
         ? '<span style="color: #10B981;"><i class="fas fa-check-circle"></i> Disponível</span>'
         : '<span style="color: #EF4444;"><i class="fas fa-times-circle"></i> Indisponível</span>';
     
@@ -341,13 +343,14 @@ async function deleteProduto(id) {
             }
         });
         
-        if (response.ok) {
+        const data = await response.json();
+
+        if (data.success) {
             showAlert('✅ Produto excluído com sucesso!', 'success');
             loadProdutos();
             updateStats();
         } else {
-            const error = await response.json();
-            showAlert('❌ ' + (error.error || error.message || 'Erro ao excluir produto'), 'error');
+            showAlert('❌ ' + (data.message || 'Erro ao excluir produto'), 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
@@ -382,7 +385,9 @@ async function editProduto(id) {
         inputs.marca.value = produto.marca || '';
         inputs.categoria.value = produto.categoria || '';
         inputs.badge.value = produto.badge || '';
-        inputs.disponivel.checked = produto.disponivel == 1 || produto.disponivel === '1';
+        
+        // ✅ Corrigir: verificar se disponível é 1, '1', 'Sim'
+        inputs.disponivel.checked = produto.disponivel == 1 || produto.disponivel === '1' || produto.disponivel === 'Sim';
         
         // Mostrar imagem se existir
         if (produto.imagem) {
@@ -403,7 +408,7 @@ async function editProduto(id) {
         const btnSubmit = form.querySelector('button[type="submit"]');
         btnSubmit.innerHTML = '<i class="fas fa-save"></i> Atualizar Produto';
         
-        showAlert('📝 Editando produto. Faça suas alterações e clique em "Atualizar"', 'success');
+        showAlert('🖊️ Editando produto. Faça suas alterações e clique em "Atualizar"', 'success');
         
     } catch (error) {
         console.error('Erro:', error);
@@ -417,9 +422,10 @@ async function updateStats() {
         const response = await fetch(API_URL);
         const produtos = await response.json();
         
+        // ✅ Corrigir: verificar se disponível é 1, '1' ou 'Sim'
         const total = produtos.length;
-        const disponiveis = produtos.filter(p => p.disponivel == 1 || p.disponivel === '1').length;
-        const estoquesBaixos = produtos.filter(p => p.estoque < 5 && (p.disponivel == 1 || p.disponivel === '1')).length;
+        const disponiveis = produtos.filter(p => p.disponivel == 1 || p.disponivel === '1' || p.disponivel === 'Sim').length;
+        const estoquesBaixos = produtos.filter(p => p.estoque < 5 && (p.disponivel == 1 || p.disponivel === '1' || p.disponivel === 'Sim')).length;
         const valorTotal = produtos.reduce((sum, p) => sum + (parseFloat(p.preco) * parseInt(p.estoque)), 0);
         
         document.getElementById('totalProdutos').textContent = total;

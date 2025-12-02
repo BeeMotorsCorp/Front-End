@@ -7,32 +7,69 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="js/verificar-login.js"></script>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <script src="js/header-global.js"></script>
-        <nav class="nav">
-            <div class="nav__logo">
-                <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
-                <span class="logo-text">Sport Gun</span>
-            </div>
-            
-            <ul class="nav__menu">
-                <li><a href="home.html">Menu</a></li>
-                <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="home.html">Notícias</a></li>
-            </ul>
+    <!-- Estilos necessários -->
+<link rel="stylesheet" href="css/header-global.css">
 
-            <div class="nav__actions">
-                <button id="btnPerfil" class="btn btn--profile" style="display: none;">
-                    <i class="fas fa-user-circle"></i> Perfil
-                </button>
-                <a href="login.html" id="btnLogin" class="btn btn--login">Entrar</a>
+<!-- Header -->
+<header class="header">
+    <nav class="nav">
+        <!-- Logo -->
+        <div class="nav__logo">
+            <img src="Imagens/Logo.png" alt="Sport Gun Imports" class="logo">
+            <span class="logo-text">Sport Gun</span>
+        </div>
+        
+        <!-- Menu -->
+        <ul class="nav__menu">
+            <li><a href="home.html">Menu</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="home.html">Notícias</a></li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="nav__actions">
+            <!-- Login (quando NÃO logado) -->
+            <div id="btnLoginContainer" style="display: flex; gap: 1rem;">
+                <a href="login.html" class="btn btn--login">Entrar</a>
                 <a href="cadastro.html" class="btn btn--register">Registrar</a>
             </div>
-        </nav>
-    </header>
+
+            <!-- Perfil (quando LOGADO) -->
+            <div id="userProfileContainer" class="user-profile-container" style="display: none;">
+                <button id="userProfileBtn" class="user-profile-btn">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="user-name" id="userName">Usuário</span>
+                </button>
+                
+                <div id="userMenuDropdown" class="user-menu-dropdown">
+                    <a href="usuario.html" id="menuPerfil" class="user-menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                    <a href="usuario.html#compras" id="menuMinhasCompras" class="user-menu-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Minhas Compras</span>
+                    </a>
+                    <a href="usuario.html#documentos" id="menuConfiguracoes" class="user-menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Documentos CAC</span>
+                    </a>
+                    <button id="menuLogout" class="user-menu-item user-menu-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Script do Header Global -->
+<script src="js/header-global.js"></script>
 
     <!-- Catálogo Header -->
     <div class="catalogo-container">
@@ -127,6 +164,10 @@
                     <label class="filtro-label">
                         <input type="checkbox" class="filtro-calibre" value=".22 Magnum">
                         .22 Magnum
+                    </label>
+                     <label class="filtro-label">
+                        <input type="checkbox" class="filtro-calibre" value=".22LR">
+                        .22LR
                     </label>
                     <label class="filtro-label">
                         <input type="checkbox" class="filtro-calibre" value=".17 HMR">
@@ -253,17 +294,17 @@
             <div class="footer__section">
                 <h3>Serviços</h3>
                 <ul>
-                    <li><a href="#">Entrega</a></li>
-                    <li><a href="#">Verificação</a></li>
-                    <li><a href="#">Garantia</a></li>
+                    <li><a href="frete.html">Entrega</a></li>
+                    <li><a href="verificacao.html">Verificação</a></li>
+                    <li><a href="ga">Garantia</a></li>
                 </ul>
             </div>
 
             <div class="footer__section">
                 <h3>Empresa</h3>
                 <ul>
-                    <li><a href="#">Sobre nós</a></li>
-                    <li><a href="#">Contato</a></li>
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
                     <li><a href="#">Termos de uso</a></li>
                 </ul>
             </div>

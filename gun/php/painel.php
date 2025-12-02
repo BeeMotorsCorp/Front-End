@@ -23,6 +23,9 @@ function logDebug($msg) {
 
 logDebug("=== PAINEL.PHP INICIADO ===");
 logDebug("REQUEST METHOD: " . $_SERVER['REQUEST_METHOD']);
+logDebug("POST DATA: " . json_encode($_POST));
+logDebug("FILES DATA: " . json_encode(array_keys($_FILES)));
+logDebug("MEMORY USAGE: " . memory_get_usage() / 1024 / 1024 . "MB");
 
 // Trata OPTIONS para CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -39,16 +42,16 @@ if ($method === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT
 }
 
 // ===== ALGORITMO QUICK SORT EM PHP =====
-function quickSort($array, $campo, $ordem = 'asc') {
+function quickSort($array, $campo, $ordem = 'asc') { // asc ou desc
     if (count($array) <= 1) {
         return $array;
     }
     
-    $pivo = $array[0];
-    $esquerda = [];
-    $direita = [];
+    $pivo = $array[0]; //escolhe o primeiro elemento como pivo
+    $esquerda = []; //array para elementos menores
+    $direita = []; //array para elementos maiores
     
-    for ($i = 1; $i < count($array); $i++) {
+    for ($i = 1; $i < count($array); $i++) { 
         $comparacao = compararValores($array[$i][$campo], $pivo[$campo], $campo);
         
         if ($ordem === 'asc') {
@@ -57,7 +60,7 @@ function quickSort($array, $campo, $ordem = 'asc') {
             } else {
                 $direita[] = $array[$i];
             }
-        } else {
+        } else { // desc
             if ($comparacao >= 0) {
                 $esquerda[] = $array[$i];
             } else {
@@ -73,13 +76,13 @@ function quickSort($array, $campo, $ordem = 'asc') {
     );
 }
 
-function compararValores($a, $b, $campo) {
+function compararValores($a, $b, $campo) { 
     if ($campo === 'preco' || $campo === 'estoque') {
-        return floatval($a) - floatval($b);
+        return floatval($a) - floatval($b); //converte para número decimal
     } elseif ($campo === 'nome' || $campo === 'marca' || $campo === 'categoria') {
-        return strcasecmp($a, $b);
+        return strcasecmp($a, $b); // comparação case-insensitive(Compara textos IGNORANDO maiúsculas/minúsculas)
     } else {
-        return strcmp($a, $b);
+        return strcmp($a, $b); // comparação case-sensitive (compara textos considerando maiúsculas/minúsculas)
     }
 }
 
@@ -87,6 +90,7 @@ try {
     // ===== CONEXÃO COM BANCO =====
     logDebug("Conectando ao banco...");
     
+    // Conectando ao banco sport_gun
     $conn = new mysqli("localhost", "AdminSportGun", "yQKMl.T51W4vExZ9", "sport_gun");
     
     if ($conn->connect_error) {
@@ -132,9 +136,9 @@ try {
         
     }
     
-    // ===== POST - CRIAR PRODUTO =====
+    // ===== POST - CRIAR PRODUTO (USANDO PROCEDURE) =====
     else if ($method === 'POST') {
-        logDebug("POST REQUEST - Criando produto");
+        logDebug("POST REQUEST - Criando produto COM PROCEDURE");
         
         $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
         $descricao = isset($_POST['descricao']) ? trim($_POST['descricao']) : '';
@@ -146,7 +150,9 @@ try {
         $marca = isset($_POST['marca']) ? trim($_POST['marca']) : '';
         $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
         $badge = isset($_POST['badge']) ? trim($_POST['badge']) : '';
-        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0; // ✅ Comparar com '1'
+        
+        // ✅ DISPONIVEL COMO INT (1 ou 0)
+        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0;
         $imagem = '';
         
         logDebug("Dados recebidos: Nome=$nome, Preco=$preco, Estoque=$estoque, Disponivel=$disponivel");
@@ -160,7 +166,6 @@ try {
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
             logDebug("Upload de imagem detectado");
             
-            // Usar caminho absoluto correto
             $uploadDir = __DIR__ . '/../uploads/';
             
             if (!file_exists($uploadDir)) {
@@ -182,7 +187,6 @@ try {
             $caminhoCompleto = $uploadDir . $nomeArquivo;
             
             if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoCompleto)) {
-                // Salvar apenas o caminho relativo no banco
                 $imagem = 'uploads/' . $nomeArquivo;
                 logDebug("Imagem salva: $imagem");
             } else {
@@ -190,46 +194,53 @@ try {
             }
         }
         
-        logDebug("Preparando statement para INSERT");
+        logDebug("Preparando PROCEDURE para INSERT");
         
-        // Inserir no banco
+        // ✅ USAR STORED PROCEDURE PARA INSERIR
         $stmt = $conn->prepare(
-            "INSERT INTO produtos (nome, descricao, preco, estoque, calibre, capacidade, peso, marca, categoria, badge, imagem, disponivel) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            "CALL inserir_produto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
         
         if (!$stmt) {
-            throw new Exception("Erro ao preparar statement: " . $conn->error);
+            throw new Exception("Erro ao preparar procedure: " . $conn->error);
         }
         
         $stmt->bind_param(
             "ssdisssssssi",
-            $nome, $descricao, $preco, $estoque, $calibre, $capacidade, 
+            $nome, $descricao, $preco, $estoque, $calibre, $capacidade,
             $peso, $marca, $categoria, $badge, $imagem, $disponivel
         );
         
-        logDebug("Executando INSERT...");
+        logDebug("Executando PROCEDURE inserir_produto...");
         
         if ($stmt->execute()) {
+            // Obter o último ID inserido
             $novoId = $conn->insert_id;
-            logDebug("Produto inserido com ID: $novoId");
+            logDebug("Produto inserido com ID: $novoId via PROCEDURE");
             
+            $stmt->close();
+            
+            // Recuperar dados do produto inserido
             $result = $conn->query("SELECT * FROM produtos WHERE id = $novoId");
             if ($result && $result->num_rows > 0) {
                 $produto = $result->fetch_assoc();
                 logDebug("Produto recuperado do banco");
                 
-                $stmt->close();
                 $conn->close();
                 
                 ob_end_clean();
                 http_response_code(201);
-                echo json_encode($produto);
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Produto cadastrado com sucesso!",
+                    "produto" => $produto
+                ]);
+                exit;
             } else {
                 throw new Exception("Erro ao recuperar produto inserido");
             }
         } else {
-            throw new Exception("Erro ao executar INSERT: " . $stmt->error);
+            throw new Exception("Erro ao executar PROCEDURE: " . $stmt->error);
         }
         
     }
@@ -248,7 +259,9 @@ try {
         $marca = isset($_POST['marca']) ? trim($_POST['marca']) : '';
         $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
         $badge = isset($_POST['badge']) ? trim($_POST['badge']) : '';
-        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0; // ✅ Comparar com '1'
+        
+        // ✅ CONVERTENDO PARA INT
+        $disponivel = (isset($_POST['disponivel']) && $_POST['disponivel'] == '1') ? 1 : 0;
         $id = isset($_POST['id']) ? intval($_POST['id']) : null;
         
         if (!$id) {
@@ -266,7 +279,7 @@ try {
         }
         
         $stmt->bind_param(
-            "ssdissssssii",
+            "ssdisssssssi",
             $nome, $descricao, $preco, $estoque, $calibre, $capacidade,
             $peso, $marca, $categoria, $badge, $disponivel, $id
         );
@@ -283,7 +296,12 @@ try {
                 
                 ob_end_clean();
                 http_response_code(200);
-                echo json_encode($produto);
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Produto atualizado com sucesso!",
+                    "produto" => $produto
+                ]);
+                exit;
             }
         } else {
             throw new Exception("Erro ao executar UPDATE: " . $stmt->error);
@@ -329,7 +347,11 @@ try {
                 
                 ob_end_clean();
                 http_response_code(200);
-                echo json_encode(["success" => true, "message" => "Produto deletado com sucesso"]);
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Produto deletado com sucesso!"
+                ]);
+                exit;
             } else {
                 throw new Exception("Erro ao deletar: " . $stmt->error);
             }
@@ -365,12 +387,14 @@ try {
     
     // Enviar erro
     http_response_code(400);
-    $resposta_erro = json_encode([
+    $resposta_erro = [
         "error" => true,
+        "success" => false,
         "message" => $e->getMessage()
-    ]);
-    logDebug("Enviando erro: $resposta_erro");
-    echo $resposta_erro;
+    ];
+    logDebug("Enviando erro: " . json_encode($resposta_erro));
+    echo json_encode($resposta_erro);
+    exit;
 }
 
 exit;

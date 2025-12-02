@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo - Sport Gun</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilos específicos para o admin login */
+        .admin-login-container {
+            min-height: 100vh;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .admin-login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .admin-auth-card {
+            background: var(--background-card);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.6s ease;
+        }
+
+        .admin-shield {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        .admin-shield i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .admin-auth-card .auth-title {
+            color: var(--primary-color);
+        }
+
+        .admin-auth-card .mensagem-erro {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .security-notice {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--text-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .security-notice i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .admin-attempts {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #EF4444;
+            color: #EF4444;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-auth-card">
+            <!-- Shield Icon -->
+            <div class="admin-shield">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+
+            <!-- Header -->
+            <div class="auth-header" style="text-align: center;">
+                <h1 class="auth-title">Área Administrativa</h1>
+                <p class="auth-subtitle">Acesso Restrito</p>
+            </div>
+
+            <!-- Tentativas restantes -->
+            <div id="attemptsWarning" class="admin-attempts" style="display: none;"></div>
+
+            <!-- Formulário -->
+            <form id="adminLoginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="adminUser">
+                        <i class="fas fa-user-shield"></i> Usuário Administrativo
+                    </label>
+                    <input 
+                        type="text" 
+                        id="adminUser" 
+                        placeholder="Digite o usuário admin" 
+                        required
+                        autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPass">
+                        <i class="fas fa-key"></i> Senha de Administrador
+                    </label>
+                    <input 
+                        type="password" 
+                        id="adminPass" 
+                        placeholder="Digite a senha admin" 
+                        required
+                        autocomplete="off">
+                </div>
+
+                <button type="submit" class="btn-auth" id="btnAdminLogin">
+                    <i class="fas fa-sign-in-alt"></i> Acessar Painel
+                </button>
+
+                <div id="loading" class="carregando" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Verificando credenciais...
+                </div>
+            </form>
+
+            <!-- Mensagens -->
+            <div id="mensagemContainer"></div>
+
+            <!-- Security Notice -->
+            <div class="security-notice">
+                <i class="fas fa-lock"></i> Área de acesso restrito
+            </div>
+
+            <!-- Footer -->
+            <div class="auth-footer" style="margin-top: 2rem;">
+                <p><a href="home.html"><i class="fas fa-arrow-left"></i> Voltar ao site</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_USER = 'AdminSportGun';
+        const ADMIN_PASS = 'yQKMl.T51W4vExZ9';
+        const MAX_ATTEMPTS = 3;
+        let attempts = 0;
+
+        // Verificar se já está autenticado como admin
+        if (localStorage.getItem('admin_authenticated') === 'true') {
+            window.location.href = 'painel.html';
+        }
+
+        // Verificar tentativas de login
+        const loginAttempts = parseInt(localStorage.getItem('admin_login_attempts') || '0');
+        const lastAttemptTime = parseInt(localStorage.getItem('admin_last_attempt') || '0');
+        const currentTime = Date.now();
+
+        // Bloquear por 15 minutos após 3 tentativas falhas
+        if (loginAttempts >= MAX_ATTEMPTS && (currentTime - lastAttemptTime) < 900000) {
+            const remainingTime = Math.ceil((900000 - (currentTime - lastAttemptTime)) / 60000);
+            showMessage(`🚫 Acesso bloqueado. Tente novamente em ${remainingTime} minutos.`, 'error');
+            document.getElementById('btnAdminLogin').disabled = true;
+        } else if (loginAttempts > 0 && loginAttempts < MAX_ATTEMPTS) {
+            // Mostrar aviso de tentativas restantes
+            const remaining = MAX_ATTEMPTS - loginAttempts;
+            const warningEl = document.getElementById('attemptsWarning');
+            warningEl.textContent = `⚠️ ${remaining} tentativa(s) restante(s)`;
+            warningEl.style.display = 'block';
+        }
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPass').value;
+            const btnLogin = document.getElementById('btnAdminLogin');
+            const loading = document.getElementById('loading');
+
+            // Desabilitar botão
+            btnLogin.disabled = true;
+            loading.style.display = 'block';
+            clearMessages();
+
+            // Simular verificação (adicionar delay realista)
+            setTimeout(() => {
+                if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                    // Login bem-sucedido
+                    showMessage('✅ Acesso autorizado! Redirecionando...', 'success');
+                    
+                    // Armazenar autenticação
+                    localStorage.setItem('admin_authenticated', 'true');
+                    localStorage.setItem('admin_user', ADMIN_USER);
+                    localStorage.setItem('admin_login_time', Date.now().toString());
+                    localStorage.removeItem('admin_login_attempts');
+                    localStorage.removeItem('admin_last_attempt');
+                    
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = 'painel.html';
+                    }, 1000);
+                    
+                } else {
+                    // Login falhou
+                    attempts = parseInt(localStorage.getItem('admin_login_attempts') || '0') + 1;
+                    localStorage.setItem('admin_login_attempts', attempts.toString());
+                    localStorage.setItem('admin_last_attempt', Date.now().toString());
+                    
+                    const remainingAttempts = MAX_ATTEMPTS - attempts;
+                    
+                    if (remainingAttempts > 0) {
+                        showMessage(`❌ Credenciais inválidas! ${remainingAttempts} tentativa(s) restante(s).`, 'error');
+                        
+                        // Atualizar aviso
+                        const warningEl = document.getElementById('attemptsWarning');
+                        warningEl.textContent = `⚠️ ${remainingAttempts} tentativa(s) restante(s)`;
+                        warningEl.style.display = 'block';
+                        
+                        btnLogin.disabled = false;
+                    } else {
+                        showMessage('🚫 Acesso bloqueado por 15 minutos devido a múltiplas tentativas falhas.', 'error');
+                        // Manter botão desabilitado
+                    }
+                    
+                    // Limpar campos
+                    document.getElementById('adminPass').value = '';
+                }
+                
+                loading.style.display = 'none';
+            }, 1500);
+        });
+
+        function showMessage(message, type) {
+            const container = document.getElementById('mensagemContainer');
+            const classe = type === 'success' ? 'mensagem-sucesso' : 'mensagem-erro';
+            
+            container.innerHTML = `
+                <div class="${classe}">
+                    ${message}
+                </div>
+            `;
+        }
+
+        function clearMessages() {
+            document.getElementById('mensagemContainer').innerHTML = '';
+        }
+
+        // Proteção contra inspeção
+        document.addEventListener('keydown', function(e) {
+            // Bloquear F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Detectar DevTools
+        const devtools = /./;
+        devtools.toString = function() {
+            showMessage('🚨 Atividade suspeita detectada!', 'error');
+        };
+        console.log('%c', devtools);
+
+        // Adicionar estilo para mensagem de sucesso
+        const style = document.createElement('style');
+        style.textContent = `
+            .mensagem-sucesso {
+                background: rgba(16, 185, 129, 0.1);
+                border: 1px solid #10B981;
+                color: #10B981;
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin-top: 1rem;
+                text-align: center;
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

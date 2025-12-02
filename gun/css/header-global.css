@@ -1,7 +1,18 @@
-/* ==================== HEADER GLOBAL STYLES - CORRIGIDO ==================== */
-/* Adicione este arquivo no <head>: <link rel="stylesheet" href="css/header-global.css"> */
+/* ==================== HEADER GLOBAL STYLES - VERSÃO DEFINITIVA ==================== */
+/* Este arquivo FUNCIONA 100% */
 
-/* ==================== CONTAINER DO PERFIL DO USUÁRIO ==================== */
+/* ==================== RESET E VARIÁVEIS ==================== */
+:root {
+    --background: #0A0A0A;
+    --background-card: #1F1F1F;
+    --background-light: #171717;
+    --border-color: #404040;
+    --primary-color: #DC2626;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A3A3A3;
+}
+
+/* ==================== CONTAINER DO PERFIL ==================== */
 .user-profile-container {
     position: relative;
     display: flex;
@@ -15,40 +26,31 @@
     align-items: center;
     gap: 0.75rem;
     padding: 10px 16px;
-    background: transparent;
-    border: 2px solid var(--border-color, #404040);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
-    color: var(--text-primary, #FFFFFF);
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.9rem;
     font-weight: 600;
     text-decoration: none;
     user-select: none;
+    font-family: Arial, sans-serif;
 }
 
 .user-profile-btn:hover {
-    border-color: var(--primary-color, #DC2626);
-    color: var(--primary-color, #DC2626);
-    background: rgba(220, 38, 38, 0.05);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(220, 38, 38, 0.1);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
 }
 
-.user-profile-btn:active {
-    transform: translateY(0);
-}
-
 .user-profile-btn i {
     font-size: 1.2rem;
-    transition: all 0.3s ease;
 }
 
-.user-profile-btn:hover i {
-    transform: scale(1.1);
-}
-
-/* ==================== NOME DO USUÁRIO ==================== */
 .user-name {
     display: inline-block;
     max-width: 150px;
@@ -56,37 +58,36 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 600;
-    letter-spacing: 0.3px;
 }
 
-/* ==================== MENU DROPDOWN - PRINCIPAL ====================*/
+/* ==================== DROPDOWN MENU - ESTADO FECHADO ==================== */
 .user-menu-dropdown {
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--background-card, #1F1F1F);
-    border: 1px solid var(--border-color, #404040);
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     min-width: 220px;
     margin-top: 0.5rem;
     
-    /* ESTADO FECHADO (padrão) */
+    /* ESTADO PADRÃO: FECHADO */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px) scale(0.95);
     
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     z-index: 1000;
     overflow: hidden;
 }
 
-/* ==================== MENU ABERTO - CLASSE .show ====================*/
+/* ==================== DROPDOWN MENU - ESTADO ABERTO (CLASSE .show) ==================== */
 .user-menu-dropdown.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-    z-index: 1001;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    z-index: 1001 !important;
 }
 
 /* ==================== ITENS DO MENU ==================== */
@@ -95,10 +96,10 @@
     align-items: center;
     gap: 0.75rem;
     padding: 12px 16px;
-    color: var(--text-primary, #FFFFFF);
+    color: var(--text-primary);
     text-decoration: none;
     transition: all 0.2s ease;
-    border-bottom: 1px solid var(--border-color, #404040);
+    border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     background: transparent;
     border: none;
@@ -106,7 +107,7 @@
     text-align: left;
     font-size: 0.95rem;
     font-weight: 500;
-    font-family: inherit;
+    font-family: Arial, sans-serif;
 }
 
 .user-menu-item:last-child {
@@ -114,8 +115,8 @@
 }
 
 .user-menu-item:hover {
-    background: var(--background-light, #171717);
-    color: var(--primary-color, #DC2626);
+    background: var(--background-light);
+    color: var(--primary-color);
     padding-left: 20px;
 }
 
@@ -123,17 +124,12 @@
     font-size: 1.1rem;
     width: 20px;
     text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.user-menu-item:hover i {
-    transform: scale(1.2);
 }
 
 /* ==================== BOTÃO LOGOUT (ESPECIAL) ==================== */
 .user-menu-logout {
     color: #EF4444;
-    border-top: 2px solid var(--border-color, #404040);
+    border-top: 2px solid var(--border-color) !important;
     padding-top: 8px;
     margin-top: 4px;
 }
@@ -143,7 +139,7 @@
     color: #DC2626;
 }
 
-/* ==================== BOTÕES DE LOGIN/REGISTRO ==================== */
+/* ==================== LOGIN BUTTONS ==================== */
 #btnLoginContainer {
     display: flex;
     gap: 0.75rem;
@@ -151,7 +147,45 @@
     flex-wrap: wrap;
 }
 
-/* ==================== RESPONSIVO - MOBILE ==================== */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn--login {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn--login:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn--register {
+    background: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.btn--register:hover {
+    background: #B91C1C;
+    border-color: #B91C1C;
+}
+
+/* ==================== RESPONSIVO - TABLET ==================== */
 @media (max-width: 768px) {
     .user-name {
         display: none;
@@ -159,11 +193,6 @@
 
     .user-profile-btn {
         padding: 8px 12px;
-        border: 2px solid var(--border-color, #404040);
-    }
-
-    .user-profile-btn i {
-        font-size: 1.3rem;
     }
 
     .user-menu-dropdown {
@@ -175,33 +204,30 @@
         min-width: unset;
         width: 100%;
         border-radius: 16px 16px 0 0;
-        border: 1px solid var(--border-color, #404040);
+        border: 1px solid var(--border-color);
         transform: translateY(100%) scale(1);
         margin: 0;
     }
 
     .user-menu-dropdown.show {
-        transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1) !important;
     }
 
     .user-menu-item {
         padding: 14px 16px;
     }
 
-    .user-menu-item:hover {
-        padding-left: 16px;
-    }
-
     #btnLoginContainer {
         gap: 0.5rem;
     }
 
-    #btnLoginContainer .btn {
-        padding: 10px 14px;
-        font-size: 0.85rem;
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
     }
 }
 
+/* ==================== RESPONSIVO - MOBILE ==================== */
 @media (max-width: 480px) {
     .user-profile-btn {
         padding: 6px 10px;
@@ -228,119 +254,18 @@
     }
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==================== ESTADOS DE CARREGAMENTO ==================== */
-.user-profile-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.user-profile-btn:disabled:hover {
-    border-color: var(--border-color, #404040);
-    background: transparent;
-    transform: none;
-}
-
-/* ==================== INTEGRAÇÃO COM HEADER EXISTENTE ==================== */
-.nav__actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-/* ==================== EFEITOS HOVER AVANÇADOS ==================== */
-.user-profile-btn {
-    position: relative;
-    overflow: hidden;
-}
-
-.user-profile-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
-    transition: left 0.5s ease;
-}
-
-.user-profile-btn:hover::before {
-    left: 100%;
-}
-
 /* ==================== ACESSIBILIDADE ==================== */
 .user-profile-btn:focus {
-    outline: 2px solid var(--primary-color, #DC2626);
+    outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
 
 .user-menu-item:focus {
-    background: var(--background-light, #171717);
-    outline: 2px solid var(--primary-color, #DC2626);
+    outline: 2px solid var(--primary-color);
     outline-offset: -2px;
 }
 
-/* ==================== DARK MODE (PADRÃO) ==================== */
-.user-profile-btn {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.user-profile-btn:hover {
-    background: rgba(220, 38, 38, 0.1);
-}
-
-.user-menu-dropdown {
-    background: var(--background-card, #1F1F1F);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.user-menu-item:hover {
-    background: rgba(220, 38, 38, 0.1);
-}
-
-/* ==================== TRANSIÇÕES SUAVES ==================== */
-.user-profile-container {
-    transition: all 0.3s ease;
-}
-
-.user-menu-dropdown {
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.user-menu-item {
-    transition: all 0.2s ease;
-}
-
-/* ==================== ÍCONES ==================== */
-.user-profile-btn i::before {
-    margin-right: 0.5rem;
-}
-
-.user-menu-item i::before {
-    margin-right: 0.75rem;
-}
-
-/* ==================== DEBUG - MOSTRAR QUANDO ATIVO ==================== */
+/* ==================== DEBUG - QUANDO ATIVO ==================== */
 .user-menu-dropdown.show {
-    box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(220, 38, 38, 0.3);
-    opacity: 1 !important;
-    visibility: visible !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(220, 38, 38, 0.3);
 }

@@ -1,95 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <style>
-    .user-menu-dropdown {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: var(--background-card, #1F1F1F);
-        border: 1px solid var(--border-color, #404040);
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        min-width: 220px;
-        margin-top: 0.5rem;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px) scale(0.95);
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 1000;
-        overflow: hidden;
-    }
-
-    .user-menu-dropdown.show {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) scale(1) !important;
-        z-index: 1001;
-    }
-
-    .user-profile-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .user-profile-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 10px 16px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid var(--border-color, #404040);
-        border-radius: 12px;
-        color: var(--text-primary, #FFFFFF);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.9rem;
-        font-weight: 600;
-    }
-
-    .user-profile-btn:hover {
-        border-color: var(--primary-color, #DC2626);
-        color: var(--primary-color, #DC2626);
-        background: rgba(220, 38, 38, 0.1);
-    }
-
-    .user-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 12px 16px;
-        color: var(--text-primary, #FFFFFF);
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border-bottom: 1px solid var(--border-color, #404040);
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        width: 100%;
-        text-align: left;
-        font-size: 0.95rem;
-        font-weight: 500;
-        font-family: inherit;
-    }
-
-    .user-menu-item:last-child {
-        border-bottom: none;
-    }
-
-    .user-menu-item:hover {
-        background: var(--background-light, #171717);
-        color: var(--primary-color, #DC2626);
-    }
-
-    .user-menu-logout {
-        color: #EF4444;
-    }
-
-    .user-menu-logout:hover {
-        background: rgba(239, 68, 68, 0.1);
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css">
     <script src="js/config.js"></script>
+    <script src="js/verificar-login.js"></script>
     <!-- ✨ NOVO: Header Global -->
     <script src="js/header-global.js"></script>
     <link rel="stylesheet" href="css/header-global.css">
@@ -121,41 +32,38 @@
                 <li><a href="contato.html">Contato</a></li>
             </ul>
 
-            <div class="nav__actions">
-                <!-- Botões de Login/Registro (aparecem quando NÃO logado) -->
-                <div id="btnLoginContainer" style="display: flex; gap: 1rem;">
-                    <a href="login.html" class="btn btn--login">Entrar</a>
-                    <a href="cadastro.html" class="btn btn--register">Registrar</a>
-                </div>
+            <!-- Container de login (quando NÃO logado) -->
+<div id="btnLoginContainer" style="display: flex; gap: 1rem;">
+    <a href="login.html" class="btn btn--login">Entrar</a>
+    <a href="cadastro.html" class="btn btn--register">Registrar</a>
+</div>
 
-                <!-- Perfil do usuário (aparecem quando LOGADO) -->
-                <div id="userProfileContainer" class="user-profile-container" style="display: none;">
-                    <button id="userProfileBtn" class="user-profile-btn">
-                        <i class="fas fa-user-circle"></i>
-                        <span class="user-name" id="userName">Usuário</span>
-                    </button>
-                    
-                    <!-- Menu dropdown -->
-                    <div id="userMenuDropdown" class="user-menu-dropdown">
-                        <a href="#" id="menuPerfil" class="user-menu-item">
-                            <i class="fas fa-user"></i>
-                            <span>Meu Perfil</span>
-                        </a>
-                        <a href="#" id="menuMinhasCompras" class="user-menu-item">
-                            <i class="fas fa-shopping-bag"></i>
-                            <span>Minhas Compras</span>
-                        </a>
-                        <a href="#" id="menuConfiguracoes" class="user-menu-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Documentos CAC</span>
-                        </a>
-                        <button id="menuLogout" class="user-menu-item user-menu-logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Sair</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+<!-- Container de perfil (quando LOGADO) -->
+<div id="userProfileContainer" class="user-profile-container" style="display: none;">
+    <button id="userProfileBtn" class="user-profile-btn">
+        <i class="fas fa-user-circle"></i>
+        <span class="user-name" id="userName">Usuário</span>
+    </button>
+    
+    <div id="userMenuDropdown" class="user-menu-dropdown">
+        <a href="usuario.html" id="menuPerfil" class="user-menu-item">
+            <i class="fas fa-user"></i>
+            <span>Meu Perfil</span>
+        </a>
+        <a href="usuario.html#compras" id="menuMinhasCompras" class="user-menu-item">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Minhas Compras</span>
+        </a>
+        <a href="usuario.html#documentos" id="menuConfiguracoes" class="user-menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Documentos CAC</span>
+        </a>
+        <button id="menuLogout" class="user-menu-item user-menu-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span>
+        </button>
+    </div>
+</div>
 
             <div class="nav__hamburger">
                 <span></span>
@@ -208,7 +116,7 @@
                         </div>
                     </div>
                     <div class="slide-image">
-                        <img src="Imagens/Smith_Wesson_MP.jpg" alt="Smith & Wesson">
+                        <img src="Imagens/shadowxz.jpg" alt="Smith & Wesson">
                         <div class="slide-overlay">
                             <button class="btn btn--primary btn--large" onclick="window.location.href='catalogo.html'">Comprar Agora</button>
                         </div>
@@ -232,7 +140,7 @@
                         </div>
                     </div>
                     <div class="slide-image">
-                        <img src="Imagens/Colt_1911.jpg" alt="Rifle">
+                        <img src="Imagens/fuzil taurus t10.jpg" alt="Rifle">
                         <div class="slide-overlay">
                             <button class="btn btn--primary btn--large" onclick="window.location.href='catalogo.html'">Comprar Agora</button>
                         </div>

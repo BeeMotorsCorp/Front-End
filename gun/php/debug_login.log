@@ -34,3 +34,15 @@
 [2025-11-25 23:18:38] Conectado ao banco
 [2025-11-25 23:18:38] Login bem-sucedido - ID: 1
 [2025-11-25 23:18:38] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}
+[2025-11-27 19:08:18] === LOGIN.PHP INICIADO ===
+[2025-11-27 19:08:18] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-27 19:08:18] Tentativa de login - Usuario: admin5
+[2025-11-27 19:08:20] Conectado ao banco
+[2025-11-27 19:08:20] Login bem-sucedido - ID: 1
+[2025-11-27 19:08:20] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}
+[2025-11-27 21:06:28] === LOGIN.PHP INICIADO ===
+[2025-11-27 21:06:28] JSON recebido: {"usuario":"admin5","senha":"1234"}
+[2025-11-27 21:06:28] Tentativa de login - Usuario: admin5
+[2025-11-27 21:06:30] Conectado ao banco
+[2025-11-27 21:06:30] Login bem-sucedido - ID: 1
+[2025-11-27 21:06:30] Enviando resposta: {"status":"ok","usuario_id":1,"usuario_nome":"nometeste"}

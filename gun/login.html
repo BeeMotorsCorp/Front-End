@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="js/verificar-login.js"></script>
 </head>
 <body>
     <div class="auth-container">
@@ -22,10 +23,10 @@
 
             <form id="loginForm" class="auth-form">
                 <div class="form-group">
-                    <label for="usuario">
-                        <i class="fas fa-user"></i> Usuário
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
                     </label>
-                    <input type="text" id="usuario" placeholder="Digite seu usuário" required>
+                    <input type="email" id="email" placeholder="Digite seu email" required>
                 </div>
 
                 <div class="form-group">
@@ -59,7 +60,7 @@
             
             const btnLogin = document.getElementById("btnLogin");
             const loading = document.getElementById("loading");
-            const usuario = document.getElementById("usuario").value.trim();
+            const email = document.getElementById("email").value.trim();
             const senha = document.getElementById("senha").value;
             
             btnLogin.disabled = true;
@@ -70,7 +71,7 @@
                 const response = await fetch("php/login.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ usuario, senha })
+                    body: JSON.stringify({ email, senha })
                 });
                 
                 if (!response.ok) {
@@ -79,9 +80,10 @@
                 
                 const data = await response.json();
                 
-                if (data.status === "ok") {
+                if (data.status === "ok" || data.status === "success") {
                     localStorage.setItem("usuario_id", data.usuario_id);
                     localStorage.setItem("usuario_nome", data.usuario_nome);
+                    localStorage.setItem("usuario_email", data.usuario_email);
                     window.location.href = "home.html";
                 } else {
                     showMessage(data.mensagem || "Erro desconhecido");
@@ -109,7 +111,6 @@
             document.getElementById("mensagemContainer").innerHTML = "";
         }
 
-        // Verificar se já está logado
         if (localStorage.getItem("usuario_id")) {
             window.location.href = "home.html";
         }

@@ -1,9 +1,8 @@
 <?php
-// login.php
 ob_start();
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=utf-8");
 
@@ -12,31 +11,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     ob_end_clean();
     exit;
 }
+ // Incluir conexão
+    include "conexao.php";
+    
+    if (!isset($conn)) {
+        throw new Exception("Erro ao incluir conexao.php");
+    }
+    
+    if ($conn->connect_error) {
+        throw new Exception("Erro de conexão: " . $conn->connect_error);
+    }
 
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
 try {
-    // Ler dados do POST
-    $json = file_get_contents("php://input");
-    
-    if (empty($json)) {
-        throw new Exception("Nenhum dado recebido");
+    // Verificar se usuario_id foi fornecido
+    if (empty($_GET['usuario_id'])) {
+        throw new Exception("ID do usuário não fornecido");
     }
     
-    $data = json_decode($json, true);
-    
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception("JSON inválido");
-    }
-    
-    if (empty($data['email']) || empty($data['senha'])) {
-        throw new Exception("Email e senha são obrigatórios");
-    }
-    
-    $email = trim($data['email']);
-    $senha = $data['senha'];
+    $usuario_id = intval($_GET['usuario_id']);
     
     // Incluir conexão
     include "conexao.php";
@@ -49,49 +45,39 @@ try {
         throw new Exception("Erro de conexão: " . $conn->connect_error);
     }
     
-    // Buscar usuário por email
+    // Buscar dados do usuário
     $stmt = $conn->prepare(
-        "SELECT id, nome, sobrenome, cpf, email, telefone, senha 
-         FROM usuarios WHERE email = ?"
+        "SELECT id, nome, sobrenome, email, telefone, cpf 
+         FROM usuarios WHERE id = ?"
     );
     
     if (!$stmt) {
-        throw new Exception("Erro prepare: " . $conn->error);
+        throw new Exception("Erro ao preparar statement: " . $conn->error);
     }
     
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("i", $usuario_id);
     
     if (!$stmt->execute()) {
-        throw new Exception("Erro execute: " . $stmt->error);
+        throw new Exception("Erro ao executar query: " . $stmt->error);
     }
     
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
         $stmt->close();
-        throw new Exception("Email ou senha incorretos");
+        $conn->close();
+        throw new Exception("Usuário não encontrado");
     }
     
     $usuario = $result->fetch_assoc();
     $stmt->close();
-    
-    // Verificar senha
-    if (!password_verify($senha, $usuario['senha'])) {
-        throw new Exception("Email ou senha incorretos");
-    }
-    
     $conn->close();
     
     ob_end_clean();
     http_response_code(200);
     
-    // Retornar dados do usuário
     echo json_encode([
-        "status" => "ok",
-        "mensagem" => "Login realizado com sucesso!",
-        "usuario_id" => $usuario['id'],
-        "usuario_nome" => $usuario['nome'],
-        "usuario_email" => $usuario['email'],
+        "sucesso" => true,
         "usuario" => [
             "id" => $usuario['id'],
             "nome" => $usuario['nome'],
@@ -111,8 +97,8 @@ try {
     http_response_code(400);
     
     echo json_encode([
-        "status" => "error",
-        "mensagem" => $e->getMessage()
+        "sucesso" => false,
+        "erro" => $e->getMessage()
     ]);
 }
 

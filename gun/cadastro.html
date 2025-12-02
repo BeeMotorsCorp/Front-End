@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="js/verificar-login.js"></script>
 </head>
 <body>
     <div class="auth-container">
@@ -36,17 +37,24 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">
+                        <i class="fas fa-phone"></i> Telefone
+                    </label>
+                    <input type="tel" id="telefone" placeholder="(00) 00000-0000" required>
+                </div>
+
+                <div class="form-group">
                     <label for="cpf">
                         <i class="fas fa-id-card"></i> CPF
                     </label>
                     <input type="text" id="cpf" placeholder="000.000.000-00" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="usuario">
-                        <i class="fas fa-at"></i> Usuário
-                    </label>
-                    <input type="text" id="usuario" placeholder="Crie seu usuário" required>
                 </div>
 
                 <div class="form-group">
@@ -95,8 +103,9 @@
                     body: JSON.stringify({
                         nome: document.getElementById("nome").value,
                         sobrenome: document.getElementById("sobrenome").value,
+                        email: document.getElementById("email").value,
+                        telefone: document.getElementById("telefone").value,
                         cpf: document.getElementById("cpf").value,
-                        usuario: document.getElementById("usuario").value,
                         senha: document.getElementById("senha").value
                     })
                 });
@@ -104,11 +113,9 @@
                 console.log("📡 Status HTTP:", resposta.status);
                 console.log("📄 Content-Type:", resposta.headers.get("content-type"));
 
-                // Ler como texto primeiro para debug
                 const textoResposta = await resposta.text();
                 console.log("📋 Resposta bruta:", textoResposta);
 
-                // Tentar parsear como JSON
                 let resultado;
                 try {
                     resultado = JSON.parse(textoResposta);
@@ -124,12 +131,10 @@
                     showMessage("✅ " + resultado.mensagem, "sucesso");
                     form.reset();
                     
-                    // Armazenar dados (se necessário)
                     if (resultado.usuario_id) {
                         localStorage.setItem("usuario_id", resultado.usuario_id);
                     }
                     
-                    // Redirecionar após 2 segundos
                     setTimeout(() => {
                         window.location.href = "login.html";
                     }, 2000);
@@ -162,7 +167,6 @@
             document.getElementById("mensagemContainer").innerHTML = "";
         }
 
-        // Verificar se já está logado
         if (localStorage.getItem("usuario_id")) {
             window.location.href = "home.html";
         }

@@ -1,48 +1,24 @@
 <?php
-// Iniciar buffer de saída
 ob_start();
 
-// Headers CORS - ANTES DE QUALQUER SAÍDA
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=utf-8");
 
-// Tratar OPTIONS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     ob_end_clean();
     exit;
 }
 
-// Desabilitar exibição de erros no output
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
-// Log de debug
-$logFile = __DIR__ . '/debug_cadastro.log';
-function logDebug($msg) {
-    global $logFile;
-    $timestamp = date('[Y-m-d H:i:s]');
-    file_put_contents($logFile, "$timestamp $msg\n", FILE_APPEND);
-}
-
-logDebug("=== CADASTRAR.PHP INICIADO ===");
-logDebug("Diretório: " . __DIR__);
-logDebug("PHP Version: " . phpversion());
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    ob_end_clean();
-    http_response_code(405);
-    echo json_encode(["status" => "erro", "mensagem" => "Método não permitido"]);
-    exit;
-}
-
 try {
     // Ler dados do POST
     $json = file_get_contents("php://input");
-    logDebug("JSON recebido: " . substr($json, 0, 100));
     
     if (empty($json)) {
         throw new Exception("Nenhum dado recebido");
@@ -51,140 +27,112 @@ try {
     $data = json_decode($json, true);
     
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception("JSON inválido: " . json_last_error_msg());
+        throw new Exception("JSON inválido");
     }
     
     // Validar campos obrigatórios
-    $campos = ['nome', 'sobrenome', 'cpf', 'usuario', 'senha'];
-    foreach ($campos as $campo) {
+    $campos_obrigatorios = ['nome', 'sobrenome', 'email', 'telefone', 'cpf', 'senha'];
+    foreach ($campos_obrigatorios as $campo) {
         if (empty($data[$campo])) {
             throw new Exception("Campo '$campo' é obrigatório");
         }
     }
     
-    $nome = trim($data["nome"]);
-    $sobrenome = trim($data["sobrenome"]);
-    $cpf = trim($data["cpf"]);
-    $usuario = trim($data["usuario"]);
-    $senha = $data["senha"];
+    $nome = trim($data['nome']);
+    $sobrenome = trim($data['sobrenome']);
+    $email = trim($data['email']);
+    $telefone = trim($data['telefone']);
+    $cpf = trim($data['cpf']);
+    $senha = $data['senha'];
     
-    logDebug("Usuário a cadastrar: $usuario");
-    
-    // ===== INCLUIR CONEXÃO =====
-    $caminhoConexao = __DIR__ . '/conexao.php';
-    logDebug("Procurando conexao.php em: $caminhoConexao");
-    
-    if (!file_exists($caminhoConexao)) {
-        throw new Exception("Arquivo conexao.php não encontrado em: $caminhoConexao");
+    // Validar email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        throw new Exception("Email inválido");
     }
     
-    logDebug("Arquivo encontrado, incluindo...");
+    // Validar senha (mínimo 6 caracteres)
+    if (strlen($senha) < 6) {
+        throw new Exception("Senha deve ter no mínimo 6 caracteres");
+    }
     
-    // Limpar buffer e incluir
-    ob_clean();
-    include $caminhoConexao;
-    ob_clean();
-    
-    logDebug("Conexao.php incluído");
+    // Incluir conexão
+    include "conexao.php";
     
     if (!isset($conn)) {
-        throw new Exception("Variável conn não definida após incluir conexao.php");
+        throw new Exception("Erro ao incluir conexao.php");
     }
     
     if ($conn->connect_error) {
         throw new Exception("Erro de conexão: " . $conn->connect_error);
     }
     
-    logDebug("Conectado ao banco com sucesso");
-    
-    // Verificar se usuário já existe
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ? OR cpf = ?");
-    if (!$stmt) {
-        throw new Exception("Erro prepare: " . $conn->error);
+    // Verificar se email já existe
+    $stmtEmail = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+    if (!$stmtEmail) {
+        throw new Exception("Erro ao preparar statement: " . $conn->error);
     }
     
-    $stmt->bind_param("ss", $usuario, $cpf);
-    if (!$stmt->execute()) {
-        throw new Exception("Erro execute: " . $stmt->error);
+    $stmtEmail->bind_param("s", $email);
+    $stmtEmail->execute();
+    $resultEmail = $stmtEmail->get_result();
+    
+    if ($resultEmail->num_rows > 0) {
+        $stmtEmail->close();
+        throw new Exception("Este email já está cadastrado");
     }
+    $stmtEmail->close();
     
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $stmt->close();
-        throw new Exception("Usuário ou CPF já cadastrado");
-    }
-    $stmt->close();
-    
-    logDebug("Dados validados, criptografando senha...");
-    
-    // Criptografar senha
+    // Hash da senha
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
     
-    logDebug("Inserindo no banco...");
-    
-    // Inserir no banco
+    // Inserir novo usuário (sem o campo 'usuario')
     $stmt = $conn->prepare(
-        "INSERT INTO usuarios (nome, sobrenome, cpf, usuario, senha) VALUES (?, ?, ?, ?, ?)"
+        "INSERT INTO usuarios (nome, sobrenome, email, telefone, cpf, senha) 
+         VALUES (?, ?, ?, ?, ?, ?)"
     );
     
     if (!$stmt) {
-        throw new Exception("Erro prepare insert: " . $conn->error);
+        throw new Exception("Erro ao preparar statement: " . $conn->error);
     }
     
-    $stmt->bind_param("sssss", $nome, $sobrenome, $cpf, $usuario, $senha_hash);
+    $stmt->bind_param("ssssss", $nome, $sobrenome, $email, $telefone, $cpf, $senha_hash);
     
     if (!$stmt->execute()) {
-        throw new Exception("Erro ao inserir: " . $stmt->error);
+        throw new Exception("Erro ao inserir usuário: " . $stmt->error);
     }
     
-    $id = $conn->insert_id;
+    $usuario_id = $stmt->insert_id;
     $stmt->close();
     $conn->close();
     
-    logDebug("SUCESSO! Cadastrado com ID: $id");
-    
-    // Limpar buffer completamente
     ob_end_clean();
-    
-    // Enviar resposta
     http_response_code(200);
-    $resposta = [
+    
+    echo json_encode([
         "status" => "ok",
-        "mensagem" => "Cadastro realizado com sucesso!",
-        "usuario_id" => $id
-    ];
-    echo json_encode($resposta);
-    exit;
+        "mensagem" => "Cadastro realizado com sucesso! Redirecionando para login...",
+        "usuario_id" => $usuario_id
+    ]);
     
 } catch (Exception $e) {
-    $erro = $e->getMessage();
-    logDebug("ERRO CAPTURADO: $erro");
-    
-    // Fechar conexão se existir (SEM GERAR ERRO)
     if (isset($conn)) {
         try {
             if (is_object($conn) && method_exists($conn, 'close')) {
-                @$conn->close(); // @ suprime erros
+                @$conn->close();
             }
         } catch (Exception $closeError) {
-            logDebug("Erro ao fechar conexão: " . $closeError->getMessage());
+            // Silenciosamente ignorar erro ao fechar
         }
     }
     
-    // Limpar buffer completamente
-    while (ob_get_level() > 0) {
-        ob_end_clean();
-    }
-    
-    // Garantir que vai enviar JSON válido
+    ob_end_clean();
     http_response_code(400);
-    header('Content-Type: application/json; charset=utf-8');
-    $resposta_erro = json_encode([
+    
+    echo json_encode([
         "status" => "erro",
-        "mensagem" => $erro
+        "mensagem" => $e->getMessage()
     ]);
-    logDebug("Enviando erro: $resposta_erro");
-    echo $resposta_erro;
-    exit;
 }
+
+exit;
+?>
